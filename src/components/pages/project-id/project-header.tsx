@@ -3,12 +3,11 @@ type Props = {
   projectId: string
 }
 
-export default function ProjectHeader(props: Props) {
-  const { name, projectId } = props
+export default function ProjectHeader({ name, projectId }: Props) {
   return (
-    <div>
+    <header>
       <h1 className="text-3xl font-bold">{name}</h1>
       <p className="text-muted-foreground text-sm">Project ID: {projectId}</p>
-    </div>
+    </header>
   )
 }
