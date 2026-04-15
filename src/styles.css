@@ -6,6 +6,42 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* fonts */
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/vazir.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/vazir-light.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/vazir-medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/vazir-bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/fonts/vazir/vazir-thin.ttf') format('truetype');
+  font-weight: 100;
+}
+
+[dir='rtl'] {
+  font-family: 'vazir', sans-serif;
+}
+
 :root {
   --sea-ink: #173a40;
   --sea-ink-soft: #416166;
