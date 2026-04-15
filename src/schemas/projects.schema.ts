@@ -1,14 +1,14 @@
-import { z } from 'zod'
+import { z } from "zod"
 
 export const ProjectSchema = z.object({
   id: z.string(),
   name: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   createdAt: z.string(),
 })
 
 export const CreateProjectInputSchema = z.object({
-  name: z.string().min(1, 'Project name is required!'),
+  name: z.string().min(1, "Project name is required!"),
   description: z.string().optional(),
 })
 

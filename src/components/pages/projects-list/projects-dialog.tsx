@@ -1,22 +1,22 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import type { UseMutationResult } from '@tanstack/react-query'
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import type { UseMutationResult } from "@tanstack/react-query"
 
-import { Button } from '#/components/ui/button'
-import { Input } from '#/components/ui/input'
+import { Button } from "#/components/ui/button"
+import { Input } from "#/components/ui/input"
 
 import {
   CreateProjectInputSchema,
   type CreateProjectInput,
-} from '#/schemas/projects.schema'
+} from "#/schemas/projects.schema"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '#/components/ui/dialog'
+} from "#/components/ui/dialog"
 import {
   Form,
   FormControl,
@@ -24,7 +24,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '#/components/ui/form'
+} from "#/components/ui/form"
 
 type ProjectsFormProps = {
   handleCreateProject: (projectData: CreateProjectInput) => void
@@ -45,7 +45,8 @@ export default function ProjectsDialog({
   const form = useForm<CreateProjectInput>({
     resolver: zodResolver(CreateProjectInputSchema),
     defaultValues: {
-      name: '',
+      name: "",
+      description: "",
     },
   })
 
@@ -100,7 +101,7 @@ export default function ProjectsDialog({
               disabled={createMutation.isPending}
               className="w-full"
             >
-              {createMutation.isPending ? 'Creating...' : 'Create Project'}
+              {createMutation.isPending ? "Creating..." : "Create Project"}
             </Button>
           </form>
         </Form>
