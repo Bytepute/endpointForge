@@ -1,24 +1,24 @@
-import type { CreateProjectInput } from '#/hooks/use-projects' // or wherever
+import type { CreateProjectInput } from "#/hooks/use-projects" // or wherever
 
-import type { Project } from '#/schemas/projects.schema'
+import type { Project } from "#/schemas/projects.schema"
 
 let projects: Project[] = [
   {
-    id: '1',
-    name: 'Weather App',
-    description: 'A weather app',
+    id: "1",
+    name: "Weather App",
+    description: "A weather app",
     createdAt: new Date().toISOString(),
   },
   {
-    id: '2',
-    name: 'Train Stations',
-    description: 'A train app',
+    id: "2",
+    name: "Train Stations",
+    description: "A train app",
     createdAt: new Date().toISOString(),
   },
   {
-    id: '3',
-    name: 'Online Shop',
-    description: 'A online shop',
+    id: "3",
+    name: "Online Shop",
+    description: "A online shop",
     createdAt: new Date().toISOString(),
   },
 ]
