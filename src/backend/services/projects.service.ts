@@ -1,6 +1,7 @@
 import type { CreateProjectInput } from "#/hooks/use-projects" // or wherever
 
 import type { Project } from "#/schemas/projects.schema"
+import { sleep } from "./shared.services"
 
 let projects: Project[] = [
   {
@@ -23,26 +24,29 @@ let projects: Project[] = [
   },
 ]
 
-export const getProjects = async (): Promise<Project[]> => {
-  return Promise.resolve(projects)
+export async function getProjects(): Promise<Project[]> {
+  await sleep()
+  return [...projects]
 }
 
-export const createProject = async (
+export async function createProject(
   input: CreateProjectInput,
-): Promise<Project> => {
-  const newProject = {
-    id: Date.now().toString(),
+): Promise<Project> {
+  await sleep()
+
+  const now = new Date().toISOString()
+  const newProject: Project = {
+    id: crypto.randomUUID(),
     name: input.name,
-    description: input.description,
-    createdAt: new Date().toISOString(),
+    description: input.description ?? "",
+    createdAt: now,
   }
 
-  projects.push(newProject)
-  return Promise.resolve(newProject)
+  projects = [...projects, newProject]
+  return newProject
 }
 
-export const deleteProject = async (projectId: string): Promise<void> => {
-  projects = projects.filter((project) => project.id !== projectId)
-
-  return Promise.resolve()
+export async function deleteProject(projectId: string): Promise<void> {
+  await sleep()
+  projects = projects.filter((p) => p.id !== projectId)
 }

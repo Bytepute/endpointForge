@@ -1,19 +1,20 @@
-import { Button } from '#/components/ui/button'
-import { Card, CardContent } from '#/components/ui/card'
-import { useProjects } from '#/hooks/use-projects'
-import type { Project } from '#/schemas/projects.schema'
-import { useNavigate } from '@tanstack/react-router'
+import { Button } from "#/components/ui/button"
+import { Card, CardContent } from "#/components/ui/card"
+import { useDeleteProject } from "#/hooks/use-delete-project"
+import type { Project } from "#/schemas/projects.schema"
+import { useNavigate } from "@tanstack/react-router"
+import { Loader2 } from "lucide-react"
 
 type ProjectCardProps = {
   project: Project
 }
 
 export default function ProjectsCard({ project }: ProjectCardProps) {
-  const { handleDeleteProject } = useProjects()
+  const deleteMutation = useDeleteProject()
   const navigate = useNavigate()
   return (
     <Card>
-      <CardContent className="flex items-center justify-between p-6">
+      <CardContent className="flex items-center justify-between">
         <div>
           <p className="text-xl font-medium">{project.name}</p>
           <p className="font-light">{project.description}</p>
@@ -23,7 +24,7 @@ export default function ProjectsCard({ project }: ProjectCardProps) {
           <Button
             onClick={() =>
               navigate({
-                to: '/projects/$projectId',
+                to: "/projects/$projectId",
                 params: { projectId: project.id },
               })
             }
@@ -32,10 +33,14 @@ export default function ProjectsCard({ project }: ProjectCardProps) {
             Open
           </Button>
           <Button
-            onClick={() => handleDeleteProject(project.id)}
+            onClick={() => deleteMutation.mutate(project.id)}
             variant="destructive"
           >
-            Delete
+            {deleteMutation.isPending ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Delete"
+            )}
           </Button>
         </div>
       </CardContent>
