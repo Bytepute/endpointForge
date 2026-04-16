@@ -1,16 +1,26 @@
-import type { Project } from '#/schemas/projects.schema'
-import ProjectsCard from './projects-card'
+import { useProjects } from "#/hooks/use-projects"
+import type { Project } from "#/schemas/projects.schema"
+import { ProjectsListError } from "./project-list-error"
+import { ProjectsListSkeleton } from "./project-list-skeleton"
+import ProjectsCard from "./projects-card"
 
-type ProjectListProps = {
-  projects: Project[]
-}
+export default function ProjectsList() {
+  const projects = useProjects()
 
-export default function ProjectsList({ projects }: ProjectListProps) {
+  if (projects.isLoading) {
+    return <ProjectsListSkeleton />
+  }
+
+  if (projects.isError) {
+    return <ProjectsListError onRetry={projects.refetch} />
+  }
+
   return (
     <div className="flex flex-col gap-y-4">
-      {projects.map((project: Project) => (
-        <ProjectsCard key={project.id} project={project} />
-      ))}
+      {projects.data &&
+        projects.data.map((project: Project) => (
+          <ProjectsCard key={project.id} project={project} />
+        ))}
     </div>
   )
 }

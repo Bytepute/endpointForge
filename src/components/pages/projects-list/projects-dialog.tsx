@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import type { UseMutationResult } from "@tanstack/react-query"
 
 import { Button } from "#/components/ui/button"
 import { Input } from "#/components/ui/input"
@@ -25,22 +24,12 @@ import {
   FormLabel,
   FormMessage,
 } from "#/components/ui/form"
+import { useCreateProject } from "#/hooks/use-create-project"
+import { Loader2 } from "lucide-react"
 
-type ProjectsFormProps = {
-  handleCreateProject: (projectData: CreateProjectInput) => void
-  createMutation: UseMutationResult<
-    { id: string; name: string; createdAt: string },
-    Error,
-    CreateProjectInput,
-    unknown
-  >
-}
-
-export default function ProjectsDialog({
-  handleCreateProject,
-  createMutation,
-}: ProjectsFormProps) {
+export default function ProjectsDialog() {
   const [open, setOpen] = useState(false)
+  const projectMutation = useCreateProject()
 
   const form = useForm<CreateProjectInput>({
     resolver: zodResolver(CreateProjectInputSchema),
@@ -51,7 +40,7 @@ export default function ProjectsDialog({
   })
 
   const onSubmit = (data: CreateProjectInput) => {
-    handleCreateProject(data)
+    projectMutation.mutate(data)
     form.reset()
     setOpen(false)
   }
@@ -98,10 +87,14 @@ export default function ProjectsDialog({
 
             <Button
               type="submit"
-              disabled={createMutation.isPending}
+              disabled={projectMutation.isPending}
               className="w-full"
             >
-              {createMutation.isPending ? "Creating..." : "Create Project"}
+              {projectMutation.isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Create Project"
+              )}
             </Button>
           </form>
         </Form>
