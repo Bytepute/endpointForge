@@ -1,5 +1,6 @@
-import { removeEndpoint } from '#/backend/services/endpoint.services'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { removeEndpoint } from "#/backend/services/endpoint.services"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 export function useDeleteEndpoint(controllerId: string) {
   const queryClient = useQueryClient()
@@ -9,8 +10,12 @@ export function useDeleteEndpoint(controllerId: string) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['endpoints', controllerId],
+        queryKey: ["endpoints", controllerId],
       })
+      toast.success("Endpoint deleted successfully")
+    },
+    onError: () => {
+      toast.error("Failed to delete endpoint")
     },
   })
 }

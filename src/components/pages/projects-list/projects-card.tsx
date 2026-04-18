@@ -4,6 +4,7 @@ import { useDeleteProject } from "#/hooks/use-delete-project"
 import type { Project } from "#/schemas/projects.schema"
 import { useNavigate } from "@tanstack/react-router"
 import { Loader2 } from "lucide-react"
+import { ConfirmDialog } from "../shared/confirm-dialog"
 
 type ProjectCardProps = {
   project: Project
@@ -32,16 +33,11 @@ export default function ProjectsCard({ project }: ProjectCardProps) {
           >
             Open
           </Button>
-          <Button
-            onClick={() => deleteMutation.mutate(project.id)}
-            variant="destructive"
-          >
-            {deleteMutation.isPending ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              "Delete"
-            )}
-          </Button>
+          <ConfirmDialog
+            trigger={<Button variant="destructive">Delete</Button>}
+            onConfirm={() => deleteMutation.mutate(project.id)}
+            loading={deleteMutation.isPending}
+          />
         </div>
       </CardContent>
     </Card>

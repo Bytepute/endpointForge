@@ -1,6 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { UpdateEndpointDTO } from '#/backend/dtos/endpoint.dto'
-import { updateEndpoint } from '#/backend/services/endpoint.services'
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import type { UpdateEndpointDTO } from "#/backend/dtos/endpoint.dto"
+import { updateEndpoint } from "#/backend/services/endpoint.services"
+import { toast } from "sonner"
 
 export function useUpdateEndpoint(endpointId: string) {
   const queryClient = useQueryClient()
@@ -11,6 +12,10 @@ export function useUpdateEndpoint(endpointId: string) {
 
     onSuccess: (_, __) => {
       queryClient.invalidateQueries()
+      toast.success("Endpoint updated successfully")
+    },
+    onError: () => {
+      toast.error("Failed to updated endpoint")
     },
   })
 }
