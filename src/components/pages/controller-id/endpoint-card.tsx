@@ -1,7 +1,7 @@
-import type { EndpointDTO } from '#/backend/dtos/endpoint.dto'
-import { Badge } from '#/components/ui/badge'
-import { Button } from '#/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
+import type { EndpointDTO } from "#/backend/dtos/endpoint.dto"
+import { Badge } from "#/components/ui/badge"
+import { Button } from "#/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card"
 import {
   Table,
   TableBody,
@@ -9,10 +9,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table'
-import { Loader2 } from 'lucide-react'
-import { CreateEndpointDialog } from './create-endpoint-dialog'
-import { EditEndpointDialog } from './edit-endpoint-dialog'
+} from "#/components/ui/table"
+import { CreateEndpointDialog } from "./create-endpoint-dialog"
+import { EditEndpointDialog } from "./edit-endpoint-dialog"
+import { ConfirmDialog } from "../shared/confirm-dialog"
 
 type Props = {
   endpoints: EndpointDTO[] | undefined
@@ -72,17 +72,11 @@ export function EndpointCard({
 
                   <TableCell className="text-right space-x-2">
                     <EditEndpointDialog endpoint={endpoint} />
-                    <Button
-                      onClick={() => handleDeleteEndpoint(endpoint.id)}
-                      variant="destructive"
-                      size="sm"
-                    >
-                      {deleteId === endpoint.id ? (
-                        <Loader2 className="animate-spin" />
-                      ) : (
-                        'Delete'
-                      )}
-                    </Button>
+                    <ConfirmDialog
+                      trigger={<Button variant="destructive">Delete</Button>}
+                      onConfirm={() => handleDeleteEndpoint(endpoint.id)}
+                      loading={deleteId === endpoint.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Link } from '@tanstack/react-router'
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Link } from "@tanstack/react-router"
 
 export default function Hero() {
   return (
@@ -20,8 +20,7 @@ export default function Hero() {
           سرعت شبیه‌سازی کنید.
         </p>
 
-        {/* TODO: update the link */}
-        <Link to="/">
+        <Link to="/projects">
           <Button size="lg">ساخت پروژه جدید</Button>
         </Link>
       </div>

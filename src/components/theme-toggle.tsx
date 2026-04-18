@@ -1,39 +1,43 @@
-import { useEffect, useState } from 'react'
-import { Button } from './ui/button'
+import { useEffect, useState } from "react"
+import { Button } from "./ui/button"
 
-type ThemeMode = 'light' | 'dark' | 'auto'
+type ThemeMode = "light" | "dark" | "auto"
 
 function getInitialMode(): ThemeMode {
-  if (typeof window === 'undefined') {
-    return 'auto'
+  if (typeof window === "undefined") {
+    return "auto"
   }
 
-  const stored = window.localStorage.getItem('theme')
-  if (stored === 'light' || stored === 'dark' || stored === 'auto') {
+  const stored = window.localStorage.getItem("theme")
+  if (stored === "light" || stored === "dark" || stored === "auto") {
     return stored
   }
 
-  return 'auto'
+  return "auto"
 }
 
 function applyThemeMode(mode: ThemeMode) {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const resolved = mode === 'auto' ? (prefersDark ? 'dark' : 'light') : mode
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+  const resolved = mode === "auto" ? (prefersDark ? "dark" : "light") : mode
 
-  document.documentElement.classList.remove('light', 'dark')
+  document.documentElement.classList.remove("light", "dark")
   document.documentElement.classList.add(resolved)
 
-  if (mode === 'auto') {
-    document.documentElement.removeAttribute('data-theme')
+  if (mode === "auto") {
+    document.documentElement.removeAttribute("data-theme")
   } else {
-    document.documentElement.setAttribute('data-theme', mode)
+    document.documentElement.setAttribute("data-theme", mode)
   }
 
   document.documentElement.style.colorScheme = resolved
 }
 
+export function getResolvedTheme(): "light" | "dark" {
+  return document.documentElement.classList.contains("dark") ? "dark" : "light"
+}
+
 export default function ThemeToggle() {
-  const [mode, setMode] = useState<ThemeMode>('auto')
+  const [mode, setMode] = useState<ThemeMode>("auto")
 
   useEffect(() => {
     const initialMode = getInitialMode()
@@ -42,35 +46,35 @@ export default function ThemeToggle() {
   }, [])
 
   useEffect(() => {
-    if (mode !== 'auto') {
+    if (mode !== "auto") {
       return
     }
 
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = () => applyThemeMode('auto')
+    const media = window.matchMedia("(prefers-color-scheme: dark)")
+    const onChange = () => applyThemeMode("auto")
 
-    media.addEventListener('change', onChange)
+    media.addEventListener("change", onChange)
     return () => {
-      media.removeEventListener('change', onChange)
+      media.removeEventListener("change", onChange)
     }
   }, [mode])
 
   function toggleMode() {
     const nextMode: ThemeMode =
-      mode === 'light' ? 'dark' : mode === 'dark' ? 'auto' : 'light'
+      mode === "light" ? "dark" : mode === "dark" ? "auto" : "light"
     setMode(nextMode)
     applyThemeMode(nextMode)
-    window.localStorage.setItem('theme', nextMode)
+    window.localStorage.setItem("theme", nextMode)
   }
 
   const label =
-    mode === 'auto'
-      ? 'Theme mode: auto (system). Click to switch to light mode.'
+    mode === "auto"
+      ? "Theme mode: auto (system). Click to switch to light mode."
       : `Theme mode: ${mode}. Click to switch mode.`
 
   return (
     <Button type="button" onClick={toggleMode} aria-label={label} title={label}>
-      {mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Dark' : 'Light'}
+      {mode === "auto" ? "Auto" : mode === "dark" ? "Dark" : "Light"}
     </Button>
   )
 }
