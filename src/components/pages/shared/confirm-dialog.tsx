@@ -45,6 +45,7 @@ export function ConfirmDialog({
           <AlertDialogCancel>{cancelText}</AlertDialogCancel>
 
           <AlertDialogAction
+            disabled={loading}
             onClick={(e) => {
               e.preventDefault()
               onConfirm()
