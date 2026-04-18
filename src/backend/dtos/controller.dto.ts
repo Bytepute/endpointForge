@@ -6,4 +6,5 @@ export type ControllerDTO = {
   name: string
   basePath: string
   createdAt: string
+  endpoints: string[]
 }

@@ -1,30 +1,20 @@
-import { Button } from '#/components/ui/button'
-import { Card, CardContent } from '#/components/ui/card'
+import { useControllers } from "#/hooks/use-controller"
+import ControllerCard from "./controller-card"
+import { ControllerListError } from "./controller-list-error"
+import ControllerListSkeleton from "./controller-list-skeleton"
 
 export default function ControllerList() {
-  // TODO: remove mock data after api
-  const controllers = [
-    { id: 1, basePath: '/user', endpoints: 3 },
-    { id: 2, basePath: '/weather', endpoints: 2 },
-  ]
+  const { controllers } = useControllers("p1")
+
+  if (controllers.isLoading) return <ControllerListSkeleton />
+
+  if (controllers.isError)
+    return <ControllerListError onRetry={controllers.refetch} />
+
   return (
     <div className="grid gap-4">
-      {controllers.map((c) => (
-        <Card key={c.id}>
-          <CardContent className="flex items-center justify-between p-6">
-            <div>
-              <p className="font-medium">{c.basePath}</p>
-              <p className="text-sm text-muted-foreground">
-                Endpoints: {c.endpoints}
-              </p>
-            </div>
-
-            <div className="space-x-2">
-              <Button variant="outline">Open</Button>
-              <Button variant="destructive">Delete</Button>
-            </div>
-          </CardContent>
-        </Card>
+      {controllers.data?.map((c) => (
+        <ControllerCard key={c.id} controller={c} />
       ))}
     </div>
   )
