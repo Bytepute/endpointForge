@@ -1,5 +1,5 @@
-import axios from 'axios'
-import type { AxiosInstance } from 'axios'
+import axios from "axios"
+import type { AxiosInstance } from "axios"
 
 class ApiClient {
   private instance: AxiosInstance
@@ -9,7 +9,7 @@ class ApiClient {
       baseURL: import.meta.env.VITE_API_URL,
       timeout: 8000,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
 
@@ -49,4 +49,4 @@ class ApiClient {
   }
 }
 
-export const api = new ApiClient()
+export const baseApi = new ApiClient()

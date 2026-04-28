@@ -1,4 +1,4 @@
-import { deleteProject } from "#/backend/services/projects.service"
+import { deleteProject } from "#/backend/services/project.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 

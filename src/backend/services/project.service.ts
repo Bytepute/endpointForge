@@ -1,4 +1,4 @@
-import type { CreateProjectInput } from "#/hooks/use-projects" // or wherever
+import type { CreateProjectInput } from "#/hooks/use-projects"
 
 import type { Project } from "#/schemas/projects.schema"
 import { sleep } from "./shared.services"

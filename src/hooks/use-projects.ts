@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getProjects } from "#/backend/services/projects.service"
+import { getProjects } from "#/backend/services/project.service"
 
 export interface CreateProjectInput {
   name: string
