@@ -1,21 +1,20 @@
-import { useState } from 'react'
+import { useState } from "react"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '#/components/ui/dialog'
-import { Button } from '#/components/ui/button'
-import { Input } from '#/components/ui/input'
-import { Textarea } from '#/components/ui/textarea'
+} from "#/components/ui/dialog"
+import { Button } from "#/components/ui/button"
+import { Input } from "#/components/ui/input"
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '#/components/ui/select'
+} from "#/components/ui/select"
 import {
   Form,
   FormField,
@@ -23,17 +22,19 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from '#/components/ui/form'
+} from "#/components/ui/form"
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
-import type { EndpointDTO } from '#/backend/dtos/endpoint.dto'
+import type { EndpointDTO } from "#/backend/dtos/endpoint.dto"
 import {
   createEndpointSchema,
   type CreateEndpointFormValues,
-} from '#/schemas/create-endpoint-schema'
-import { useUpdateEndpoint } from '#/hooks/use-update-endpoint'
+} from "#/schemas/create-endpoint-schema"
+import { useUpdateEndpoint } from "#/hooks/use-update-endpoint"
+import { useTheme } from "#/hooks/use-theme"
+import { Editor } from "@monaco-editor/react"
 
 type Props = {
   endpoint: EndpointDTO
@@ -41,6 +42,7 @@ type Props = {
 
 export function EditEndpointDialog({ endpoint }: Props) {
   const [open, setOpen] = useState(false)
+  const theme = useTheme()
 
   const form = useForm<CreateEndpointFormValues>({
     resolver: zodResolver(createEndpointSchema),
@@ -71,7 +73,7 @@ export function EditEndpointDialog({ endpoint }: Props) {
 
       setOpen(false)
     } catch (err) {
-      console.error('Failed to update endpoint', err)
+      console.error("Failed to update endpoint", err)
     }
   }
 
@@ -139,7 +141,7 @@ export function EditEndpointDialog({ endpoint }: Props) {
                     <Input
                       type="number"
                       {...field}
-                      value={field.value?.toString() ?? ''}
+                      value={field.value?.toString() ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -154,7 +156,26 @@ export function EditEndpointDialog({ endpoint }: Props) {
                 <FormItem>
                   <FormLabel>Response JSON</FormLabel>
                   <FormControl>
-                    <Textarea className="font-mono" rows={8} {...field} />
+                    <div className="border rounded-md overflow-hidden">
+                      <Editor
+                        height="200px"
+                        defaultLanguage="json"
+                        value={field.value}
+                        onChange={(value) => field.onChange(value || "{}")}
+                        theme={theme === "dark" ? "vs-dark" : "vs-light"}
+                        options={{
+                          minimap: { enabled: false },
+                          fontSize: 14,
+                          lineNumbers: "on",
+                          folding: true,
+                          automaticLayout: true,
+                          formatOnPaste: true,
+                          formatOnType: true,
+                          tabSize: 2,
+                          overviewRulerLanes: 0,
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -163,7 +184,7 @@ export function EditEndpointDialog({ endpoint }: Props) {
 
             <div className="flex justify-end">
               <Button type="submit" disabled={updateMutation.isPending}>
-                {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+                {updateMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </form>

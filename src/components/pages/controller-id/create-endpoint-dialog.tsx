@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 import {
   Dialog,
@@ -9,18 +9,18 @@ import {
   DialogTitle,
   DialogFooter,
   DialogTrigger,
-} from '#/components/ui/dialog'
+} from "#/components/ui/dialog"
 
-import { Button } from '#/components/ui/button'
-import { Input } from '#/components/ui/input'
-import { Textarea } from '#/components/ui/textarea'
+import { Button } from "#/components/ui/button"
+import { Input } from "#/components/ui/input"
+import Editor from "@monaco-editor/react"
 import {
   Select,
   SelectContent,
   SelectTrigger,
   SelectItem,
   SelectValue,
-} from '#/components/ui/select'
+} from "#/components/ui/select"
 
 import {
   Form,
@@ -30,14 +30,15 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from '#/components/ui/form'
+} from "#/components/ui/form"
 import {
   createEndpointSchema,
   type CreateEndpointFormValues,
-} from '#/schemas/create-endpoint-schema'
-import { Switch } from '#/components/ui/switch'
-import { useCreateEndpoint } from '#/hooks/use-create-endpoint'
-import { Loader2 } from 'lucide-react'
+} from "#/schemas/create-endpoint-schema"
+import { Switch } from "#/components/ui/switch"
+import { useCreateEndpoint } from "#/hooks/use-create-endpoint"
+import { Loader2 } from "lucide-react"
+import { useTheme } from "#/hooks/use-theme"
 
 type Props = {
   basePath: string
@@ -47,16 +48,17 @@ type Props = {
 export function CreateEndpointDialog({ basePath, controllerId }: Props) {
   const { mutateAsync: createEndpointMutation, isPending } =
     useCreateEndpoint(controllerId)
+  const theme = useTheme()
 
   const [open, setOpen] = useState(false)
 
   const form = useForm<CreateEndpointFormValues>({
     resolver: zodResolver(createEndpointSchema),
     defaultValues: {
-      method: 'GET',
-      path: '',
-      statusCode: '200',
-      responseJson: '{}',
+      method: "GET",
+      path: "",
+      statusCode: "200",
+      responseJson: "{}",
       delayMs: 0,
       enabled: true,
     },
@@ -68,7 +70,7 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
       form.reset()
       setOpen(false)
     } catch (err) {
-      console.error('Failed to create endpoint', err)
+      console.error("Failed to create endpoint", err)
     }
   }
 
@@ -191,11 +193,26 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
                 <FormItem>
                   <FormLabel>Response JSON</FormLabel>
                   <FormControl>
-                    <Textarea
-                      className="font-mono h-32"
-                      placeholder='{"success": true}'
-                      {...field}
-                    />
+                    <div className="border rounded-md overflow-hidden">
+                      <Editor
+                        height="200px"
+                        defaultLanguage="json"
+                        value={field.value}
+                        onChange={(value) => field.onChange(value || "{}")}
+                        theme={theme === "dark" ? "vs-dark" : "vs-light"}
+                        options={{
+                          minimap: { enabled: false },
+                          fontSize: 14,
+                          lineNumbers: "on",
+                          folding: true,
+                          automaticLayout: true,
+                          formatOnPaste: true,
+                          formatOnType: true,
+                          tabSize: 2,
+                          overviewRulerLanes: 0,
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -212,7 +229,7 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
               </Button>
 
               <Button type="submit" disabled={isPending}>
-                {isPending ? <Loader2 className="animate-spin" /> : 'Create'}
+                {isPending ? <Loader2 className="animate-spin" /> : "Create"}
               </Button>
             </DialogFooter>
           </form>
