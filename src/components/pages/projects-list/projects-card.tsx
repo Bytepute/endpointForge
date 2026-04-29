@@ -1,13 +1,12 @@
 import { Button } from "#/components/ui/button"
 import { Card, CardContent } from "#/components/ui/card"
 import { useDeleteProject } from "#/hooks/use-delete-project"
-import type { Project } from "#/schemas/projects.schema"
+import type { ProjectModel } from "#/schemas/projects.schema"
 import { useNavigate } from "@tanstack/react-router"
-import { Loader2 } from "lucide-react"
 import { ConfirmDialog } from "../shared/confirm-dialog"
 
 type ProjectCardProps = {
-  project: Project
+  project: ProjectModel
 }
 
 export default function ProjectsCard({ project }: ProjectCardProps) {
@@ -26,7 +25,7 @@ export default function ProjectsCard({ project }: ProjectCardProps) {
             onClick={() =>
               navigate({
                 to: "/projects/$projectId",
-                params: { projectId: project.id },
+                params: { projectId: project.id.toString() },
               })
             }
             variant="outline"

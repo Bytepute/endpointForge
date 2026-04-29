@@ -1,10 +1,10 @@
 import { z } from "zod"
 
 export const ProjectSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
   description: z.string().optional(),
-  createdAt: z.string(),
+  createdAt: z.date(),
 })
 
 export const CreateProjectInputSchema = z.object({
@@ -14,5 +14,5 @@ export const CreateProjectInputSchema = z.object({
 
 export const ProjectsListSchema = z.array(ProjectSchema)
 
-export type Project = z.infer<typeof ProjectSchema>
+export type ProjectModel = z.infer<typeof ProjectSchema>
 export type CreateProjectInput = z.infer<typeof CreateProjectInputSchema>
