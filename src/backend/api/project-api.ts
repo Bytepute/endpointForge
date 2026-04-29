@@ -5,11 +5,11 @@ class ProjectApi {
 
   public async createProject(
     body: CreateProjectRequestDTO,
-  ): Promise<CreateProjectResponseDTO> {
+  ): Promise<ProjectResponseDTO> {
     return baseApi.post(this.basePath, body)
   }
 
-  public async getProjects(): Promise<CreateProjectResponseDTO[]> {
+  public async getProjects(): Promise<ProjectResponseDTO[]> {
     return baseApi.get(this.basePath)
   }
 

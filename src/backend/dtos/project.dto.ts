@@ -2,7 +2,7 @@
 
 type ProjectBaseRequestDTO = {
   name: string
-  description: string
+  description?: string
 }
 
 type CreateProjectRequestDTO = ProjectBaseRequestDTO
@@ -14,7 +14,7 @@ type ProjectResponseDTO = {
   id: number
   name: string
   description: string
-  createdAt: Date
+  createdAt: string
 }
 
 type CreateProjectResponseDTO = ProjectResponseDTO

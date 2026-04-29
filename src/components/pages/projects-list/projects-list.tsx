@@ -1,5 +1,5 @@
 import { useProjects } from "#/hooks/use-projects"
-import type { Project } from "#/schemas/projects.schema"
+import type { ProjectModel } from "#/schemas/projects.schema"
 import { ProjectsListError } from "./project-list-error"
 import { ProjectsListSkeleton } from "./project-list-skeleton"
 import ProjectsCard from "./projects-card"
@@ -18,7 +18,7 @@ export default function ProjectsList() {
   return (
     <div className="flex flex-col gap-y-4">
       {projects.data &&
-        projects.data.map((project: Project) => (
+        projects.data.map((project: ProjectModel) => (
           <ProjectsCard key={project.id} project={project} />
         ))}
     </div>

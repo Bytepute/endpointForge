@@ -1,52 +1,85 @@
-import type { CreateProjectInput } from "#/hooks/use-projects"
+import type {
+  CreateProjectInput,
+  ProjectModel,
+} from "#/schemas/projects.schema"
+import { projectApi } from "../api/project-api"
 
-import type { Project } from "#/schemas/projects.schema"
-import { sleep } from "./shared.services"
+class ProjectService {
+  //region Request Methods
 
-let projects: Project[] = [
-  {
-    id: "1",
-    name: "Weather App",
-    description: "A weather app",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    name: "Train Stations",
-    description: "A train app",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    name: "Online Shop",
-    description: "A online shop",
-    createdAt: new Date().toISOString(),
-  },
-]
+  public createProject = async (
+    body: CreateProjectInput,
+  ): Promise<ProjectModel> => {
+    const requestBody: CreateProjectRequestDTO =
+      this._convertCreateProjectInputToCreateProjectRequestDTO(body)
 
-export async function getProjects(): Promise<Project[]> {
-  await sleep()
-  return [...projects]
-}
-
-export async function createProject(
-  input: CreateProjectInput,
-): Promise<Project> {
-  await sleep()
-
-  const now = new Date().toISOString()
-  const newProject: Project = {
-    id: crypto.randomUUID(),
-    name: input.name,
-    description: input.description ?? "",
-    createdAt: now,
+    const response: ProjectResponseDTO =
+      await projectApi.createProject(requestBody)
+    return this._convertProjectResponseDTOToProjectModel(response)
   }
 
-  projects = [...projects, newProject]
-  return newProject
+  public getAllProjects = async (): Promise<ProjectModel[]> => {
+    const response: ProjectResponseDTO[] = await projectApi.getProjects()
+    return response.map((r) => this._convertProjectResponseDTOToProjectModel(r))
+  }
+
+  public getProjectById = async (id: number): Promise<ProjectModel> => {
+    const response: ProjectResponseDTO = await projectApi.getProject(id)
+    return this._convertProjectResponseDTOToProjectModel(response)
+  }
+
+  public patchProjectById = async (
+    id: number,
+    body: CreateProjectInput,
+  ): Promise<ProjectModel> => {
+    const request: PatchProjectRequestDTO =
+      this._convertCreateProjectInputToPatchProjectRequestDTO(body)
+
+    const response = await projectApi.patchProject(id, request)
+    return this._convertProjectResponseDTOToProjectModel(response)
+  }
+
+  public deleteProjectById = async (id: number): Promise<ProjectModel> => {
+    const response: DeleteProjectResponseDTO =
+      await projectApi.deleteProject(id)
+
+    return this._convertProjectResponseDTOToProjectModel(response)
+  }
+
+  //endregion
+
+  //region Adapter Methods
+
+  private _convertCreateProjectInputToPatchProjectRequestDTO = (
+    request: CreateProjectInput,
+  ): PatchProjectRequestDTO => {
+    return {
+      name: request.name,
+      description: request.description,
+    }
+  }
+
+  private _convertCreateProjectInputToCreateProjectRequestDTO = (
+    body: CreateProjectInput,
+  ): CreateProjectRequestDTO => {
+    return {
+      name: body.name,
+      description: body.description,
+    }
+  }
+
+  private _convertProjectResponseDTOToProjectModel = (
+    response: ProjectResponseDTO,
+  ): ProjectModel => {
+    return {
+      id: response.id,
+      name: response.name,
+      description: response.description,
+      createdAt: new Date(response.createdAt),
+    }
+  }
+
+  //endregion
 }
 
-export async function deleteProject(projectId: string): Promise<void> {
-  await sleep()
-  projects = projects.filter((p) => p.id !== projectId)
-}
+export const projectService = new ProjectService()

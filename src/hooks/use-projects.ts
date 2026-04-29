@@ -1,5 +1,5 @@
+import { projectService } from "#/backend/services/project.service"
 import { useQuery } from "@tanstack/react-query"
-import { getProjects } from "#/backend/services/project.service"
 
 export interface CreateProjectInput {
   name: string
@@ -9,6 +9,14 @@ export interface CreateProjectInput {
 export function useProjects() {
   return useQuery({
     queryKey: ["projects"],
-    queryFn: getProjects,
+    queryFn: projectService.getAllProjects,
+  })
+}
+
+export function useProject(projectId: string) {
+  return useQuery({
+    queryKey: ["project", projectId],
+    queryFn: () => projectService.getProjectById(Number(projectId)),
+    enabled: !!projectId,
   })
 }
