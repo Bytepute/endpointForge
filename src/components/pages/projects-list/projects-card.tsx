@@ -4,6 +4,7 @@ import { useDeleteProject } from "#/hooks/use-delete-project"
 import type { ProjectModel } from "#/schemas/projects.schema"
 import { useNavigate } from "@tanstack/react-router"
 import { ConfirmDialog } from "../shared/confirm-dialog"
+import { UpdateProjectDialog } from "./update-project-dialog"
 
 type ProjectCardProps = {
   project: ProjectModel
@@ -32,6 +33,12 @@ export default function ProjectsCard({ project }: ProjectCardProps) {
           >
             Open
           </Button>
+
+          <UpdateProjectDialog
+            project={project}
+            trigger={<Button variant="secondary">Edit</Button>}
+          />
+
           <ConfirmDialog
             trigger={<Button variant="destructive">Delete</Button>}
             onConfirm={() => deleteMutation.mutate(project.id)}
