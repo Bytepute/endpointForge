@@ -1,8 +1,17 @@
 import type {
   CreateProjectInput,
+  ProjectMockServerStatus,
   ProjectModel,
 } from "#/schemas/projects.schema"
 import { projectApi } from "../api/project-api"
+import type {
+  CreateProjectRequestDTO,
+  DeleteProjectResponseDTO,
+  PatchProjectRequestDTO,
+  ProjectMockServerResponseDTO,
+  ProjectResponseDTO,
+  Status,
+} from "../dtos/project.dto"
 
 class ProjectService {
   //region Request Methods
@@ -46,6 +55,25 @@ class ProjectService {
     return this._convertProjectResponseDTOToProjectModel(response)
   }
 
+  public async startProjectMockServer(
+    id: number,
+  ): Promise<ProjectMockServerStatus> {
+    const response: ProjectMockServerResponseDTO =
+      await projectApi.startProject(id)
+    return {
+      status: response.status,
+    }
+  }
+
+  public async stopProjectMockServer(
+    id: number,
+  ): Promise<ProjectMockServerStatus> {
+    const response: ProjectMockServerResponseDTO =
+      await projectApi.stopProject(id)
+    return {
+      status: response.status,
+    }
+  }
   //endregion
 
   //region Adapter Methods

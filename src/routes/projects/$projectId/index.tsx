@@ -11,7 +11,6 @@ export const Route = createFileRoute("/projects/$projectId/")({
 
 function ProjectDetailPage() {
   const { projectId } = Route.useParams()
-
   const project = useProject(projectId)
 
   return (
@@ -20,7 +19,7 @@ function ProjectDetailPage() {
         name={project.data?.name ?? "Not Found"}
         projectId={projectId}
       />
-      <ServerCard />
+      {project.data && <ServerCard project={project.data} />}
       <Separator />
       <Controllers />
     </div>

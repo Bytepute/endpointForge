@@ -1,3 +1,12 @@
+import type {
+  CreateProjectRequestDTO,
+  CreateProjectResponseDTO,
+  DeleteProjectResponseDTO,
+  PatchProjectRequestDTO,
+  PatchProjectResponseDTO,
+  ProjectMockServerResponseDTO,
+  ProjectResponseDTO,
+} from "../dtos/project.dto"
 import { baseApi } from "./base-api"
 
 class ProjectApi {
@@ -26,6 +35,13 @@ class ProjectApi {
 
   public async deleteProject(id: number): Promise<DeleteProjectResponseDTO> {
     return baseApi.delete(`${this.basePath}/${id}`)
+  }
+
+  public async startProject(id: number): Promise<ProjectMockServerResponseDTO> {
+    return baseApi.post(`/mock/start/${id}`)
+  }
+  public async stopProject(id: number): Promise<ProjectMockServerResponseDTO> {
+    return baseApi.post(`/mock/stop/${id}`)
   }
 }
 export const projectApi = new ProjectApi()

@@ -1,5 +1,9 @@
 import { z } from "zod"
 
+export const ProjectMockServerStatusSchema = z.object({
+  status: z.enum(["FAILED", "SUCCESS"]),
+})
+
 export const ProjectSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -22,3 +26,6 @@ export const ProjectsListSchema = z.array(ProjectSchema)
 export type ProjectModel = z.infer<typeof ProjectSchema>
 export type CreateProjectInput = z.infer<typeof CreateProjectInputSchema>
 export type UpdateProjectInput = z.infer<typeof UpdateProjectInputSchema>
+export type ProjectMockServerStatus = z.infer<
+  typeof ProjectMockServerStatusSchema
+>
