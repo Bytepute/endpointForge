@@ -12,7 +12,13 @@ export const CreateProjectInputSchema = z.object({
   description: z.string().optional(),
 })
 
+export const UpdateProjectInputSchema = z.object({
+  name: z.string().min(1, "Project name is required!"),
+  description: z.string().optional(),
+})
+
 export const ProjectsListSchema = z.array(ProjectSchema)
 
 export type ProjectModel = z.infer<typeof ProjectSchema>
 export type CreateProjectInput = z.infer<typeof CreateProjectInputSchema>
+export type UpdateProjectInput = z.infer<typeof UpdateProjectInputSchema>
