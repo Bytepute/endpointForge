@@ -3,8 +3,12 @@ import ControllerCard from "./controller-card"
 import { ControllerListError } from "./controller-list-error"
 import ControllerListSkeleton from "./controller-list-skeleton"
 
-export default function ControllerList() {
-  const { controllers } = useControllers("p1")
+type Props = {
+  projectId: string
+}
+
+export default function ControllerList({ projectId }: Props) {
+  const { controllers } = useControllers(Number(projectId))
 
   if (controllers.isLoading) return <ControllerListSkeleton />
 

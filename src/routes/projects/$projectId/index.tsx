@@ -21,7 +21,7 @@ function ProjectDetailPage() {
       />
       {project.data && <ServerCard project={project.data} />}
       <Separator />
-      <Controllers />
+      <Controllers projectId={projectId} />
     </div>
   )
 }

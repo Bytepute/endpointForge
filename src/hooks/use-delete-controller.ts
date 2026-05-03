@@ -1,17 +1,18 @@
-import { deleteController } from "#/backend/services/controller.services"
+import { controllerService } from "#/backend/services/controller.services"
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 export function useDeleteController() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id: string) => {
-      return await deleteController(id)
+    mutationFn: async (id: number) => {
+      return await controllerService.deleteController(id)
     },
 
     onSuccess: (deletedController) => {
-      console.log("Controller deleted:", deletedController)
+      toast.success("Controller deleted successfully")
 
       queryClient.invalidateQueries({
         queryKey: ["controllers"],
@@ -19,7 +20,7 @@ export function useDeleteController() {
     },
 
     onError: (error) => {
-      console.error("Failed to delete controller:", error)
+      toast.error("Failed to delete controller")
     },
   })
 }

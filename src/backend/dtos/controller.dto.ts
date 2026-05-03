@@ -8,3 +8,27 @@ export type ControllerDTO = {
   createdAt: string
   endpoints: string[]
 }
+
+export type CreateRouteGroupRequestDto = {
+  projectId: number
+  name?: string
+  description?: string
+  prefix: string
+}
+
+export type RouteGroupResponseDto = {
+  id: number
+  projectId: number
+  name: string
+  description?: string
+  createdAt: Date
+  updatedAt: Date
+  prefix: string
+}
+
+export type UpdateRouteGroupRequestDto = {
+  projectId: number
+  name?: string
+  description?: string
+  prefix: string
+}

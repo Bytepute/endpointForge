@@ -1,61 +1,112 @@
 import type { CreateController } from "#/schemas/create-controller-schema"
-import type { ControllerDTO } from "../dtos/controller.dto"
-import { sleep } from "./shared.services"
+import type {
+  CreateRouteGroupRequestDto,
+  RouteGroupResponseDto,
+  UpdateRouteGroupRequestDto,
+} from "#/backend/dtos/controller.dto"
 
-// TODO: remove mock data
-let mockControllers: ControllerDTO[] = [
-  {
-    id: "1",
-    projectId: "p1",
-    name: "User Controller",
-    basePath: "/user",
-    createdAt: new Date().toISOString(),
-    endpoints: ["GET /user", "POST /user"],
-  },
-  {
-    id: "2",
-    projectId: "p2",
-    name: "Weather Controller",
-    basePath: "/weather",
-    createdAt: new Date().toISOString(),
-    endpoints: ["GET /user", "POST /user"],
-  },
-]
+import type { ControllerModel } from "#/models/controller.model"
+import { controllerApi } from "../api/controller-api"
 
-export async function getControllersByProject(
-  projectId: string,
-): Promise<ControllerDTO[]> {
-  await sleep()
-  return mockControllers.filter((item) => item.projectId === projectId)
-}
+class ControllerService {
+  //region Requests
 
-export async function getControllerById(
-  controllerId: string,
-): Promise<ControllerDTO | undefined> {
-  await sleep()
-  return mockControllers.find((item) => item.id === controllerId)
-}
+  public async getControllersByProjectById(
+    projectId: number,
+  ): Promise<ControllerModel[]> {
+    const response = await controllerApi.getAllControllersByProjectId(projectId)
 
-export async function createController(
-  data: CreateController,
-): Promise<ControllerDTO[]> {
-  await sleep()
-
-  // TODO: Add Data Converter
-  const newController = {
-    id: Math.random().toString(36).slice(2),
-    projectId: "p1", // mock for now
-    name: data.path.replace("/", "") + " Controller", // example mock
-    basePath: data.path,
-    createdAt: new Date().toISOString(),
-    endpoints: [],
+    return response.map((r) =>
+      this._convertRouteGroupResponseDtoToControllerModel(r),
+    )
   }
-  mockControllers = [...mockControllers, newController]
-  return mockControllers
+
+  public async getControllerById(id: number): Promise<ControllerModel> {
+    const response = await controllerApi.getControllersById(id)
+
+    return this._convertRouteGroupResponseDtoToControllerModel(response)
+  }
+
+  public async createController(
+    body: CreateController,
+    projectId: number,
+  ): Promise<ControllerModel> {
+    const request =
+      this._convertCreateControllerInputToCreateRouteGroupRequestDto(
+        body,
+        projectId,
+      )
+
+    const response = await controllerApi.createController(request)
+
+    return this._convertRouteGroupResponseDtoToControllerModel(response)
+  }
+
+  public async updateController(
+    id: number,
+    projectId: number,
+    body: CreateController,
+  ): Promise<ControllerModel> {
+    const request =
+      this._convertCreateControllerInputToUpdateRouteGroupRequestDto(
+        body,
+        projectId,
+      )
+
+    const response = await controllerApi.patchController(id, request)
+
+    return this._convertRouteGroupResponseDtoToControllerModel(response)
+  }
+
+  public async deleteController(id: number): Promise<ControllerModel> {
+    const response = await controllerApi.deleteController(id)
+
+    return this._convertRouteGroupResponseDtoToControllerModel(response)
+  }
+
+  //endregion
+
+  //region Converters
+
+  private _convertCreateControllerInputToCreateRouteGroupRequestDto(
+    input: CreateController,
+    projectId: number,
+  ): CreateRouteGroupRequestDto {
+    return {
+      projectId: projectId,
+      name: undefined,
+      description: undefined,
+      prefix: input.path,
+    }
+  }
+
+  private _convertCreateControllerInputToUpdateRouteGroupRequestDto(
+    input: CreateController,
+    projectId: number,
+  ): UpdateRouteGroupRequestDto {
+    return {
+      projectId: projectId,
+      name: undefined,
+      description: undefined,
+      prefix: input.path,
+    }
+  }
+
+  private _convertRouteGroupResponseDtoToControllerModel(
+    dto: RouteGroupResponseDto,
+  ): ControllerModel {
+    return {
+      id: dto.id.toString(),
+      projectId: dto.projectId.toString(),
+      name: dto.name,
+      basePath: dto.prefix,
+      createdAt: dto.createdAt.toString(),
+      // TODO should add in backend
+      endpoints: [],
+    }
+  }
+
+  //endregion
 }
 
-export async function deleteController(id: string): Promise<ControllerDTO[]> {
-  await sleep()
-  mockControllers = mockControllers.filter((c) => c.id !== id)
-  return mockControllers
-}
+export const controllerService = new ControllerService()
