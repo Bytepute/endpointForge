@@ -29,9 +29,13 @@ import {
   type CreateController,
 } from "#/schemas/create-controller-schema"
 
-export default function CreateControllerDialog() {
+type Props = {
+  projectId: string
+}
+
+export default function CreateControllerDialog({ projectId }: Props) {
   const [open, setOpen] = useState(false)
-  const controllerMutation = useCreateController()
+  const controllerMutation = useCreateController(projectId)
 
   const form = useForm<CreateController>({
     resolver: zodResolver(CreateControllerSchema),

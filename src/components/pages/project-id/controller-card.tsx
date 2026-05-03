@@ -1,12 +1,12 @@
-import type { ControllerDTO } from "#/backend/dtos/controller.dto"
 import { Button } from "#/components/ui/button"
 import { Card, CardContent } from "#/components/ui/card"
 import { useDeleteController } from "#/hooks/use-delete-controller"
 import { useNavigate } from "@tanstack/react-router"
 import { ConfirmDialog } from "../shared/confirm-dialog"
+import type { ControllerModel } from "#/models/controller.model.ts"
 
 type ControllerCardProps = {
-  controller: ControllerDTO
+  controller: ControllerModel
 }
 
 export default function ControllerCard({ controller }: ControllerCardProps) {
@@ -40,7 +40,7 @@ export default function ControllerCard({ controller }: ControllerCardProps) {
           <ConfirmDialog
             trigger={<Button variant="destructive">Delete</Button>}
             loading={deleteController.isPending}
-            onConfirm={() => deleteController.mutate(controller.id)}
+            onConfirm={() => deleteController.mutate(Number(controller.id))}
           />
         </div>
       </CardContent>

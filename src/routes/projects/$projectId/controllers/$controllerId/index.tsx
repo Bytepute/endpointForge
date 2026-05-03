@@ -12,7 +12,7 @@ export const Route = createFileRoute(
 
 function ControllerDetailPage() {
   const { projectId, controllerId } = Route.useParams()
-  const { controller } = useController(controllerId)
+  const { controller } = useController(Number(controllerId))
 
   return (
     <div className="p-8 max-w-4xl space-y-6 mx-auto min-h-dvh">

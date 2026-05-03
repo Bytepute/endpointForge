@@ -1,17 +1,18 @@
-import { createController } from "#/backend/services/controller.services"
+import { controllerService } from "#/backend/services/controller.services"
 import type { CreateController } from "#/schemas/create-controller-schema"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
-export function useCreateController() {
+export function useCreateController(projectId: string) {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (data: CreateController) => {
-      return await createController(data)
+      return await controllerService.createController(data, Number(projectId))
     },
 
     onSuccess: (newController) => {
-      console.log("Controller created:", newController)
+      toast.success("Controller created successfully")
 
       queryClient.invalidateQueries({
         queryKey: ["controllers"],
@@ -19,7 +20,7 @@ export function useCreateController() {
     },
 
     onError: (error) => {
-      console.error("Failed to create controller:", error)
+      toast.error("Failed to create controller")
     },
   })
 }

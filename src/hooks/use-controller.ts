@@ -1,14 +1,13 @@
 import {
-  getControllerById,
-  getControllersByProject,
-} from "#/backend/services/controller.services"
+  controllerService,
+  } from "#/backend/services/controller.services"
 import { useQuery } from "@tanstack/react-query"
 
-export function useControllers(projectId: string) {
+export function useControllers(projectId: number) {
   const controllers = useQuery({
     queryKey: ["controllers", projectId],
     queryFn: () => {
-      return getControllersByProject(projectId)
+      return controllerService.getControllersByProjectById(projectId)
     },
     enabled: !!projectId,
   })
@@ -16,11 +15,11 @@ export function useControllers(projectId: string) {
   return { controllers }
 }
 
-export function useController(controllerId: string) {
+export function useController(controllerId: number) {
   const controller = useQuery({
     queryKey: ["controller", controllerId],
     queryFn: () => {
-      return getControllerById(controllerId)
+      return controllerService.getControllerById(controllerId)
     },
     enabled: !!controllerId,
   })
