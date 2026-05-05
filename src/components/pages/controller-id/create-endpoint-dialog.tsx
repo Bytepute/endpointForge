@@ -31,14 +31,13 @@ import {
   FormMessage,
   FormDescription,
 } from "#/components/ui/form"
-import {
-  createEndpointSchema,
-  type CreateEndpointFormValues,
-} from "#/schemas/create-endpoint-schema"
-import { Switch } from "#/components/ui/switch"
 import { useCreateEndpoint } from "#/hooks/use-create-endpoint"
 import { Loader2 } from "lucide-react"
 import { useTheme } from "#/hooks/use-theme"
+import {
+  createEndpointSchema,
+  type CreateEndpointType,
+} from "#/schemas/endpoint-schema"
 
 type Props = {
   basePath: string
@@ -46,32 +45,29 @@ type Props = {
 }
 
 export function CreateEndpointDialog({ basePath, controllerId }: Props) {
-  const { mutateAsync: createEndpointMutation, isPending } =
-    useCreateEndpoint(controllerId)
+  const createEndpoint = useCreateEndpoint(controllerId)
   const theme = useTheme()
 
   const [open, setOpen] = useState(false)
 
-  const form = useForm<CreateEndpointFormValues>({
+  const form = useForm<CreateEndpointType>({
     resolver: zodResolver(createEndpointSchema),
     defaultValues: {
       method: "GET",
       path: "",
       statusCode: "200",
-      responseJson: "{}",
-      delayMs: 0,
-      enabled: true,
+      responseBody: "{}",
+      delay: 0,
     },
   })
 
-  const onSubmit = async (values: CreateEndpointFormValues) => {
-    try {
-      await createEndpointMutation(values)
-      form.reset()
-      setOpen(false)
-    } catch (err) {
-      console.error("Failed to create endpoint", err)
-    }
+  const onSubmit = (values: CreateEndpointType) => {
+    createEndpoint.mutate(values, {
+      onSuccess: () => {
+        setOpen(false)
+        form.reset()
+      },
+    })
   }
 
   return (
@@ -142,7 +138,7 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
 
             <FormField
               control={form.control}
-              name="delayMs"
+              name="delay"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Delay (ms)</FormLabel>
@@ -164,31 +160,7 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
 
             <FormField
               control={form.control}
-              name="enabled"
-              render={({ field }) => (
-                <FormItem className="flex items-center justify-between p-3 border rounded-md">
-                  <div className="space-y-1">
-                    <FormLabel className="text-base">Enabled</FormLabel>
-                    <FormDescription>
-                      Toggle whether this endpoint is active.
-                    </FormDescription>
-                  </div>
-
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="responseJson"
+              name="responseBody"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Response JSON</FormLabel>
@@ -197,8 +169,8 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
                       <Editor
                         height="200px"
                         defaultLanguage="json"
-                        value={field.value}
-                        onChange={(value) => field.onChange(value || "{}")}
+                        value={field.value ? field.value : undefined}
+                        onChange={(value) => field.onChange(value)}
                         theme={theme === "dark" ? "vs-dark" : "vs-light"}
                         options={{
                           minimap: { enabled: false },
@@ -228,8 +200,12 @@ export function CreateEndpointDialog({ basePath, controllerId }: Props) {
                 Cancel
               </Button>
 
-              <Button type="submit" disabled={isPending}>
-                {isPending ? <Loader2 className="animate-spin" /> : "Create"}
+              <Button type="submit" disabled={createEndpoint.isPending}>
+                {createEndpoint.isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Create"
+                )}
               </Button>
             </DialogFooter>
           </form>

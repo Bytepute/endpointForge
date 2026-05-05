@@ -1,98 +1,60 @@
+import type { EndpointModel } from "#/models/endpoint-model"
+import { endpointApi } from "../api/endpoint-api"
 import type {
   CreateEndpointDTO,
-  EndpointDTO,
+  EndpointDTOResponse,
   UpdateEndpointDTO,
-} from '../dtos/endpoint.dto'
-import { sleep } from './shared.services'
+} from "../dtos/endpoint.dto"
 
-// TODO: remove mock data
-let mockEndpoints: EndpointDTO[] = [
-  {
-    id: 'e1',
-    controllerId: '1',
-    method: 'GET',
-    path: '/list',
-    statusCode: 200,
-    responseJson: [{ id: 1, name: 'John Doe' }],
-    delayMs: 120,
-    enabled: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'e2',
-    controllerId: '1',
-    method: 'POST',
-    path: '/create',
-    statusCode: 201,
-    responseJson: { success: true },
-    delayMs: 250,
-    enabled: true,
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'e3',
-    controllerId: '2',
-    method: 'GET',
-    path: '/today',
-    statusCode: 200,
-    responseJson: { temp: '20°C' },
-    delayMs: 50,
-    enabled: true,
-    createdAt: new Date().toISOString(),
-  },
-]
+class EndpointService {
+  public async getEndpointsByController(
+    controllerId: string,
+  ): Promise<EndpointModel[]> {
+    const responses = await endpointApi.getEndpointByControllerId(
+      Number(controllerId),
+    )
 
-export async function getEndpointsByController(
-  controllerId: string,
-): Promise<EndpointDTO[]> {
-  await sleep()
-  return mockEndpoints.filter(
-    (endpoint) => endpoint.controllerId === controllerId,
-  )
-}
-
-export async function removeEndpoint(endpointId: string): Promise<void> {
-  await sleep()
-
-  mockEndpoints = mockEndpoints.filter((item) => item.id !== endpointId)
-}
-
-export async function createEndpoint(
-  data: CreateEndpointDTO,
-): Promise<EndpointDTO> {
-  await sleep()
-
-  // TODO: update after api
-  const newEndpoint: EndpointDTO = {
-    id: 'newId',
-    controllerId: data.controllerId,
-    method: data.method,
-    path: data.path,
-    statusCode: data.statusCode,
-    responseJson: data.responseJson,
-    delayMs: data.delayMs,
-    enabled: data.enabled,
-    createdAt: new Date().toISOString(),
+    return responses.map((item) => this.convertToModel(item))
   }
 
-  mockEndpoints = [...mockEndpoints, newEndpoint]
-
-  return newEndpoint
-}
-
-export async function updateEndpoint(
-  endpointId: string,
-  updates: UpdateEndpointDTO,
-): Promise<EndpointDTO> {
-  const index = mockEndpoints.findIndex((e) => e.id === endpointId)
-  if (index === -1) throw new Error('Endpoint not found')
-
-  const updated: EndpointDTO = {
-    ...mockEndpoints[index],
-    ...updates,
+  public async getEndpointById(id: string): Promise<EndpointModel> {
+    const response = await endpointApi.getEndpointById(Number(id))
+    return this.convertToModel(response)
   }
 
-  mockEndpoints[index] = updated
+  public async createEndpoint(data: CreateEndpointDTO): Promise<EndpointModel> {
+    const response = await endpointApi.createEndpoint(data)
+    return this.convertToModel(response)
+  }
 
-  return updated
+  public async updateEndpoint(
+    endpointId: string,
+    updates: UpdateEndpointDTO,
+  ): Promise<EndpointModel> {
+    const response = await endpointApi.updateEndpoint(
+      Number(endpointId),
+      updates,
+    )
+    return this.convertToModel(response)
+  }
+
+  public async deleteEndpoint(endpointId: string): Promise<EndpointModel> {
+    return await endpointApi.deleteEndpoint(Number(endpointId))
+  }
+
+  private convertToModel(dto: EndpointDTOResponse): EndpointModel {
+    return {
+      id: dto.id,
+      routeGroupId: dto.routeGroupId,
+      method: dto.method,
+      path: dto.path,
+      statusCode: dto.statusCode,
+      delay: dto.delay,
+      responseBody: dto.responseBody,
+      createdAt: dto.createdAt,
+      updatedAt: dto.updatedAt,
+    }
+  }
 }
+
+export const endpointService = new EndpointService()

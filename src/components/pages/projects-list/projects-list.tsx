@@ -1,16 +1,10 @@
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "#/components/ui/empty"
 import { useProjects } from "#/hooks/use-projects"
 import type { ProjectModel } from "#/schemas/projects.schema"
 import { Folder } from "lucide-react"
 import { ProjectsListError } from "./project-list-error"
 import { ProjectsListSkeleton } from "./project-list-skeleton"
 import ProjectsCard from "./projects-card"
+import Empty from "../shared/empty"
 
 export default function ProjectsList() {
   const projects = useProjects()
@@ -30,17 +24,11 @@ export default function ProjectsList() {
           <ProjectsCard key={project.id} project={project} />
         ))
       ) : (
-        <Empty>
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <Folder />
-            </EmptyMedia>
-            <EmptyTitle>No Project</EmptyTitle>
-            <EmptyDescription>
-              Create a new Project to get started
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
+        <Empty
+          title="No Project"
+          description="Create a new Project to get started"
+          icon={Folder}
+        />
       )}
     </div>
   )

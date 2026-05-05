@@ -42,7 +42,7 @@ export function UpdateProjectDialog({
 
   const form = useForm<UpdateProjectInput>({
     resolver: zodResolver(UpdateProjectInputSchema),
-    defaultValues: {
+    values: {
       name: project.name,
       description: project.description ?? "",
     },

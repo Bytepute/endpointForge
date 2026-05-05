@@ -1,33 +1,30 @@
-// TODO: review after api
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 
-export type EndpointDTO = {
-  id: string
-  controllerId: string
+export type EndpointDTOResponse = {
+  id: number
+  routeGroupId: number
   method: HttpMethod
   path: string
   statusCode: number
-  responseJson: unknown
-  delayMs: number
-  enabled: boolean
+  delay: number
+  responseBody: unknown
   createdAt: string
+  updatedAt: string
 }
 
 export type CreateEndpointDTO = {
-  controllerId: string
+  routeGroupId: number
   method: HttpMethod
   path: string
   statusCode: number
-  responseJson: unknown
-  delayMs: number
-  enabled: boolean
+  delay: number
+  responseBody: unknown
 }
 
 export type UpdateEndpointDTO = Partial<{
   method: HttpMethod
   path: string
   statusCode: number
-  responseJson: unknown
-  delayMs: number
-  enabled: boolean
+  delay: number
+  responseBody: unknown
 }>
