@@ -27,53 +27,59 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
-import type { EndpointDTO } from "#/backend/dtos/endpoint.dto"
-import {
-  createEndpointSchema,
-  type CreateEndpointFormValues,
-} from "#/schemas/create-endpoint-schema"
 import { useUpdateEndpoint } from "#/hooks/use-update-endpoint"
 import { useTheme } from "#/hooks/use-theme"
 import { Editor } from "@monaco-editor/react"
+import type { EndpointModel } from "#/models/endpoint-model"
+import {
+  createEndpointSchema,
+  type UpdateEndpointType,
+} from "#/schemas/endpoint-schema"
 
 type Props = {
-  endpoint: EndpointDTO
+  endpoint: EndpointModel
 }
 
 export function EditEndpointDialog({ endpoint }: Props) {
   const [open, setOpen] = useState(false)
   const theme = useTheme()
 
-  const form = useForm<CreateEndpointFormValues>({
+  const form = useForm<UpdateEndpointType>({
     resolver: zodResolver(createEndpointSchema),
-    defaultValues: {
+    values: {
       method: endpoint.method,
       path: endpoint.path,
       statusCode: endpoint.statusCode.toString(),
-      responseJson: JSON.stringify(endpoint.responseJson, null, 2),
-      delayMs: endpoint.delayMs ?? 0,
-      enabled: endpoint.enabled ?? true,
+      responseBody: JSON.stringify(endpoint.responseBody, null, 2),
+      delay: endpoint.delay,
     },
   })
 
-  const updateMutation = useUpdateEndpoint(endpoint.id)
+  const updateMutation = useUpdateEndpoint(String(endpoint.id))
 
-  const onSubmit = async (values: CreateEndpointFormValues) => {
+  const onSubmit = (values: UpdateEndpointType) => {
     try {
-      const parsedJson = JSON.parse(values.responseJson)
-
-      await updateMutation.mutateAsync({
-        method: values.method,
-        path: values.path,
-        statusCode: Number(values.statusCode),
-        responseJson: parsedJson,
-        delayMs: values.delayMs,
-        enabled: values.enabled,
+      const responseBody = JSON.parse(values.responseBody)
+      updateMutation.mutate(
+        {
+          method: values.method,
+          path: values.path,
+          statusCode: Number(values.statusCode),
+          responseBody: responseBody,
+          delay: values.delay,
+        },
+        {
+          onSuccess: () => {
+            setOpen(false)
+            form.reset()
+          },
+        },
+      )
+    } catch (error) {
+      form.setError("responseBody", {
+        type: "manual",
+        message: "Invalid JSON format",
       })
-
-      setOpen(false)
-    } catch (err) {
-      console.error("Failed to update endpoint", err)
     }
   }
 
@@ -138,11 +144,7 @@ export function EditEndpointDialog({ endpoint }: Props) {
                 <FormItem>
                   <FormLabel>Status Code</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      value={field.value?.toString() ?? ""}
-                    />
+                    <Input type="number" {...field} value={field.value} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -151,17 +153,18 @@ export function EditEndpointDialog({ endpoint }: Props) {
 
             <FormField
               control={form.control}
-              name="responseJson"
+              name="responseBody"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Response JSON</FormLabel>
                   <FormControl>
                     <div className="border rounded-md overflow-hidden">
                       <Editor
+                        key={endpoint.id}
                         height="200px"
                         defaultLanguage="json"
                         value={field.value}
-                        onChange={(value) => field.onChange(value || "{}")}
+                        onChange={(value) => field.onChange(value)}
                         theme={theme === "dark" ? "vs-dark" : "vs-light"}
                         options={{
                           minimap: { enabled: false },

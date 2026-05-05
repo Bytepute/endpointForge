@@ -1,4 +1,3 @@
-import type { EndpointDTO } from "#/backend/dtos/endpoint.dto"
 import { Badge } from "#/components/ui/badge"
 import { Button } from "#/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card"
@@ -13,9 +12,12 @@ import {
 import { CreateEndpointDialog } from "./create-endpoint-dialog"
 import { EditEndpointDialog } from "./edit-endpoint-dialog"
 import { ConfirmDialog } from "../shared/confirm-dialog"
+import type { EndpointModel } from "#/models/endpoint-model"
+import { Container } from "lucide-react"
+import Empty from "../shared/empty"
 
 type Props = {
-  endpoints: EndpointDTO[] | undefined
+  endpoints: EndpointModel[] | undefined
   basePath: string
   handleDeleteEndpoint: (endpointId: string) => void
   deleteId: string | null
@@ -40,9 +42,11 @@ export function EndpointCard({
 
       <CardContent>
         {isEmpty && (
-          <div className="py-10 text-center">
-            <p className="text-sm text-muted-foreground">No endpoints found.</p>
-          </div>
+          <Empty
+            title="No Endpoint"
+            description="Create a new Endpoint to get started"
+            icon={Container}
+          />
         )}
 
         {!isEmpty && (
@@ -74,8 +78,10 @@ export function EndpointCard({
                     <EditEndpointDialog endpoint={endpoint} />
                     <ConfirmDialog
                       trigger={<Button variant="destructive">Delete</Button>}
-                      onConfirm={() => handleDeleteEndpoint(endpoint.id)}
-                      loading={deleteId === endpoint.id}
+                      onConfirm={() =>
+                        handleDeleteEndpoint(String(endpoint.id))
+                      }
+                      loading={deleteId === String(endpoint.id)}
                     />
                   </TableCell>
                 </TableRow>
