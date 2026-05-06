@@ -1,10 +1,8 @@
-import { useState } from "react"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "#/components/ui/dialog"
 import { Button } from "#/components/ui/button"
 import { Input } from "#/components/ui/input"
@@ -38,10 +36,10 @@ import {
 
 type Props = {
   endpoint: EndpointModel
+  onClose: () => void
 }
 
-export function EditEndpointDialog({ endpoint }: Props) {
-  const [open, setOpen] = useState(false)
+export default function EditEndpointDialog({ endpoint, onClose }: Props) {
   const theme = useTheme()
 
   const form = useForm<UpdateEndpointType>({
@@ -70,7 +68,7 @@ export function EditEndpointDialog({ endpoint }: Props) {
         },
         {
           onSuccess: () => {
-            setOpen(false)
+            onClose()
             form.reset()
           },
         },
@@ -84,13 +82,12 @@ export function EditEndpointDialog({ endpoint }: Props) {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" variant="outline">
-          Edit
-        </Button>
-      </DialogTrigger>
-
+    <Dialog
+      open={true}
+      onOpenChange={(open) => {
+        !open && onClose()
+      }}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Endpoint</DialogTitle>
