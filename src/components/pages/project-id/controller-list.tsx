@@ -1,4 +1,6 @@
 import { useControllers } from "#/hooks/use-controller"
+import { SquarePlus } from "lucide-react"
+import Empty from "../shared/empty"
 import ControllerCard from "./controller-card"
 import { ControllerListError } from "./controller-list-error"
 import ControllerListSkeleton from "./controller-list-skeleton"
@@ -17,9 +19,17 @@ export default function ControllerList({ projectId }: Props) {
 
   return (
     <div className="grid gap-4">
-      {controllers.data?.map((c) => (
-        <ControllerCard key={c.id} controller={c} />
-      ))}
+      {controllers.data && controllers.data.length > 0 ? (
+        controllers.data.map((c) => (
+          <ControllerCard key={c.id} controller={c} />
+        ))
+      ) : (
+        <Empty
+          title="No Controller"
+          description="Create a new Controller to get started"
+          icon={SquarePlus}
+        />
+      )}
     </div>
   )
 }
