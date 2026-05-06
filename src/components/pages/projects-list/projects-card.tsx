@@ -5,6 +5,7 @@ import type { ProjectModel } from "#/schemas/projects.schema"
 import { useNavigate } from "@tanstack/react-router"
 import { ConfirmDialog } from "../shared/confirm-dialog"
 import { UpdateProjectDialog } from "./update-project-dialog"
+import { useState } from "react"
 
 type ProjectCardProps = {
   project: ProjectModel
@@ -13,39 +14,53 @@ type ProjectCardProps = {
 export default function ProjectsCard({ project }: ProjectCardProps) {
   const deleteMutation = useDeleteProject()
   const navigate = useNavigate()
+  const [editingProject, setEditingProject] = useState<ProjectModel | null>(
+    null,
+  )
+
   return (
-    <Card>
-      <CardContent className="flex items-center justify-between">
-        <div>
-          <p className="text-xl font-medium">{project.name}</p>
-          <p className="font-light">{project.description}</p>
-        </div>
+    <>
+      {editingProject && (
+        <UpdateProjectDialog
+          project={editingProject}
+          onClose={() => setEditingProject(null)}
+        />
+      )}
 
-        <div className="space-x-2">
-          <Button
-            onClick={() =>
-              navigate({
-                to: "/projects/$projectId",
-                params: { projectId: project.id.toString() },
-              })
-            }
-            variant="outline"
-          >
-            Open
-          </Button>
+      <Card>
+        <CardContent className="flex items-center justify-between">
+          <div>
+            <p className="text-xl font-medium">{project.name}</p>
+            <p className="font-light">{project.description}</p>
+          </div>
 
-          <UpdateProjectDialog
-            project={project}
-            trigger={<Button variant="secondary">Edit</Button>}
-          />
+          <div className="space-x-2">
+            <Button
+              onClick={() =>
+                navigate({
+                  to: "/projects/$projectId",
+                  params: { projectId: project.id.toString() },
+                })
+              }
+              variant="outline"
+            >
+              Open
+            </Button>
 
-          <ConfirmDialog
-            trigger={<Button variant="destructive">Delete</Button>}
-            onConfirm={() => deleteMutation.mutate(project.id)}
-            loading={deleteMutation.isPending}
-          />
-        </div>
-      </CardContent>
-    </Card>
+            <Button
+              variant="secondary"
+              onClick={() => setEditingProject(project)}
+            >
+              Edit
+            </Button>
+            <ConfirmDialog
+              trigger={<Button variant="destructive">Delete</Button>}
+              onConfirm={() => deleteMutation.mutate(project.id)}
+              loading={deleteMutation.isPending}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    </>
   )
 }

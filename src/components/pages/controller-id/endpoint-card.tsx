@@ -10,11 +10,13 @@ import {
   TableRow,
 } from "#/components/ui/table"
 import { CreateEndpointDialog } from "./create-endpoint-dialog"
-import { EditEndpointDialog } from "./edit-endpoint-dialog"
 import { ConfirmDialog } from "../shared/confirm-dialog"
 import type { EndpointModel } from "#/models/endpoint-model"
 import { Container } from "lucide-react"
 import Empty from "../shared/empty"
+import { lazy, Suspense, useState } from "react"
+
+const EditEndpointDialog = lazy(() => import("./edit-endpoint-dialog"))
 
 type Props = {
   endpoints: EndpointModel[] | undefined
@@ -32,64 +34,86 @@ export function EndpointCard({
   controllerId,
 }: Props) {
   const isEmpty = !endpoints || endpoints.length === 0
+  const [editingEndpoint, setEditingEndpoint] = useState<EndpointModel | null>(
+    null,
+  )
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Endpoints</CardTitle>
-        <CreateEndpointDialog basePath={basePath} controllerId={controllerId} />
-      </CardHeader>
-
-      <CardContent>
-        {isEmpty && (
-          <Empty
-            title="No Endpoint"
-            description="Create a new Endpoint to get started"
-            icon={Container}
+    <>
+      {editingEndpoint && (
+        <Suspense fallback={null}>
+          <EditEndpointDialog
+            endpoint={editingEndpoint}
+            onClose={() => setEditingEndpoint(null)}
           />
-        )}
+        </Suspense>
+      )}
 
-        {!isEmpty && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Method</TableHead>
-                <TableHead>Path</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Endpoints</CardTitle>
+          <CreateEndpointDialog
+            basePath={basePath}
+            controllerId={controllerId}
+          />
+        </CardHeader>
 
-            <TableBody>
-              {endpoints.map((endpoint) => (
-                <TableRow key={endpoint.id}>
-                  <TableCell>
-                    <Badge variant="secondary">{endpoint.method}</Badge>
-                  </TableCell>
+        <CardContent>
+          {isEmpty && (
+            <Empty
+              title="No Endpoint"
+              description="Create a new Endpoint to get started"
+              icon={Container}
+            />
+          )}
 
-                  <TableCell>
-                    {basePath}
-                    {endpoint.path}
-                  </TableCell>
-
-                  <TableCell>{endpoint.statusCode}</TableCell>
-
-                  <TableCell className="text-right space-x-2">
-                    <EditEndpointDialog endpoint={endpoint} />
-                    <ConfirmDialog
-                      trigger={<Button variant="destructive">Delete</Button>}
-                      onConfirm={() =>
-                        handleDeleteEndpoint(String(endpoint.id))
-                      }
-                      loading={deleteId === String(endpoint.id)}
-                    />
-                  </TableCell>
+          {!isEmpty && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Method</TableHead>
+                  <TableHead>Path</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </CardContent>
-    </Card>
+              </TableHeader>
+
+              <TableBody>
+                {endpoints.map((endpoint) => (
+                  <TableRow key={endpoint.id}>
+                    <TableCell>
+                      <Badge variant="secondary">{endpoint.method}</Badge>
+                    </TableCell>
+
+                    <TableCell>
+                      {basePath}
+                      {endpoint.path}
+                    </TableCell>
+
+                    <TableCell>{endpoint.statusCode}</TableCell>
+
+                    <TableCell className="text-right space-x-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setEditingEndpoint(endpoint)}
+                      >
+                        Edit
+                      </Button>
+                      <ConfirmDialog
+                        trigger={<Button variant="destructive">Delete</Button>}
+                        onConfirm={() =>
+                          handleDeleteEndpoint(String(endpoint.id))
+                        }
+                        loading={deleteId === String(endpoint.id)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </>
   )
 }

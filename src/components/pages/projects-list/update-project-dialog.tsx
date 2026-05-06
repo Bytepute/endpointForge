@@ -1,5 +1,3 @@
-// components/pages/projects-list/update-project-dialog.tsx
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
@@ -11,7 +9,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "#/components/ui/dialog"
 import {
   Form,
@@ -30,14 +27,13 @@ import { useUpdateProject } from "#/hooks/use-update-project"
 
 type UpdateProjectDialogProps = {
   project: ProjectModel
-  trigger: React.ReactNode
+  onClose: () => void
 }
 
 export function UpdateProjectDialog({
   project,
-  trigger,
+  onClose,
 }: UpdateProjectDialogProps) {
-  const [open, setOpen] = useState(false)
   const updateMutation = useUpdateProject(project.id)
 
   const form = useForm<UpdateProjectInput>({
@@ -51,15 +47,14 @@ export function UpdateProjectDialog({
   const onSubmit = (data: UpdateProjectInput) => {
     updateMutation.mutate(data, {
       onSuccess: () => {
-        setOpen(false)
+        onClose()
         form.reset()
       },
     })
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update Project</DialogTitle>
