@@ -1,9 +1,11 @@
 import ThemeToggle from "#/components/theme-toggle"
 import { useScrollToSection } from "#/hooks/use-scroll-to-section"
 import { Button } from "@/components/ui/button"
+import LoginDialog from "./login-dialog"
 
 export default function LandingHeader() {
   const scrollToSection = useScrollToSection()
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b bg-background/70">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -29,10 +31,8 @@ export default function LandingHeader() {
         {/* Actions */}
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          {/*TODO: Enable when feature becomes available*/}
-          {/*<Button variant="outline">ورود</Button>
-
-          <Button size="sm">ثبت‌نام</Button>*/}
+          <LoginDialog />
+          <Button size="sm">ثبت‌نام</Button>
         </div>
       </div>
     </header>
