@@ -18,6 +18,7 @@ function ProjectDetailPage() {
       <ProjectHeader
         name={project.data?.name ?? "Not Found"}
         projectId={projectId}
+        isLoading={project.isLoading}
       />
       {project.data && <ServerCard project={project.data} />}
       <Separator />

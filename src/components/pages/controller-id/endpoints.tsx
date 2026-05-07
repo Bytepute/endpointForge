@@ -1,5 +1,5 @@
 import { useDeleteEndpoint } from "#/hooks/use-delete-endpoint"
-import { useEndpoint } from "#/hooks/use-endpoint"
+import { useEndpoints } from "#/hooks/use-endpoints"
 import { useState } from "react"
 import { EndpointCard } from "./endpoint-card"
 import { EndpointCardSkeleton } from "./endpoint-card-skeleton"
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export default function Endpoints({ basePath, controllerId }: Props) {
-  const endpoints = useEndpoint(controllerId)
+  const endpoints = useEndpoints(controllerId)
   const deleteMutation = useDeleteEndpoint(controllerId)
   const [deletingId, setDeletingId] = useState<string | null>(null)
 

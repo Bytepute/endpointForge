@@ -1,6 +1,4 @@
-import {
-  controllerService,
-  } from "#/backend/services/controller.services"
+import { controllerService } from "#/backend/services/controller.services"
 import { useQuery } from "@tanstack/react-query"
 
 export function useControllers(projectId: number) {
@@ -10,6 +8,8 @@ export function useControllers(projectId: number) {
       return controllerService.getControllersByProjectById(projectId)
     },
     enabled: !!projectId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   })
 
   return { controllers }

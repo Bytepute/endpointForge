@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
 import { Route as ProjectsProjectIdControllersControllerIdIndexRouteImport } from './routes/projects/$projectId/controllers/$controllerId/index'
+import { Route as ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport } from './routes/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
 
 const ProjectsRouteRoute = ProjectsRouteRouteImport.update({
   id: '/projects',
@@ -41,6 +42,14 @@ const ProjectsProjectIdControllersControllerIdIndexRoute =
     path: '/$projectId/controllers/$controllerId/',
     getParentRoute: () => ProjectsRouteRoute,
   } as any)
+const ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute =
+  ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport.update(
+    {
+      id: '/$projectId/controllers/$controllerId/endpoints/$endpointId',
+      path: '/$projectId/controllers/$controllerId/endpoints/$endpointId',
+      getParentRoute: () => ProjectsRouteRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -48,12 +57,14 @@ export interface FileRoutesByFullPath {
   '/projects/': typeof ProjectsIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/controllers/$controllerId/': typeof ProjectsProjectIdControllersControllerIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/projects/$projectId': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/controllers/$controllerId': typeof ProjectsProjectIdControllersControllerIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +73,7 @@ export interface FileRoutesById {
   '/projects/': typeof ProjectsIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/controllers/$controllerId/': typeof ProjectsProjectIdControllersControllerIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,12 +83,14 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/projects/$projectId/'
     | '/projects/$projectId/controllers/$controllerId/'
+    | '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/projects'
     | '/projects/$projectId'
     | '/projects/$projectId/controllers/$controllerId'
+    | '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
   id:
     | '__root__'
     | '/'
@@ -84,6 +98,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/projects/$projectId/'
     | '/projects/$projectId/controllers/$controllerId/'
+    | '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -128,6 +143,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsProjectIdControllersControllerIdIndexRouteImport
       parentRoute: typeof ProjectsRouteRoute
     }
+    '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': {
+      id: '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
+      path: '/$projectId/controllers/$controllerId/endpoints/$endpointId'
+      fullPath: '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
+      preLoaderRoute: typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport
+      parentRoute: typeof ProjectsRouteRoute
+    }
   }
 }
 
@@ -135,6 +157,7 @@ interface ProjectsRouteRouteChildren {
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ProjectsProjectIdIndexRoute: typeof ProjectsProjectIdIndexRoute
   ProjectsProjectIdControllersControllerIdIndexRoute: typeof ProjectsProjectIdControllersControllerIdIndexRoute
+  ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute: typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 
 const ProjectsRouteRouteChildren: ProjectsRouteRouteChildren = {
@@ -142,6 +165,8 @@ const ProjectsRouteRouteChildren: ProjectsRouteRouteChildren = {
   ProjectsProjectIdIndexRoute: ProjectsProjectIdIndexRoute,
   ProjectsProjectIdControllersControllerIdIndexRoute:
     ProjectsProjectIdControllersControllerIdIndexRoute,
+  ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute:
+    ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute,
 }
 
 const ProjectsRouteRouteWithChildren = ProjectsRouteRoute._addFileChildren(
