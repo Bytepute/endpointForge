@@ -103,6 +103,8 @@ class ProjectService {
       id: response.id,
       name: response.name,
       description: response.description,
+      port: response.port,
+      isProjectRunning: response.isProjectRunning,
       createdAt: new Date(response.createdAt),
     }
   }
