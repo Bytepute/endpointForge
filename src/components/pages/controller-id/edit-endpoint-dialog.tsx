@@ -40,7 +40,7 @@ type Props = {
 }
 
 export default function EditEndpointDialog({ endpoint, onClose }: Props) {
-  const theme = useTheme()
+  const { theme } = useTheme()
 
   const form = useForm<UpdateEndpointType>({
     resolver: zodResolver(createEndpointSchema),

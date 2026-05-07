@@ -46,7 +46,7 @@ type Props = {
 
 export function CreateEndpointDialog({ basePath, controllerId }: Props) {
   const createEndpoint = useCreateEndpoint(controllerId)
-  const theme = useTheme()
+  const { theme } = useTheme()
 
   const [open, setOpen] = useState(false)
 
