@@ -14,9 +14,8 @@ import { ConfirmDialog } from "../shared/confirm-dialog"
 import type { EndpointModel } from "#/models/endpoint-model"
 import { Container } from "lucide-react"
 import Empty from "../shared/empty"
-import { lazy, Suspense, useState } from "react"
-
-const EditEndpointDialog = lazy(() => import("./edit-endpoint-dialog"))
+import { useState } from "react"
+import EditEndpointDialog from "./edit-endpoint-dialog"
 
 type Props = {
   endpoints: EndpointModel[] | undefined
@@ -41,12 +40,10 @@ export function EndpointCard({
   return (
     <>
       {editingEndpoint && (
-        <Suspense fallback={null}>
-          <EditEndpointDialog
-            endpoint={editingEndpoint}
-            onClose={() => setEditingEndpoint(null)}
-          />
-        </Suspense>
+        <EditEndpointDialog
+          endpoint={editingEndpoint}
+          onClose={() => setEditingEndpoint(null)}
+        />
       )}
 
       <Card>
