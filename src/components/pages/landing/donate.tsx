@@ -16,7 +16,13 @@ export default function Donate() {
         می‌توانید با حمایت مالی به ادامه توسعه آن کمک کنید.
       </p>
 
-      <Button size="lg">حمایت مالی</Button>
+      <a
+        href="https://daramet.com/bytepute"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button size="lg">حمایت مالی</Button>
+      </a>
     </section>
   )
 }
