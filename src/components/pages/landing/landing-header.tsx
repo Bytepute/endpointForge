@@ -2,6 +2,7 @@ import ThemeToggle from "#/components/theme-toggle"
 import { useScrollToSection } from "#/hooks/use-scroll-to-section"
 import { Button } from "@/components/ui/button"
 import LoginDialog from "./login-dialog"
+import RegisterDialog from "./register-dialog"
 
 export default function LandingHeader() {
   const scrollToSection = useScrollToSection()
@@ -32,7 +33,7 @@ export default function LandingHeader() {
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <LoginDialog />
-          <Button size="sm">ثبت‌نام</Button>
+          <RegisterDialog />
         </div>
       </div>
     </header>

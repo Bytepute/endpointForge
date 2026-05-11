@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import type { Login } from "#/schemas/auth.schema"
+import type { Login } from "#/schemas/login.schema"
 import { toast } from "sonner"
 // TODO: replace with real service after API
 export function useLogin() {

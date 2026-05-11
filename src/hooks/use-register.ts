@@ -1,0 +1,18 @@
+import { useMutation } from "@tanstack/react-query"
+import type { Register } from "#/schemas/register.schema"
+import { toast } from "sonner"
+
+// TODO: replace with real service after API
+export function useRegister() {
+  return useMutation({
+    mutationFn: async (data: Register) => console.log(data),
+
+    onSuccess: () => {
+      toast.success("ثبت نام با موفقیت انجام شد")
+    },
+
+    onError: () => {
+      toast.error("خطا در ثبت نام. دوباره تلاش کنید")
+    },
+  })
+}
