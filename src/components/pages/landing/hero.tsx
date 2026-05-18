@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
-import { authTokenService } from "#/backend/services/auth-token.service"
+import { useAuth } from "#/contexts/auth-context"
 
 export default function Hero() {
   const navigate = useNavigate()
+  const { isLoggedIn } = useAuth()
 
   const handleCreateProject = () => {
-    if (!authTokenService.hasAccessToken()) {
+    if (!isLoggedIn) {
       toast.error("برای ساخت پروژه ابتدا وارد شوید یا ثبت نام کنید")
       return
     }

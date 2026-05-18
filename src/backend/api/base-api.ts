@@ -2,6 +2,7 @@ import axios from "axios"
 import type {
   AxiosError,
   AxiosInstance,
+  AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from "axios"
 import { authTokenService } from "#/backend/services/auth-token.service"
@@ -50,6 +51,8 @@ class ApiClient {
         try {
           const res = await this.instance.post<TokenPairResponseDTO>(
             "/auth/refresh-token",
+            undefined,
+            { withCredentials: true },
           )
 
           authTokenService.setAccessToken(res.data.accessToken)
@@ -89,8 +92,9 @@ class ApiClient {
   async post<TResponse, TBody = unknown>(
     url: string,
     body?: TBody,
+    config?: AxiosRequestConfig,
   ): Promise<TResponse> {
-    const res = await this.instance.post<TResponse>(url, body)
+    const res = await this.instance.post<TResponse>(url, body, config)
     return res.data
   }
 
