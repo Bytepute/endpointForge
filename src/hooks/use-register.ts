@@ -1,13 +1,19 @@
 import { useMutation } from "@tanstack/react-query"
 import type { Register } from "#/schemas/register.schema"
 import { toast } from "sonner"
+import { authApi } from "#/backend/api/auth-api"
+import { authTokenService } from "#/backend/services/auth-token.service"
 
-// TODO: replace with real service after API
 export function useRegister() {
   return useMutation({
-    mutationFn: async (data: Register) => console.log(data),
+    mutationFn: async (data: Register) =>
+      authApi.register({
+        userName: data.username,
+        password: data.password,
+      }),
 
-    onSuccess: () => {
+    onSuccess: (data) => {
+      authTokenService.setAccessToken(data.accessToken)
       toast.success("ثبت نام با موفقیت انجام شد")
     },
 

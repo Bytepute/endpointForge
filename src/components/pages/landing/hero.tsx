@@ -1,8 +1,21 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Link } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
+import { authTokenService } from "#/backend/services/auth-token.service"
 
 export default function Hero() {
+  const navigate = useNavigate()
+
+  const handleCreateProject = () => {
+    if (!authTokenService.hasAccessToken()) {
+      toast.error("برای ساخت پروژه ابتدا وارد شوید یا ثبت نام کنید")
+      return
+    }
+
+    navigate({ to: "/projects" })
+  }
+
   return (
     <section className="px-6 py-28">
       <div className="max-w-3xl mx-auto text-center flex flex-col items-center gap-6">
@@ -20,9 +33,9 @@ export default function Hero() {
           سرعت شبیه‌سازی کنید.
         </p>
 
-        <Link to="/projects">
-          <Button size="lg">ساخت پروژه جدید</Button>
-        </Link>
+        <Button size="lg" onClick={handleCreateProject}>
+          ساخت پروژه جدید
+        </Button>
       </div>
     </section>
   )

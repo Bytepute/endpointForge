@@ -1,12 +1,18 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router"
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "#/components/pages/projects-list/app-sidebar"
+import { authTokenService } from "#/backend/services/auth-token.service"
 
 export const Route = createFileRoute("/projects")({
+  beforeLoad: () => {
+    if (!authTokenService.hasAccessToken()) {
+      throw redirect({ to: "/" })
+    }
+  },
   component: RouteComponent,
 })
 
