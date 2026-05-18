@@ -51,8 +51,6 @@ class ApiClient {
         try {
           const res = await this.instance.post<TokenPairResponseDTO>(
             "/auth/refresh-token",
-            undefined,
-            { withCredentials: true },
           )
 
           authTokenService.setAccessToken(res.data.accessToken)
