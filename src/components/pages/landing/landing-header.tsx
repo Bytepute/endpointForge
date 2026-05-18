@@ -7,7 +7,7 @@ import { useAuth } from "#/contexts/auth-context"
 
 export default function LandingHeader() {
   const scrollToSection = useScrollToSection()
-  const { isLoggedIn } = useAuth()
+  const { isAuthReady, isLoggedIn } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b bg-background/70">
@@ -34,7 +34,7 @@ export default function LandingHeader() {
         {/* Actions */}
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          {!isLoggedIn && (
+          {isAuthReady && !isLoggedIn && (
             <>
               <LoginDialog />
               <RegisterDialog />
