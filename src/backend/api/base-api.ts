@@ -12,6 +12,8 @@ type RetryableRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean
 }
 
+export const AUTH_SESSION_EXPIRED_EVENT = "endpoint-forge-session-expired"
+
 class ApiClient {
   private instance: AxiosInstance
 
@@ -59,6 +61,7 @@ class ApiClient {
           return this.instance(originalRequest)
         } catch (refreshError) {
           authTokenService.clearAccessToken()
+          this.handleSessionExpired()
           return Promise.reject(refreshError)
         }
       },
@@ -77,6 +80,17 @@ class ApiClient {
     return !["/auth/login", "/auth/register", "/auth/refresh-token"].some(
       (authUrl) => url.includes(authUrl),
     )
+  }
+
+  private handleSessionExpired(): void {
+    if (typeof window === "undefined") return
+
+    if (window.location.pathname !== "/") {
+      window.location.assign("/?auth=session-expired")
+      return
+    }
+
+    window.dispatchEvent(new Event(AUTH_SESSION_EXPIRED_EVENT))
   }
 
   async get<TResponse, TParams = unknown>(

@@ -25,11 +25,21 @@ import { useState } from "react"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useNavigate } from "@tanstack/react-router"
 
-export default function LoginDialog() {
-  const [open, setOpen] = useState(false)
+type LoginDialogProps = {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export default function LoginDialog({
+  open,
+  onOpenChange,
+}: LoginDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const login = useLogin()
   const navigate = useNavigate()
+  const dialogOpen = open ?? internalOpen
+  const setDialogOpen = onOpenChange ?? setInternalOpen
 
   const form = useForm<Login>({
     resolver: zodResolver(LoginSchema),
@@ -43,7 +53,7 @@ export default function LoginDialog() {
     login.mutate(data, {
       onSuccess: () => {
         form.reset()
-        setOpen(false)
+        setDialogOpen(false)
         navigate({ to: "/projects" })
       },
       onError: (error) => {
@@ -53,7 +63,7 @@ export default function LoginDialog() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">ورود</Button>
       </DialogTrigger>
