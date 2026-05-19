@@ -23,7 +23,6 @@ import type { Login } from "#/schemas/login.schema"
 import { useLogin } from "#/hooks/use-login"
 import { useState } from "react"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
-import { useNavigate } from "@tanstack/react-router"
 
 type LoginDialogProps = {
   open?: boolean
@@ -37,7 +36,6 @@ export default function LoginDialog({
   const [internalOpen, setInternalOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const login = useLogin()
-  const navigate = useNavigate()
   const dialogOpen = open ?? internalOpen
   const setDialogOpen = onOpenChange ?? setInternalOpen
 
@@ -54,7 +52,6 @@ export default function LoginDialog({
       onSuccess: () => {
         form.reset()
         setDialogOpen(false)
-        navigate({ to: "/projects" })
       },
       onError: (error) => {
         console.error(error)

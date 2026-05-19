@@ -27,13 +27,11 @@ import {
 import { RegisterSchema } from "#/schemas/register.schema"
 import type { Register } from "#/schemas/register.schema"
 import { useRegister } from "#/hooks/use-register"
-import { useNavigate } from "@tanstack/react-router"
 
 export default function RegisterDialog() {
   const [open, setOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const register = useRegister()
-  const navigate = useNavigate()
 
   const form = useForm<Register>({
     resolver: zodResolver(RegisterSchema),
@@ -48,7 +46,6 @@ export default function RegisterDialog() {
       onSuccess: () => {
         form.reset()
         setOpen(false)
-        navigate({ to: "/projects" })
       },
       onError: (error) => {
         console.error(error)

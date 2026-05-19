@@ -23,7 +23,9 @@ class AuthApi {
   }
 
   public async refreshToken(): Promise<TokenPairResponseDTO> {
-    return baseApi.post(`${this.basePath}/refresh-token`)
+    return baseApi.post(`${this.basePath}/refresh-token`, undefined, {
+      withCredentials: true,
+    })
   }
 }
 

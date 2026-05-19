@@ -5,14 +5,12 @@ import type {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from "axios"
-import { authTokenService } from "#/backend/services/auth-token.service"
 import type { TokenPairResponseDTO } from "#/backend/dtos/login.dto"
+import { useAuthStore } from "#/stores/auth-store"
 
 type RetryableRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean
 }
-
-export const AUTH_SESSION_EXPIRED_EVENT = "endpoint-forge-session-expired"
 
 class ApiClient {
   private instance: AxiosInstance
@@ -28,7 +26,7 @@ class ApiClient {
     })
 
     this.instance.interceptors.request.use((config) => {
-      const token = authTokenService.getAccessToken()
+      const token = useAuthStore.getState().accessToken
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
@@ -53,15 +51,16 @@ class ApiClient {
         try {
           const res = await this.instance.post<TokenPairResponseDTO>(
             "/auth/refresh-token",
+            undefined,
+            { withCredentials: true },
           )
 
-          authTokenService.setAccessToken(res.data.accessToken)
+          useAuthStore.getState().setAccessToken(res.data.accessToken)
           originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`
 
           return this.instance(originalRequest)
         } catch (refreshError) {
-          authTokenService.clearAccessToken()
-          this.handleSessionExpired()
+          useAuthStore.getState().markSessionExpired()
           return Promise.reject(refreshError)
         }
       },
@@ -80,17 +79,6 @@ class ApiClient {
     return !["/auth/login", "/auth/register", "/auth/refresh-token"].some(
       (authUrl) => url.includes(authUrl),
     )
-  }
-
-  private handleSessionExpired(): void {
-    if (typeof window === "undefined") return
-
-    if (window.location.pathname !== "/") {
-      window.location.assign("/?auth=session-expired")
-      return
-    }
-
-    window.dispatchEvent(new Event(AUTH_SESSION_EXPIRED_EVENT))
   }
 
   async get<TResponse, TParams = unknown>(

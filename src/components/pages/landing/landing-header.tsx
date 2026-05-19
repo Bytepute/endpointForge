@@ -3,45 +3,15 @@ import { useScrollToSection } from "#/hooks/use-scroll-to-section"
 import { Button } from "@/components/ui/button"
 import LoginDialog from "./login-dialog"
 import RegisterDialog from "./register-dialog"
-import { useAuth } from "#/contexts/auth-context"
-import { AUTH_SESSION_EXPIRED_EVENT } from "#/backend/api/base-api"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+import { useAuthStore } from "#/stores/auth-store"
 
 export default function LandingHeader() {
   const scrollToSection = useScrollToSection()
-  const { isAuthReady, isLoggedIn } = useAuth()
-  const [isLoginOpen, setIsLoginOpen] = useState(false)
-
-  useEffect(() => {
-    const showSessionExpiredLogin = () => {
-      toast.error("نشست شما منقضی شده است. لطفاً دوباره وارد شوید")
-      setIsLoginOpen(true)
-    }
-
-    const searchParams = new URLSearchParams(window.location.search)
-    if (searchParams.get("auth") === "session-expired") {
-      showSessionExpiredLogin()
-      searchParams.delete("auth")
-      const nextSearch = searchParams.toString()
-      const nextUrl = nextSearch
-        ? `${window.location.pathname}?${nextSearch}`
-        : window.location.pathname
-      window.history.replaceState(null, "", nextUrl)
-    }
-
-    window.addEventListener(
-      AUTH_SESSION_EXPIRED_EVENT,
-      showSessionExpiredLogin,
-    )
-
-    return () => {
-      window.removeEventListener(
-        AUTH_SESSION_EXPIRED_EVENT,
-        showSessionExpiredLogin,
-      )
-    }
-  }, [])
+  const isAuthReady = useAuthStore((state) => state.isAuthReady)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const loginModalOpen = useAuthStore((state) => state.loginModalOpen)
+  const openLoginModal = useAuthStore((state) => state.openLoginModal)
+  const closeLoginModal = useAuthStore((state) => state.closeLoginModal)
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b bg-background/70">
@@ -70,7 +40,17 @@ export default function LandingHeader() {
           <ThemeToggle />
           {isAuthReady && !isLoggedIn && (
             <>
-              <LoginDialog open={isLoginOpen} onOpenChange={setIsLoginOpen} />
+              <LoginDialog
+                open={loginModalOpen}
+                onOpenChange={(open) => {
+                  if (open) {
+                    openLoginModal()
+                    return
+                  }
+
+                  closeLoginModal()
+                }}
+              />
               <RegisterDialog />
             </>
           )}

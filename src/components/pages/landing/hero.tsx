@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
-import { useAuth } from "#/contexts/auth-context"
+import { useAuthStore } from "#/stores/auth-store"
 
 export default function Hero() {
   const navigate = useNavigate()
-  const { isLoggedIn } = useAuth()
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
 
   const handleCreateProject = () => {
     if (!isLoggedIn) {

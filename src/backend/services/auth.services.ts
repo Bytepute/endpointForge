@@ -10,27 +10,18 @@ import type {
 import type { Login } from "#/schemas/login.schema"
 import type { Register } from "#/schemas/register.schema"
 import type { AuthSessionModel, RegisteredUserModel } from "#/models/auth.model"
-import { authTokenService } from "./auth-token.service"
 
 class AuthService {
   public async login(input: Login): Promise<AuthSessionModel> {
     const request = this._convertLoginInputToLoginRequestDTO(input)
     const response = await authApi.login(request)
-    const session = this._convertLoginResponseDTOToAuthSessionModel(response)
-
-    authTokenService.setAccessToken(session.accessToken)
-
-    return session
+    return this._convertLoginResponseDTOToAuthSessionModel(response)
   }
 
   public async register(input: Register): Promise<RegisteredUserModel> {
     const request = this._convertRegisterInputToRegisterRequestDTO(input)
     const response = await authApi.register(request)
-    const user = this._convertRegisterResponseDTOToRegisteredUserModel(response)
-
-    authTokenService.setAccessToken(user.session.accessToken)
-
-    return user
+    return this._convertRegisterResponseDTOToRegisteredUserModel(response)
   }
 
   private _convertLoginInputToLoginRequestDTO(input: Login): LoginRequestDTO {
