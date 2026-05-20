@@ -15,11 +15,15 @@ class AuthApi {
   public async register(
     body: RegisterRequestDTO,
   ): Promise<RegisterResponseDTO> {
-    return baseApi.post(`${this.basePath}/register`, body)
+    return baseApi.post(`${this.basePath}/register`, body, {
+      withCredentials: true,
+    })
   }
 
   public async login(body: LoginRequestDTO): Promise<LoginResponseDTO> {
-    return baseApi.post(`${this.basePath}/login`, body)
+    return baseApi.post(`${this.basePath}/login`, body, {
+      withCredentials: true,
+    })
   }
 
   public async refreshToken(): Promise<TokenPairResponseDTO> {
