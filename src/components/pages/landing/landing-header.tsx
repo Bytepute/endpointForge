@@ -10,8 +10,11 @@ export default function LandingHeader() {
   const isAuthReady = useAuthStore((state) => state.isAuthReady)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const loginModalOpen = useAuthStore((state) => state.loginModalOpen)
+  const registerModalOpen = useAuthStore((state) => state.registerModalOpen)
   const openLoginModal = useAuthStore((state) => state.openLoginModal)
   const closeLoginModal = useAuthStore((state) => state.closeLoginModal)
+  const openRegisterModal = useAuthStore((state) => state.openRegisterModal)
+  const closeRegisterModal = useAuthStore((state) => state.closeRegisterModal)
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b bg-background/70">
@@ -51,7 +54,17 @@ export default function LandingHeader() {
                   closeLoginModal()
                 }}
               />
-              <RegisterDialog />
+              <RegisterDialog
+                open={registerModalOpen}
+                onOpenChange={(open) => {
+                  if (open) {
+                    openRegisterModal()
+                    return
+                  }
+
+                  closeRegisterModal()
+                }}
+              />
             </>
           )}
         </div>

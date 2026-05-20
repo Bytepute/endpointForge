@@ -4,6 +4,7 @@ type AuthState = {
   accessToken: string | null
   isAuthReady: boolean
   loginModalOpen: boolean
+  registerModalOpen: boolean
   sessionExpired: boolean
   isLoggedIn: () => boolean
   setAccessToken: (token: string) => void
@@ -11,6 +12,8 @@ type AuthState = {
   setAuthReady: (ready: boolean) => void
   openLoginModal: () => void
   closeLoginModal: () => void
+  openRegisterModal: () => void
+  closeRegisterModal: () => void
   markSessionExpired: () => void
   resetSessionExpired: () => void
 }
@@ -19,6 +22,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
   isAuthReady: false,
   loginModalOpen: false,
+  registerModalOpen: false,
   sessionExpired: false,
   isLoggedIn: () => Boolean(get().accessToken),
   setAccessToken: (token) =>
@@ -34,6 +38,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setAuthReady: (ready) => set({ isAuthReady: ready }),
   openLoginModal: () => set({ loginModalOpen: true }),
   closeLoginModal: () => set({ loginModalOpen: false }),
+  openRegisterModal: () => set({ registerModalOpen: true }),
+  closeRegisterModal: () => set({ registerModalOpen: false }),
   markSessionExpired: () =>
     set({
       accessToken: null,

@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "@tanstack/react-router"
-import { toast } from "sonner"
 import { useAuthStore } from "#/stores/auth-store"
 
 export default function Hero() {
   const navigate = useNavigate()
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
+  const openRegisterModal = useAuthStore((state) => state.openRegisterModal)
 
   const handleCreateProject = () => {
     if (!isLoggedIn) {
-      toast.error("برای ساخت پروژه ابتدا وارد شوید یا ثبت نام کنید")
+      openRegisterModal()
       return
     }
 

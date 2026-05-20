@@ -28,10 +28,20 @@ import { RegisterSchema } from "#/schemas/register.schema"
 import type { Register } from "#/schemas/register.schema"
 import { useRegister } from "#/hooks/use-register"
 
-export default function RegisterDialog() {
-  const [open, setOpen] = useState(false)
+type RegisterDialogProps = {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export default function RegisterDialog({
+  open,
+  onOpenChange,
+}: RegisterDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const register = useRegister()
+  const dialogOpen = open ?? internalOpen
+  const setDialogOpen = onOpenChange ?? setInternalOpen
 
   const form = useForm<Register>({
     resolver: zodResolver(RegisterSchema),
@@ -45,7 +55,7 @@ export default function RegisterDialog() {
     register.mutate(data, {
       onSuccess: () => {
         form.reset()
-        setOpen(false)
+        setDialogOpen(false)
       },
       onError: (error) => {
         console.error(error)
@@ -54,7 +64,7 @@ export default function RegisterDialog() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button>ثبت نام</Button>
       </DialogTrigger>
