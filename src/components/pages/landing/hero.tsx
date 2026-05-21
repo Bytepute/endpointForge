@@ -6,11 +6,11 @@ import { useAuthStore } from "#/stores/auth-store"
 export default function Hero() {
   const navigate = useNavigate()
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
-  const openRegisterModal = useAuthStore((state) => state.openRegisterModal)
+  const setRegisterModal = useAuthStore((state) => state.setRegisterModal)
 
   const handleCreateProject = () => {
     if (!isLoggedIn) {
-      openRegisterModal()
+      setRegisterModal(true)
       return
     }
 

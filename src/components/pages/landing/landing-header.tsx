@@ -9,12 +9,12 @@ export default function LandingHeader() {
   const scrollToSection = useScrollToSection()
   const isAuthReady = useAuthStore((state) => state.isAuthReady)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
-  const loginModalOpen = useAuthStore((state) => state.loginModalOpen)
-  const registerModalOpen = useAuthStore((state) => state.registerModalOpen)
-  const openLoginModal = useAuthStore((state) => state.openLoginModal)
-  const closeLoginModal = useAuthStore((state) => state.closeLoginModal)
-  const openRegisterModal = useAuthStore((state) => state.openRegisterModal)
-  const closeRegisterModal = useAuthStore((state) => state.closeRegisterModal)
+  const isLoginModalOpen = useAuthStore((state) => state.isLoginModalOpen)
+  const isRegisterModalOpen = useAuthStore(
+    (state) => state.isRegisterModalOpen,
+  )
+  const setLoginModal = useAuthStore((state) => state.setLoginModal)
+  const setRegisterModal = useAuthStore((state) => state.setRegisterModal)
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b bg-background/70">
@@ -44,26 +44,12 @@ export default function LandingHeader() {
           {isAuthReady && !isLoggedIn && (
             <>
               <LoginDialog
-                open={loginModalOpen}
-                onOpenChange={(open) => {
-                  if (open) {
-                    openLoginModal()
-                    return
-                  }
-
-                  closeLoginModal()
-                }}
+                open={isLoginModalOpen}
+                onOpenChange={setLoginModal}
               />
               <RegisterDialog
-                open={registerModalOpen}
-                onOpenChange={(open) => {
-                  if (open) {
-                    openRegisterModal()
-                    return
-                  }
-
-                  closeRegisterModal()
-                }}
+                open={isRegisterModalOpen}
+                onOpenChange={setRegisterModal}
               />
             </>
           )}

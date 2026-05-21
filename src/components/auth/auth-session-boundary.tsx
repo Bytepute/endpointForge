@@ -11,13 +11,22 @@ export default function AuthSessionBoundary() {
   const setAccessToken = useAuthStore((state) => state.setAccessToken)
   const clearAccessToken = useAuthStore((state) => state.clearAccessToken)
   const setAuthReady = useAuthStore((state) => state.setAuthReady)
-  const openLoginModal = useAuthStore((state) => state.openLoginModal)
+  const setLoginModal = useAuthStore((state) => state.setLoginModal)
   const resetSessionExpired = useAuthStore((state) => state.resetSessionExpired)
 
   useEffect(() => {
     let isMounted = true
 
     async function bootstrapAuth() {
+      if (useAuthStore.getState().accessToken) {
+        setAuthReady(true)
+        return
+      }
+
+      if (useAuthStore.getState().accessToken) {
+        setAuthReady(true)
+        return
+      }
       try {
         const session = await authApi.refreshToken()
 
@@ -43,13 +52,13 @@ export default function AuthSessionBoundary() {
     if (!sessionExpired) return
 
     toast.error("لطفاً دوباره وارد شوید")
-    openLoginModal()
+    setLoginModal(true)
     resetSessionExpired()
 
     if (window.location.pathname !== "/") {
       void navigate({ to: "/" })
     }
-  }, [navigate, openLoginModal, resetSessionExpired, sessionExpired])
+  }, [navigate, setLoginModal, resetSessionExpired, sessionExpired])
 
   useEffect(() => {
     if (accessToken) {

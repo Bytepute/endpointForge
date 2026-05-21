@@ -12,7 +12,7 @@ export function useLogin() {
     mutationFn: async (data: Login) => authService.login(data),
     onSuccess: (session) => {
       useAuthStore.getState().setAccessToken(session.accessToken)
-      useAuthStore.getState().closeLoginModal()
+      useAuthStore.getState().setLoginModal(false)
       void navigate({ to: "/projects" })
       toast.success("با موفقیت وارد شدید")
     },
