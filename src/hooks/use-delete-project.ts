@@ -1,6 +1,6 @@
 import { projectService } from "#/backend/services/project.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useDeleteProject() {
   const queryClient = useQueryClient()
@@ -9,10 +9,10 @@ export function useDeleteProject() {
     mutationFn: projectService.deleteProjectById,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] })
-      toast.success("Project deleted successfully")
+      notificationService.success("Project deleted successfully")
     },
     onError: () => {
-      toast.error("Failed to delete project")
+      notificationService.error("Failed to delete project")
     },
   })
 }

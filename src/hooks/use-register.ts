@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import type { Register } from "#/schemas/register.schema"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
 
 // TODO: replace with real service after API
 export function useRegister() {
@@ -8,11 +8,15 @@ export function useRegister() {
     mutationFn: async (data: Register) => console.log(data),
 
     onSuccess: () => {
-      toast.success("ثبت نام با موفقیت انجام شد")
+      notificationService.success("ثبت نام با موفقیت انجام شد", {
+        direction: "rtl",
+      })
     },
 
     onError: () => {
-      toast.error("خطا در ثبت نام. دوباره تلاش کنید")
+      notificationService.error("خطا در ثبت نام. دوباره تلاش کنید", {
+        direction: "rtl",
+      })
     },
   })
 }

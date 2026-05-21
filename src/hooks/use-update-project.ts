@@ -2,6 +2,7 @@ import { projectService } from "#/backend/services/project.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import type { UpdateProjectInput } from "#/schemas/projects.schema"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useUpdateProject(projectId: number) {
   const queryClient = useQueryClient()
@@ -15,10 +16,10 @@ export function useUpdateProject(projectId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] })
-      toast.success("Project updated successfully")
+      notificationService.success("Project updated successfully")
     },
     onError: () => {
-      toast.error("Failed to update project")
+      notificationService.error("Failed to update project")
     },
   })
 }

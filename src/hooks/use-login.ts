@@ -1,15 +1,18 @@
 import { useMutation } from "@tanstack/react-query"
 import type { Login } from "#/schemas/login.schema"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
+
 // TODO: replace with real service after API
 export function useLogin() {
   return useMutation({
     mutationFn: async (data: Login) => console.log(data),
     onSuccess: () => {
-      toast.success("با موفقیت وارد شدید")
+      notificationService.success("با موفقیت وارد شدید", { direction: "rtl" })
     },
     onError: () => {
-      toast.error("خطا در ورود. دوباره تلاش کنید")
+      notificationService.error("خطا در ورود. دوباره تلاش کنید", {
+        direction: "rtl",
+      })
     },
   })
 }
