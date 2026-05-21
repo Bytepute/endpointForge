@@ -23,10 +23,6 @@ export default function AuthSessionBoundary() {
         return
       }
 
-      if (useAuthStore.getState().accessToken) {
-        setAuthReady(true)
-        return
-      }
       try {
         const session = await authApi.refreshToken()
 
