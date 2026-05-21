@@ -18,11 +18,6 @@ export default function AuthSessionBoundary() {
     let isMounted = true
 
     async function bootstrapAuth() {
-      if (useAuthStore.getState().accessToken) {
-        setAuthReady(true)
-        return
-      }
-
       try {
         const session = await authApi.refreshToken()
 
