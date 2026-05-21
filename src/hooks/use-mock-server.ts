@@ -1,6 +1,6 @@
 import { projectService } from "#/backend/services/project.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useStartMockServer(projectId: string) {
   const queryClient = useQueryClient()
@@ -9,10 +9,10 @@ export function useStartMockServer(projectId: string) {
     mutationFn: projectService.startProjectMockServer,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["project", projectId] })
-      toast.success("Project mock server started")
+      notificationService.success("Project mock server started")
     },
     onError: () => {
-      toast.error("Failed to start project mock server")
+      notificationService.error("Failed to start project mock server")
     },
   })
 }
@@ -24,10 +24,10 @@ export function useStopMockServer(projectId: string) {
     mutationFn: projectService.stopProjectMockServer,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["project", projectId] })
-      toast.success("Project mock server stopped")
+      notificationService.success("Project mock server stopped")
     },
     onError: () => {
-      toast.error("Failed to stop project mock server")
+      notificationService.error("Failed to stop project mock server")
     },
   })
 }

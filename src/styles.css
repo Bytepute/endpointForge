@@ -405,3 +405,7 @@ a {
     color: var(--foreground);
   }
 }
+
+.rtl-toast {
+  flex-direction: row-reverse;
+}

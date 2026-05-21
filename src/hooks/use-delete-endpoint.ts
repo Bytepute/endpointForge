@@ -1,6 +1,6 @@
 import { endpointService } from "#/backend/services/endpoint.services"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useDeleteEndpoint(controllerId: string) {
   const queryClient = useQueryClient()
@@ -13,10 +13,10 @@ export function useDeleteEndpoint(controllerId: string) {
       queryClient.invalidateQueries({
         queryKey: ["endpoints", controllerId],
       })
-      toast.success("Endpoint deleted successfully")
+      notificationService.success("Endpoint deleted successfully")
     },
     onError: () => {
-      toast.error("Failed to delete endpoint")
+      notificationService.error("Failed to delete endpoint")
     },
   })
 }

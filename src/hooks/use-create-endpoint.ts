@@ -1,7 +1,7 @@
 import { endpointService } from "#/backend/services/endpoint.services"
 import type { createEndpointType } from "#/schemas/endpoint-schema"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useCreateEndpoint(controllerId: string) {
   const queryClient = useQueryClient()
@@ -24,10 +24,10 @@ export function useCreateEndpoint(controllerId: string) {
       queryClient.invalidateQueries({
         queryKey: ["endpoints", controllerId],
       })
-      toast.success("Endpoint created successfully")
+      notificationService.success("Endpoint created successfully")
     },
     onError: () => {
-      toast.error("Failed to create endpoint")
+      notificationService.error("Failed to create endpoint")
     },
   })
 }

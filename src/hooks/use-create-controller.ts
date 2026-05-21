@@ -1,7 +1,7 @@
 import { controllerService } from "#/backend/services/controller.services"
 import type { CreateController } from "#/schemas/create-controller-schema"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useCreateController(projectId: string) {
   const queryClient = useQueryClient()
@@ -12,7 +12,7 @@ export function useCreateController(projectId: string) {
     },
 
     onSuccess: (newController) => {
-      toast.success("Controller created successfully")
+      notificationService.success("Controller created successfully")
 
       queryClient.invalidateQueries({
         queryKey: ["controllers"],
@@ -20,7 +20,7 @@ export function useCreateController(projectId: string) {
     },
 
     onError: (error) => {
-      toast.error("Failed to create controller")
+      notificationService.error("Failed to create controller")
     },
   })
 }
