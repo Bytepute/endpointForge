@@ -32,7 +32,7 @@ class AuthApi {
     })
   }
 
-  public async logout(): Promise<void> {
+  public logout = async (): Promise<void> => {
     return baseApi.post(`${this.basePath}/logout`, undefined, {
       withCredentials: true,
     })

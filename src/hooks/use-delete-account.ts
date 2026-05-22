@@ -11,7 +11,7 @@ export function useDeleteAccount() {
   return useMutation({
     mutationFn: userService.deleteCurrentUser,
     onSuccess: () => {
-      useAuthStore.getState().clearAccessToken()
+      useAuthStore.getState().endSessionIntentionally()
       queryClient.clear()
       void navigate({ to: "/" })
       notificationService.success("Account deleted")

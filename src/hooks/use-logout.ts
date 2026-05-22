@@ -11,7 +11,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: authApi.logout,
     onSettled: () => {
-      useAuthStore.getState().clearAccessToken()
+      useAuthStore.getState().endSessionIntentionally()
       queryClient.clear()
       void navigate({ to: "/" })
     },

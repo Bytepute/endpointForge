@@ -19,13 +19,14 @@ import { Input } from "#/components/ui/input"
 import { Skeleton } from "#/components/ui/skeleton"
 import { useCurrentUser } from "#/hooks/use-current-user"
 import { useDeleteAccount } from "#/hooks/use-delete-account"
+import { useLogout } from "#/hooks/use-logout"
 import { useUpdateProfile } from "#/hooks/use-update-profile"
 import { UpdateProfileInputSchema } from "#/schemas/profile.schema"
 import { useAuthStore } from "#/stores/auth-store"
 import type { UpdateProfileInput } from "#/schemas/profile.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link } from "@tanstack/react-router"
-import { ArrowLeft, Loader2, Trash2, UserRound } from "lucide-react"
+import { ArrowLeft, Loader2, LogOut, Trash2, UserRound } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 function ProfileSkeleton() {
@@ -42,6 +43,7 @@ function ProfileSkeleton() {
 export default function ProfilePage() {
   const user = useCurrentUser()
   const updateProfile = useUpdateProfile()
+  const logout = useLogout()
   const deleteAccount = useDeleteAccount()
   const accessToken = useAuthStore((state) => state.accessToken)
   const isAuthReady = useAuthStore((state) => state.isAuthReady)
@@ -132,6 +134,28 @@ export default function ProfilePage() {
           </Form>
         </CardContent>
       </Card>
+
+      <section className="max-w-xl space-y-4 border-t pt-6">
+        <div className="space-y-1">
+          <h3 className="text-lg font-semibold">Session</h3>
+          <p className="text-sm text-muted-foreground">
+            Sign out on this device without deleting your account.
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={logout.isPending}
+          onClick={() => logout.mutate()}
+        >
+          {logout.isPending ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <LogOut className="size-4" />
+          )}
+          Logout
+        </Button>
+      </section>
 
       <section className="max-w-xl space-y-4 border-t pt-6">
         <div className="space-y-1">
