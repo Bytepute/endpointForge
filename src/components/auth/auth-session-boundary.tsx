@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { toast } from "sonner"
 import { authApi } from "#/backend/api/auth-api"
 import { useAuthStore } from "#/stores/auth-store"
+import { notificationService } from "#/services/notification.service"
 
 export default function AuthSessionBoundary() {
   const navigate = useNavigate()
@@ -47,7 +47,9 @@ export default function AuthSessionBoundary() {
   useEffect(() => {
     if (!sessionExpired) return
 
-    toast.error("لطفاً دوباره وارد شوید")
+    notificationService.error("لطفاً دوباره وارد شوید", {
+      direction: "rtl",
+    })
     setLoginModal(true)
     resetSessionExpired()
 

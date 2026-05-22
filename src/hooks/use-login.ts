@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query"
 import type { Login } from "#/schemas/login.schema"
-import { toast } from "sonner"
 import { authService } from "#/backend/services/auth.services"
 import { useNavigate } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
+import { notificationService } from "#/services/notification.service"
 
 export function useLogin() {
   const navigate = useNavigate()
@@ -14,7 +14,10 @@ export function useLogin() {
       useAuthStore.getState().setAccessToken(session.accessToken)
       useAuthStore.getState().setLoginModal(false)
       void navigate({ to: "/projects" })
-      toast.success("با موفقیت وارد شدید")
+
+      notificationService.success("با موفقیت وارد شدید", {
+        direction: "rtl",
+      })
     },
     onError: () => {
       notificationService.error("خطا در ورود. دوباره تلاش کنید", {
