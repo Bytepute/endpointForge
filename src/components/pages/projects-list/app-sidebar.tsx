@@ -45,7 +45,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter className="border-t p-4">
+        <SidebarFooter className="border-t p-2">
           <ProjectSidebarFooter />
         </SidebarFooter>
       </Sidebar>

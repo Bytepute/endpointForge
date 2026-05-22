@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProjectsRouteRouteImport } from './routes/projects/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
+import { Route as ProjectsProfileRouteImport } from './routes/projects/profile'
 import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
 import { Route as ProjectsProjectIdControllersControllerIdIndexRouteImport } from './routes/projects/$projectId/controllers/$controllerId/index'
 import { Route as ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport } from './routes/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
@@ -29,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ProjectsRouteRoute,
+} as any)
+const ProjectsProfileRoute = ProjectsProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => ProjectsRouteRoute,
 } as any)
 const ProjectsProjectIdIndexRoute = ProjectsProjectIdIndexRouteImport.update({
@@ -54,6 +60,7 @@ const ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRouteRouteWithChildren
+  '/projects/profile': typeof ProjectsProfileRoute
   '/projects/': typeof ProjectsIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/controllers/$controllerId/': typeof ProjectsProjectIdControllersControllerIdIndexRoute
@@ -61,6 +68,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/projects/profile': typeof ProjectsProfileRoute
   '/projects': typeof ProjectsIndexRoute
   '/projects/$projectId': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/controllers/$controllerId': typeof ProjectsProjectIdControllersControllerIdIndexRoute
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRouteRouteWithChildren
+  '/projects/profile': typeof ProjectsProfileRoute
   '/projects/': typeof ProjectsIndexRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
   '/projects/$projectId/controllers/$controllerId/': typeof ProjectsProjectIdControllersControllerIdIndexRoute
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/projects'
+    | '/projects/profile'
     | '/projects/'
     | '/projects/$projectId/'
     | '/projects/$projectId/controllers/$controllerId/'
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/projects/profile'
     | '/projects'
     | '/projects/$projectId'
     | '/projects/$projectId/controllers/$controllerId'
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/projects'
+    | '/projects/profile'
     | '/projects/'
     | '/projects/$projectId/'
     | '/projects/$projectId/controllers/$controllerId/'
@@ -129,6 +141,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof ProjectsRouteRoute
     }
+    '/projects/profile': {
+      id: '/projects/profile'
+      path: '/profile'
+      fullPath: '/projects/profile'
+      preLoaderRoute: typeof ProjectsProfileRouteImport
+      parentRoute: typeof ProjectsRouteRoute
+    }
     '/projects/$projectId/': {
       id: '/projects/$projectId/'
       path: '/$projectId'
@@ -154,6 +173,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface ProjectsRouteRouteChildren {
+  ProjectsProfileRoute: typeof ProjectsProfileRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ProjectsProjectIdIndexRoute: typeof ProjectsProjectIdIndexRoute
   ProjectsProjectIdControllersControllerIdIndexRoute: typeof ProjectsProjectIdControllersControllerIdIndexRoute
@@ -161,6 +181,7 @@ interface ProjectsRouteRouteChildren {
 }
 
 const ProjectsRouteRouteChildren: ProjectsRouteRouteChildren = {
+  ProjectsProfileRoute: ProjectsProfileRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ProjectsProjectIdIndexRoute: ProjectsProjectIdIndexRoute,
   ProjectsProjectIdControllersControllerIdIndexRoute:

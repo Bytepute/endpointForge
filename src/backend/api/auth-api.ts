@@ -31,6 +31,12 @@ class AuthApi {
       withCredentials: true,
     })
   }
+
+  public async logout(): Promise<void> {
+    return baseApi.post(`${this.basePath}/logout`, undefined, {
+      withCredentials: true,
+    })
+  }
 }
 
 export const authApi = new AuthApi()

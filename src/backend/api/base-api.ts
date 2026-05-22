@@ -75,9 +75,12 @@ class ApiClient {
     }
 
     const url = request.url ?? ""
-    return !["/auth/login", "/auth/register", "/auth/refresh-token"].some(
-      (authUrl) => url.includes(authUrl),
-    )
+    return ![
+      "/auth/login",
+      "/auth/logout",
+      "/auth/register",
+      "/auth/refresh-token",
+    ].some((authUrl) => url.includes(authUrl))
   }
 
   async get<TResponse, TParams = unknown>(
