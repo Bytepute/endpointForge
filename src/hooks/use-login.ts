@@ -17,7 +17,9 @@ export function useLogin() {
       toast.success("با موفقیت وارد شدید")
     },
     onError: () => {
-      toast.error("خطا در ورود. دوباره تلاش کنید")
+      notificationService.error("خطا در ورود. دوباره تلاش کنید", {
+        direction: "rtl",
+      })
     },
   })
 }

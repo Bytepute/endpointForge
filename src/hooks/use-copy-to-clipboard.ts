@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react"
-import { toast } from "sonner"
+import { useCallback, useState } from "react"
+import { notificationService } from "#/services/notification.service.ts"
 
 export function useCopyToClipboard(resetDelay = 2000) {
   const [copied, setCopied] = useState(false)
@@ -9,10 +9,10 @@ export function useCopyToClipboard(resetDelay = 2000) {
       try {
         await navigator.clipboard.writeText(text)
         setCopied(true)
-        toast.success(successMessage)
+        notificationService.success(successMessage)
         setTimeout(() => setCopied(false), resetDelay)
       } catch {
-        toast.error("Failed to copy")
+        notificationService.error("Failed to copy")
       }
     },
     [resetDelay],

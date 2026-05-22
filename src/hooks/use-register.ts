@@ -18,7 +18,9 @@ export function useRegister() {
     },
 
     onError: () => {
-      toast.error("خطا در ثبت نام. دوباره تلاش کنید")
+      notificationService.error("خطا در ثبت نام. دوباره تلاش کنید", {
+        direction: "rtl",
+      })
     },
   })
 }
