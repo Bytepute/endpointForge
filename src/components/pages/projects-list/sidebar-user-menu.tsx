@@ -57,7 +57,7 @@ export default function SidebarUserMenu() {
           <Link
             to="/projects/profile"
             className={cn(
-              "flex h-9 items-center gap-2 rounded-sm px-2 text-sm outline-none hover:bg-accent focus-visible:bg-accent",
+              "flex h-9 items-center gap-2 rounded-sm px-2 text-sm outline-none hover:bg-accent hover:cursor-pointer focus-visible:bg-accent",
               currentPath === "/projects/profile" && "bg-accent",
             )}
             onClick={() => setOpen(false)}
@@ -67,7 +67,7 @@ export default function SidebarUserMenu() {
           </Link>
           <button
             type="button"
-            className="flex h-9 w-full items-center gap-2 rounded-sm px-2 text-left text-sm outline-none hover:bg-accent focus-visible:bg-accent"
+            className="flex h-9 w-full items-center gap-2 rounded-sm px-2 text-left text-sm outline-none hover:cursor-pointer hover:bg-accent focus-visible:bg-accent"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             <Sun className="size-4 rotate-0 scale-100 dark:hidden" />
@@ -77,7 +77,7 @@ export default function SidebarUserMenu() {
           <div className="my-1 h-px bg-border" />
           <button
             type="button"
-            className="flex h-9 w-full items-center gap-2 rounded-sm px-2 text-left text-sm text-destructive outline-none hover:bg-destructive/10 focus-visible:bg-destructive/10"
+            className="flex h-9 w-full items-center gap-2 rounded-sm px-2 text-left text-sm text-destructive hover:cursor-pointer outline-none hover:bg-destructive/10 focus-visible:bg-destructive/10"
             disabled={logout.isPending}
             onClick={() => logout.mutate()}
           >
@@ -96,7 +96,7 @@ export default function SidebarUserMenu() {
         variant="ghost"
         aria-expanded={open}
         aria-label="Open account menu"
-        className="h-auto w-full justify-start gap-3 rounded-md border border-transparent p-2 text-sidebar-foreground hover:border-sidebar-border hover:bg-sidebar-accent"
+        className="h-auto w-full justify-start gap-3 rounded-md border border-transparent p-2 text-sidebar-foreground hover:cursor-pointer hover:border-sidebar-border hover:bg-sidebar-accent"
         onClick={() => setOpen((value) => !value)}
       >
         <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-sidebar-border bg-sidebar-accent text-sm font-semibold">
