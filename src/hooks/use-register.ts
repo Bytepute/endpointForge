@@ -5,7 +5,13 @@ import { useNavigate } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
 
-export function useRegister() {
+type RegisterMessages = {
+  success: string
+  error: string
+  direction?: "ltr" | "rtl"
+}
+
+export function useRegister(messages?: RegisterMessages) {
   const navigate = useNavigate()
 
   return useMutation({
@@ -14,15 +20,21 @@ export function useRegister() {
     onSuccess: (user) => {
       useAuthStore.getState().setAccessToken(user.session.accessToken)
       void navigate({ to: "/projects" })
-      notificationService.success("ثبت نام با موفقیت انجام شد", {
-        direction: "rtl",
-      })
+      notificationService.success(
+        messages?.success ?? "ثبت نام با موفقیت انجام شد",
+        {
+          direction: messages?.direction ?? "rtl",
+        },
+      )
     },
 
     onError: () => {
-      notificationService.error("خطا در ثبت نام. دوباره تلاش کنید", {
-        direction: "rtl",
-      })
+      notificationService.error(
+        messages?.error ?? "خطا در ثبت نام. دوباره تلاش کنید",
+        {
+          direction: messages?.direction ?? "rtl",
+        },
+      )
     },
   })
 }

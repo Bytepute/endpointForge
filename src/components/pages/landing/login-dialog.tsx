@@ -18,29 +18,38 @@ import {
   FormLabel,
   FormMessage,
 } from "#/components/ui/form"
-import { LoginSchema } from "#/schemas/login.schema"
+import { createLoginSchema } from "#/schemas/login.schema"
 import type { Login } from "#/schemas/login.schema"
 import { useLogin } from "#/hooks/use-login"
 import { useState } from "react"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { cn } from "#/lib/utils"
+import { useLandingI18n } from "./landing-i18n"
 
 type LoginDialogProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
 
-export default function LoginDialog({
-  open,
-  onOpenChange,
-}: LoginDialogProps) {
+export default function LoginDialog({ open, onOpenChange }: LoginDialogProps) {
   const [internalOpen, setInternalOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const login = useLogin()
+  const { direction, isRtl, text } = useLandingI18n()
+  const login = useLogin({
+    success: text.auth.loginSuccess,
+    error: text.auth.loginError,
+    direction,
+  })
   const dialogOpen = open ?? internalOpen
   const setDialogOpen = onOpenChange ?? setInternalOpen
 
   const form = useForm<Login>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(
+      createLoginSchema({
+        usernameMin: text.validation.usernameMin,
+        passwordMin: text.validation.passwordMin,
+      }),
+    ),
     defaultValues: {
       username: "",
       password: "",
@@ -62,17 +71,19 @@ export default function LoginDialog({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">ورود</Button>
+        <Button variant="outline">{text.auth.login}</Button>
       </DialogTrigger>
 
       <DialogContent
-        dir="rtl"
-        className="text-right [&>button]:left-4 [&>button]:right-auto"
+        dir={direction}
+        className={cn(
+          isRtl && "text-right [&>button]:left-4 [&>button]:right-auto",
+        )}
       >
-        <DialogHeader className="sm:text-right text-right">
-          <DialogTitle>ورود به حساب</DialogTitle>
+        <DialogHeader className={cn(isRtl && "sm:text-right text-right")}>
+          <DialogTitle>{text.auth.loginTitle}</DialogTitle>
           <DialogDescription className="text-muted-foreground text-sm mt-1">
-            لطفاً اطلاعات حساب خود را وارد کنید
+            {text.auth.loginDescription}
           </DialogDescription>
         </DialogHeader>
 
@@ -83,13 +94,13 @@ export default function LoginDialog({
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>نام کاربری</FormLabel>
+                  <FormLabel>{text.auth.username}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      dir="rtl"
-                      className="text-right"
-                      placeholder="نام کاربری"
+                      dir={direction}
+                      className={cn(isRtl && "text-right")}
+                      placeholder={text.auth.usernamePlaceholder}
                     />
                   </FormControl>
                   <FormMessage />
@@ -102,15 +113,15 @@ export default function LoginDialog({
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>رمز عبور</FormLabel>
+                  <FormLabel>{text.auth.password}</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
                         {...field}
                         type={showPassword ? "text" : "password"}
-                        dir="rtl"
-                        className="pl-10 text-right"
-                        placeholder="رمز عبور"
+                        dir={direction}
+                        className={cn(isRtl && "pl-10 text-right")}
+                        placeholder={text.auth.passwordPlaceholder}
                       />
                       <Button
                         type="button"
@@ -119,7 +130,10 @@ export default function LoginDialog({
                         aria-label={
                           showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"
                         }
-                        className="absolute left-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className={cn(
+                          "absolute top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground",
+                          isRtl ? "left-1" : "right-1",
+                        )}
                         onClick={() => setShowPassword((visible) => !visible)}
                       >
                         {showPassword ? (
@@ -136,7 +150,11 @@ export default function LoginDialog({
             />
 
             <Button type="submit" className="w-full" disabled={login.isPending}>
-              {login.isPending ? <Loader2 className="animate-spin" /> : "ورود"}
+              {login.isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                text.auth.login
+              )}
             </Button>
           </form>
         </Form>

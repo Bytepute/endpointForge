@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
+import { useLandingI18n } from "./landing-i18n"
 
 export default function Donate() {
+  const { text } = useLandingI18n()
+
   return (
     <section
       id="donate"
@@ -9,11 +12,10 @@ export default function Donate() {
     >
       <Heart className="mx-auto text-red-500" size={40} />
 
-      <h2 className="text-3xl font-bold">حمایت از پروژه</h2>
+      <h2 className="text-3xl font-bold">{text.donate.title}</h2>
 
       <p className="text-muted-foreground">
-        Endpoint Forge یک پروژه مستقل است. اگر این ابزار برای شما مفید بوده
-        می‌توانید با حمایت مالی به ادامه توسعه آن کمک کنید.
+        {text.donate.description}
       </p>
 
       <a
@@ -21,7 +23,7 @@ export default function Donate() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <Button size="lg">حمایت مالی</Button>
+        <Button size="lg">{text.donate.cta}</Button>
       </a>
     </section>
   )

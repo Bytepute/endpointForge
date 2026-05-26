@@ -5,7 +5,13 @@ import { useNavigate } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
 
-export function useLogin() {
+type LoginMessages = {
+  success: string
+  error: string
+  direction?: "ltr" | "rtl"
+}
+
+export function useLogin(messages?: LoginMessages) {
   const navigate = useNavigate()
 
   return useMutation({
@@ -15,14 +21,17 @@ export function useLogin() {
       useAuthStore.getState().setLoginModal(false)
       void navigate({ to: "/projects" })
 
-      notificationService.success("با موفقیت وارد شدید", {
-        direction: "rtl",
+      notificationService.success(messages?.success ?? "با موفقیت وارد شدید", {
+        direction: messages?.direction ?? "rtl",
       })
     },
     onError: () => {
-      notificationService.error("خطا در ورود. دوباره تلاش کنید", {
-        direction: "rtl",
-      })
+      notificationService.error(
+        messages?.error ?? "خطا در ورود. دوباره تلاش کنید",
+        {
+          direction: messages?.direction ?? "rtl",
+        },
+      )
     },
   })
 }
