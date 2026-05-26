@@ -1,30 +1,30 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Server, Code, Zap } from "lucide-react"
+import { useLandingI18n } from "./landing-i18n"
 
 export default function Features() {
+  const { text } = useLandingI18n()
   const features = [
     {
       icon: Server,
-      title: "ساخت Mock Server",
-      description:
-        "با چند کلیک یک پروژه بسازید که endpoint‌های تعریف شده شما را روی سرور ما اجرا می‌کند. (‌localhost بزودی)",
+      title: text.features.mockServerTitle,
+      description: text.features.mockServerDescription,
     },
     {
       icon: Code,
-      title: "مدیریت Endpoint ها",
-      description:
-        "متد، مسیر، status code و پاسخ JSON را برای هر endpoint تعریف و مدیریت کنید.",
+      title: text.features.endpointsTitle,
+      description: text.features.endpointsDescription,
     },
     {
       icon: Zap,
-      title: "توسعه سریع",
-      description: "فرانت‌اند را بدون انتظار برای آماده شدن بک‌اند توسعه دهید.",
+      title: text.features.speedTitle,
+      description: text.features.speedDescription,
     },
   ]
 
   return (
     <section id="features" className="max-w-4xl mx-auto px-6 py-12 space-y-10">
-      <h2 className="text-3xl font-bold text-center">امکانات اصلی</h2>
+      <h2 className="text-3xl font-bold text-center">{text.features.title}</h2>
 
       <div className="grid md:grid-cols-3 gap-6">
         {features.map((feature, i) => {

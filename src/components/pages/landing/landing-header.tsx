@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import LoginDialog from "./login-dialog"
 import RegisterDialog from "./register-dialog"
 import { useAuthStore } from "#/stores/auth-store"
+import LandingLanguageToggle from "./language-toggle"
+import { useLandingI18n } from "./landing-i18n"
 
 export default function LandingHeader() {
   const scrollToSection = useScrollToSection()
@@ -15,6 +17,7 @@ export default function LandingHeader() {
   )
   const setLoginModal = useAuthStore((state) => state.setLoginModal)
   const setRegisterModal = useAuthStore((state) => state.setRegisterModal)
+  const { text } = useLandingI18n()
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b bg-background/70">
@@ -25,21 +28,22 @@ export default function LandingHeader() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Button onClick={() => scrollToSection("features")} variant={"link"}>
-            امکانات
+            {text.nav.features}
           </Button>
           <Button
             onClick={() => scrollToSection("how-it-works")}
             variant={"link"}
           >
-            نحوه کار
+            {text.nav.howItWorks}
           </Button>
           <Button onClick={() => scrollToSection("donate")} variant={"link"}>
-            حمایت از پروژه
+            {text.nav.donate}
           </Button>
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
+          <LandingLanguageToggle />
           <ThemeToggle />
           {isAuthReady && !isLoggedIn && (
             <>

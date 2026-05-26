@@ -1,17 +1,22 @@
+import { useLandingI18n } from "./landing-i18n"
+
 export default function LandingFooter() {
+  const { text, isRtl } = useLandingI18n()
+
   return (
     <footer className="w-full border-t py-20 mt-20">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
           {/* Right Section */}
-          <div className="space-y-3 text-center md:text-right max-w-md">
+          <div
+            className={`space-y-3 text-center ${isRtl ? "md:text-right" : "md:text-left"} max-w-md`}
+          >
             <p className="text-sm text-muted-foreground">
-              ساخته شده با ❤️ توسط تیم Bytepute
+              {text.footer.madeBy}
             </p>
 
             <p className="text-sm text-muted-foreground">
-              این پروژه برای ساخت سریع و ساده‌ی Mock API طراحی شده تا بدون نیاز
-              به بک‌اند واقعی، بتوانید رابط کاربری‌تان را توسعه، تست و دمو کنید.
+              {text.footer.description}
             </p>
 
             <p className="text-xs text-muted-foreground pt-2">
@@ -22,7 +27,7 @@ export default function LandingFooter() {
           {/* Left Section */}
           <div className="space-y-4 text-center ">
             <p className="text-lg font-semibold text-foreground">
-              توسعه دهندگان
+              {text.footer.developers}
             </p>
 
             <div className="flex flex-wrap justify-center md:justify-end gap-3">
