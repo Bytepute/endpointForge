@@ -1,48 +1,70 @@
 export const fa = {
   nav: {
     features: "امکانات",
-    howItWorks: "نحوه کار",
-    donate: "حمایت از پروژه",
+    howItWorks: "چطور کار می‌کند",
+    donate: "حمایت",
   },
   hero: {
-    badge: "Endpoint Forge",
-    title: "ساخت سریع Mock API برای توسعه فرانت‌اند",
+    badge: "Mock API برای دولوپرها",
+    title: "بک‌اند آماده نیست؟ UI را بساز",
     description:
-      "Endpoint Forge ابزاری برای توسعه‌دهندگان فرانت‌اند است که اجازه می‌دهد بدون نیاز به بک‌اند واقعی، APIهای مورد نیاز خود را سریع شبیه‌سازی کنید.",
-    cta: "ساخت پروژه جدید",
+      "endpoint ماک بساز، پاسخ JSON بده و تست و دمو را جلو ببر؛ بدون اینکه سراغ کد بک‌اند بروی.",
+    cta: "ساخت Mock API",
+    secondaryCta: "ببین چطور کار می‌کند",
+    proofNoBackend: "بدون کدنویسی بک‌اند",
+    proofJson: "پاسخ‌های JSON",
+    proofTesting: "برای تست و دمو",
+    previewLabel: "پیش‌نمایش زنده",
+    requestLabel: "درخواست",
+    responseLabel: "پاسخ",
+    responseTime: "۴۲ms",
+    endpointPath: "/api/v1/users",
+    endpointName: "Users endpoint",
+    statusText: "201 Created",
+    fieldMethod: "Method",
+    fieldPath: "Path",
+    fieldStatus: "Status",
+    fieldBody: "Response body",
   },
   features: {
-    title: "امکانات اصلی",
-    mockServerTitle: "ساخت Mock Server",
+    eyebrow: "به درد چه کاری می‌خورد؟",
+    title: "همان APIای را بساز که فرانت‌اندت منتظرش است",
+    description:
+      "روند کار ساده است: مسیر را بده، متد و status را انتخاب کن، پاسخ JSON را بنویس و همان لحظه ازش استفاده کن.",
+    mockServerTitle: "Route واقعی بساز",
     mockServerDescription:
-      "با چند کلیک یک پروژه بسازید که endpointهای تعریف شده شما را روی سرور ما اجرا می‌کند. localhost به‌زودی اضافه می‌شود.",
-    endpointsTitle: "مدیریت Endpointها",
+      "برای هر پروژه مسیرهایی بساز که شبیه API واقعی محصول باشند، نه چند تا fixture پراکنده.",
+    endpointsTitle: "پاسخ را خودت شکل بده",
     endpointsDescription:
-      "متد، مسیر، status code و پاسخ JSON را برای هر endpoint تعریف و مدیریت کنید.",
-    speedTitle: "توسعه سریع",
-    speedDescription: "فرانت‌اند را بدون انتظار برای آماده شدن بک‌اند توسعه دهید.",
+      "متد، مسیر، status code و بدنه JSON را دقیق تنظیم کن تا حالت‌های مختلف UI را راحت تست کنی.",
+    speedTitle: "تست را عقب نینداز",
+    speedDescription:
+      "حتی وقتی قراردادهای بک‌اند هنوز قطعی نیستند، UI را تست کن، دمو بده و سریع‌تر تکرار کن.",
   },
   howItWorks: {
-    title: "نحوه کار",
-    projectTitle: "۱. ایجاد پروژه",
-    projectDescription:
-      "ابتدا یک پروژه ایجاد کنید تا endpointهای مربوط به آن را مدیریت کنید.",
-    controllerTitle: "۲. ایجاد Controller",
-    controllerDescription: "مسیر پایه API مثل /users یا /products را تعریف کنید.",
-    endpointTitle: "۳. تعریف Endpoint",
-    endpointDescription:
-      "متد و پاسخ JSON را تعریف کنید و بلافاصله از API استفاده کنید.",
+    eyebrow: "روند کار",
+    title: "از یک پروژه خالی تا endpoint آماده استفاده",
+    description:
+      "چند قدم کوتاه کافی است تا به جای صبر کردن برای بک‌اند، یک Mock API داشته باشی که فرانت‌اندت بتواند صدا بزند.",
+    projectTitle: "پروژه",
+    projectDescription: "برای محصول، فیچر یا سناریوی تستت یک فضای جدا بساز.",
+    controllerTitle: "کنترلر",
+    controllerDescription: "یک مسیر پایه مثل /users یا /products تعریف کن.",
+    endpointTitle: "اندپوینت",
+    endpointDescription: "متد، route، status و پاسخ JSON را مشخص کن.",
+    useTitle: "استفاده",
+    useDescription: "آدرس mock را به فرانت‌اند بده و کار را ادامه بده.",
   },
   donate: {
-    title: "حمایت از پروژه",
+    title: "از پروژه حمایت کن",
     description:
-      "Endpoint Forge یک پروژه مستقل است. اگر این ابزار برای شما مفید بوده، می‌توانید با حمایت مالی به ادامه توسعه آن کمک کنید.",
+      "Endpoint Forge یک پروژه مستقل است. اگر به کارت آمده، حمایت تو کمک می‌کند توسعه‌اش ادامه‌دار بماند.",
     cta: "حمایت مالی",
   },
   footer: {
-    madeBy: "ساخته شده با عشق توسط تیم Bytepute",
+    madeBy: "ساخته شده توسط تیم Bytepute",
     description:
-      "این پروژه برای ساخت سریع و ساده Mock API طراحی شده تا بدون نیاز به بک‌اند واقعی، بتوانید رابط کاربری‌تان را توسعه، تست و دمو کنید.",
+      "Endpoint Forge برای ساخت سریع Mock API ساخته شده؛ برای وقتی که می‌خواهی UI را تست کنی، دمو بدهی یا بدون بک‌اند واقعی جلو بروی.",
     developers: "توسعه‌دهندگان",
   },
   auth: {
