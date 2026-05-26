@@ -1,6 +1,12 @@
-// Request DTOs
-
 export type LoginRequestDTO = {
   userName: string
-  passWord: string
+  password: string
 }
+
+export type LoginResponseDTO = {
+  accessToken: string
+  expiresIn: number
+  tokenType: "Bearer"
+}
+
+export type TokenPairResponseDTO = LoginResponseDTO

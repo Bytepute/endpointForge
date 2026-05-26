@@ -1,18 +1,16 @@
 import { z } from "zod"
 
-export const RegisterSchema = z
-  .object({
-    username: z.string().min(3, "نام کاربری باید حداقل ۳ کاراکتر باشد").max(32),
+export const RegisterSchema = z.object({
+  username: z
+    .string()
+    .min(3, "نام کاربری باید حداقل ۳ کاراکتر باشد")
+    .max(15, "نام کاربری باید حداکثر ۱۵ کاراکتر باشد")
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      "نام کاربری فقط می‌تواند شامل حروف انگلیسی، عدد و _ باشد",
+    ),
 
-    email: z.string().email("ایمیل معتبر نیست"),
-
-    password: z.string().min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد"),
-
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "رمز عبور مطابقت ندارد",
-    path: ["confirmPassword"],
-  })
+  password: z.string().min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد"),
+})
 
 export type Register = z.infer<typeof RegisterSchema>

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 
 import { Button } from "#/components/ui/button"
 import { Input } from "#/components/ui/input"
@@ -24,20 +24,30 @@ import {
   FormMessage,
 } from "#/components/ui/form"
 
-import { RegisterSchema, type Register } from "#/schemas/register.schema"
+import { RegisterSchema } from "#/schemas/register.schema"
+import type { Register } from "#/schemas/register.schema"
 import { useRegister } from "#/hooks/use-register"
 
-export default function RegisterDialog() {
-  const [open, setOpen] = useState(false)
+type RegisterDialogProps = {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export default function RegisterDialog({
+  open,
+  onOpenChange,
+}: RegisterDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const register = useRegister()
+  const dialogOpen = open ?? internalOpen
+  const setDialogOpen = onOpenChange ?? setInternalOpen
 
   const form = useForm<Register>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       username: "",
-      email: "",
       password: "",
-      confirmPassword: "",
     },
   })
 
@@ -45,7 +55,7 @@ export default function RegisterDialog() {
     register.mutate(data, {
       onSuccess: () => {
         form.reset()
-        setOpen(false)
+        setDialogOpen(false)
       },
       onError: (error) => {
         console.error(error)
@@ -54,7 +64,7 @@ export default function RegisterDialog() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button>ثبت نام</Button>
       </DialogTrigger>
@@ -88,55 +98,35 @@ export default function RegisterDialog() {
 
             <FormField
               control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>ایمیل</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      dir="rtl"
-                      className="text-right"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>رمز عبور</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      dir="rtl"
-                      className="text-right"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>تکرار رمز عبور</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      dir="rtl"
-                      className="text-right"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type={showPassword ? "text" : "password"}
+                        dir="rtl"
+                        className="pl-10 text-right"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        aria-label={
+                          showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"
+                        }
+                        className="absolute left-1 top-1/2 h-7 w-7 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        onClick={() => setShowPassword((visible) => !visible)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="size-4" />
+                        ) : (
+                          <Eye className="size-4" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

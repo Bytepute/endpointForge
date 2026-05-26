@@ -1,6 +1,5 @@
 import { projectService } from "#/backend/services/project.service"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 import type { UpdateProjectInput } from "#/schemas/projects.schema"
 import { notificationService } from "#/services/notification.service.ts"
 
