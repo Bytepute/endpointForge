@@ -1,26 +1,29 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Braces, GitBranch, Route, TestTube2 } from "lucide-react"
 import { useLandingI18n } from "./landing-i18n"
 import { motion, useReducedMotion } from "framer-motion"
+import FeatureCard, { type Feature } from "./feature-card"
 
 export default function Features() {
   const { text } = useLandingI18n()
   const reduceMotion = useReducedMotion()
-  const features = [
+  const features: Array<Feature> = [
     {
+      id: "routes",
       icon: Route,
       title: text.features.mockServerTitle,
       description: text.features.mockServerDescription,
       meta: "GET /products/:id",
     },
     {
+      id: "responses",
       icon: Braces,
       title: text.features.endpointsTitle,
       description: text.features.endpointsDescription,
       meta: "{ status, body }",
     },
     {
+      id: "testing",
       icon: TestTube2,
       title: text.features.speedTitle,
       description: text.features.speedDescription,
@@ -66,42 +69,13 @@ export default function Features() {
           },
         }}
       >
-        {features.map((feature, i) => {
-          const Icon = feature.icon
-
-          return (
-            <motion.div
-              key={i}
-              variants={{
-                hidden: reduceMotion ? {} : { opacity: 0, y: 20 },
-                show: reduceMotion ? {} : { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              whileHover={reduceMotion ? undefined : { y: -4 }}
-            >
-              <Card className="group h-full gap-5 rounded-lg bg-card/80 py-5 shadow-sm transition-colors hover:border-foreground/40">
-                <CardHeader className="gap-4 px-5">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-md border bg-background text-muted-foreground transition-colors group-hover:text-foreground">
-                      <Icon className="size-5" />
-                    </div>
-                    <span
-                      className="rounded-md bg-muted px-2 py-1 font-mono text-xs text-muted-foreground"
-                      dir="ltr"
-                    >
-                      {feature.meta}
-                    </span>
-                  </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
-                </CardHeader>
-
-                <CardContent className="px-5 text-sm leading-7 text-muted-foreground">
-                  {feature.description}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )
-        })}
+        {features.map((feature) => (
+          <FeatureCard
+            key={feature.id}
+            feature={feature}
+            reduceMotion={reduceMotion}
+          />
+        ))}
       </motion.div>
     </section>
   )
