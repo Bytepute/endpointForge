@@ -14,9 +14,7 @@ export default function Donate() {
 
       <h2 className="text-3xl font-bold">{text.donate.title}</h2>
 
-      <p className="text-muted-foreground">
-        {text.donate.description}
-      </p>
+      <p className="text-muted-foreground">{text.donate.description}</p>
 
       <a
         href="https://daramet.com/bytepute"

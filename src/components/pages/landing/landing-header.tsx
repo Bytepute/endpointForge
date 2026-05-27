@@ -12,9 +12,7 @@ export default function LandingHeader() {
   const isAuthReady = useAuthStore((state) => state.isAuthReady)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn())
   const isLoginModalOpen = useAuthStore((state) => state.isLoginModalOpen)
-  const isRegisterModalOpen = useAuthStore(
-    (state) => state.isRegisterModalOpen,
-  )
+  const isRegisterModalOpen = useAuthStore((state) => state.isRegisterModalOpen)
   const setLoginModal = useAuthStore((state) => state.setLoginModal)
   const setRegisterModal = useAuthStore((state) => state.setRegisterModal)
   const { text } = useLandingI18n()

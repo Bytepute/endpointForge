@@ -29,7 +29,8 @@ export const en = {
     projectDescription:
       "Start with a project so you can manage its related endpoints.",
     controllerTitle: "2. Create a controller",
-    controllerDescription: "Define a base API path such as /users or /products.",
+    controllerDescription:
+      "Define a base API path such as /users or /products.",
     endpointTitle: "3. Define endpoints",
     endpointDescription:
       "Set the method and JSON response, then use the API immediately.",

@@ -20,7 +20,8 @@ export const fa = {
     endpointsDescription:
       "متد، مسیر، status code و پاسخ JSON را برای هر endpoint تعریف و مدیریت کنید.",
     speedTitle: "توسعه سریع",
-    speedDescription: "فرانت‌اند را بدون انتظار برای آماده شدن بک‌اند توسعه دهید.",
+    speedDescription:
+      "فرانت‌اند را بدون انتظار برای آماده شدن بک‌اند توسعه دهید.",
   },
   howItWorks: {
     title: "نحوه کار",
@@ -28,7 +29,8 @@ export const fa = {
     projectDescription:
       "ابتدا یک پروژه ایجاد کنید تا endpointهای مربوط به آن را مدیریت کنید.",
     controllerTitle: "۲. ایجاد Controller",
-    controllerDescription: "مسیر پایه API مثل /users یا /products را تعریف کنید.",
+    controllerDescription:
+      "مسیر پایه API مثل /users یا /products را تعریف کنید.",
     endpointTitle: "۳. تعریف Endpoint",
     endpointDescription:
       "متد و پاسخ JSON را تعریف کنید و بلافاصله از API استفاده کنید.",
