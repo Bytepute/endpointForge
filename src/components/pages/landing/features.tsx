@@ -45,7 +45,7 @@ export default function Features() {
             <GitBranch className="size-3.5" />
             {text.features.eyebrow}
           </Badge>
-          <h2 className="max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="max-w-xl text-3xl font-bold tracking-tight leading-relaxed sm:text-4xl">
             {text.features.title}
           </h2>
         </div>
