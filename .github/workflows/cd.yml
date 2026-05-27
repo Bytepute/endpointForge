@@ -1,0 +1,66 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-artifact:
+    name: Build production artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Prepare artifact
+        run: |
+          set -euo pipefail
+          mkdir -p artifact
+
+          if [ -d ".output" ]; then
+            cp -R .output artifact/.output
+          fi
+
+          if [ -d "dist" ]; then
+            cp -R dist artifact/dist
+          fi
+
+          if [ ! "$(find artifact -mindepth 1 -maxdepth 1)" ]; then
+            echo "No build output found in .output or dist."
+            exit 1
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: endpoint-forge-production
+          path: artifact
+          if-no-files-found: error
