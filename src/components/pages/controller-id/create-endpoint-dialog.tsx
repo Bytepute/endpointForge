@@ -14,9 +14,10 @@ import { Button } from "#/components/ui/button"
 import { useCreateEndpoint } from "#/hooks/use-create-endpoint"
 
 import {
-  createEndpointSchema,
-  type CreateEndpointType,
+  createEndpointSchema
+  
 } from "#/schemas/endpoint-schema"
+import type {CreateEndpointType} from "#/schemas/endpoint-schema";
 import { EndpointForm } from "./endpoint-form"
 
 type Props = {

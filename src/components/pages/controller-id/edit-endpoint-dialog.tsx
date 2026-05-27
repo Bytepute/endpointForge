@@ -10,9 +10,10 @@ import { useForm } from "react-hook-form"
 import { useUpdateEndpoint } from "#/hooks/use-update-endpoint"
 import type { EndpointModel } from "#/models/endpoint-model"
 import {
-  createEndpointSchema,
-  type UpdateEndpointType,
+  createEndpointSchema
+  
 } from "#/schemas/endpoint-schema"
+import type {UpdateEndpointType} from "#/schemas/endpoint-schema";
 import { EndpointForm } from "./endpoint-form"
 
 type Props = {

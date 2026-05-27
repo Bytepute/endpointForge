@@ -9,7 +9,7 @@ import type { ControllerModel } from "#/models/controller.model"
 import { controllerApi } from "../api/controller-api"
 
 class ControllerService {
-  //region Requests
+  // region Requests
 
   public async getControllersByProjectById(
     projectId: number,
@@ -64,9 +64,9 @@ class ControllerService {
     return this._convertRouteGroupResponseDtoToControllerModel(response)
   }
 
-  //endregion
+  // endregion
 
-  //region Converters
+  // region Converters
 
   private _convertCreateControllerInputToCreateRouteGroupRequestDto(
     input: CreateController,
@@ -106,7 +106,7 @@ class ControllerService {
     }
   }
 
-  //endregion
+  // endregion
 }
 
 export const controllerService = new ControllerService()
