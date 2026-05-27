@@ -1,21 +1,15 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRoute,
-  redirect,
-} from "@tanstack/react-router"
+import { Outlet, createRootRoute, redirect } from "@tanstack/react-router"
+
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 
-import appCss from "../styles.css?url"
 import TanstackQueryProvider from "#/providers/tanstack-query-provider"
 import { Toaster } from "sonner"
 import NotFound from "#/components/pages/not-found/not-found"
 import AuthSessionBoundary from "#/components/auth/auth-session-boundary"
+
 import { getSubdomain } from "#/utils/get-subdomain"
 import { useAuthStore } from "#/stores/auth-store"
-
-const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
 
 export const Route = createRootRoute({
   beforeLoad: ({ location }) => {
@@ -27,6 +21,8 @@ export const Route = createRootRoute({
 
     if (!isAuthReady) return
 
+    // user visits:
+    // mamad.localhost:3000
     if (subdomain) {
       if (!accessToken) {
         throw redirect({
@@ -34,6 +30,7 @@ export const Route = createRootRoute({
         })
       }
 
+      // prevent loading landing page
       if (isLanding) {
         throw redirect({
           to: "/projects",
@@ -41,61 +38,42 @@ export const Route = createRootRoute({
       }
     }
 
+    // logged in user enters root site
+    // localhost:3000
     if (!subdomain && accessToken && username && isLanding) {
-      window.location.href = `http://${username}.localhost:3000/projects`
+      const domain = import.meta.env.DEV
+        ? `${username}.localhost:3000`
+        : `${username}.endpointforge.ir`
+
+      window.location.href = `http://${domain}/projects`
     }
   },
 
-  head: () => ({
-    meta: [
-      {
-        charSet: "utf-8",
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: "endpointForge",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootDocument,
+  component: Root,
+
   notFoundComponent: NotFound,
 })
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function Root() {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <HeadContent />
-      </head>
-      <body className="font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)]">
-        <TanstackQueryProvider>
-          <AuthSessionBoundary />
-          {children}
-          <TanStackDevtools
-            config={{
-              position: "bottom-right",
-            }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-          <Toaster />
-          <Scripts />
-        </TanstackQueryProvider>
-      </body>
-    </html>
+    <TanstackQueryProvider>
+      <AuthSessionBoundary />
+
+      <Outlet />
+
+      <TanStackDevtools
+        config={{
+          position: "bottom-right",
+        }}
+        plugins={[
+          {
+            name: "Tanstack Router",
+            render: <TanStackRouterDevtoolsPanel />,
+          },
+        ]}
+      />
+
+      <Toaster />
+    </TanstackQueryProvider>
   )
 }
