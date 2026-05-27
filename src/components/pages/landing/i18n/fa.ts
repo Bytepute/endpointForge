@@ -1,18 +1,18 @@
 export const fa = {
   nav: {
     features: "امکانات",
-    howItWorks: "چطور کار می‌کند",
+    howItWorks: "چطور کار می‌کنه",
     donate: "حمایت",
   },
   hero: {
     badge: "Mock API برای دولوپرها",
-    title: "بک‌اند آماده نیست؟ UI را بساز",
+    title: "بک‌اند آماده نیست؟ UI رو بساز",
     description:
-      "endpoint ماک بساز، پاسخ JSON بده و تست و دمو را جلو ببر؛ بدون اینکه سراغ کد بک‌اند بروی.",
+      "endpoint ماک بساز، جواب JSON بده و تست و دمو رو جلو ببر؛ بدون اینکه سراغ کد بک‌اند بری.",
     cta: "ساخت Mock API",
-    secondaryCta: "ببین چطور کار می‌کند",
+    secondaryCta: "ببین چطور کار می‌کنه",
     proofNoBackend: "بدون کدنویسی بک‌اند",
-    proofJson: "پاسخ‌های JSON",
+    proofJson: "جواب JSON",
     proofTesting: "برای تست و دمو",
     previewLabel: "پیش‌نمایش زنده",
     requestLabel: "درخواست",
@@ -27,44 +27,44 @@ export const fa = {
     fieldBody: "Response body",
   },
   features: {
-    eyebrow: "به درد چه کاری می‌خورد؟",
-    title: "همان APIای را بساز که فرانت‌اندت منتظرش است",
+    eyebrow: "کجا به کارت میاد؟",
+    title: "همون APIای رو بساز که فرانت‌اندت لازم داره",
     description:
-      "روند کار ساده است: مسیر را بده، متد و status را انتخاب کن، پاسخ JSON را بنویس و همان لحظه ازش استفاده کن.",
+      "مسیر رو بده، متد و status رو انتخاب کن، جواب JSON رو بنویس و همون لحظه ازش استفاده کن.",
     mockServerTitle: "Route واقعی بساز",
     mockServerDescription:
-      "برای هر پروژه مسیرهایی بساز که شبیه API واقعی محصول باشند، نه چند تا fixture پراکنده.",
-    endpointsTitle: "پاسخ را خودت شکل بده",
+      "برای هر پروژه routeهایی بساز که شبیه API واقعی محصول باشن، نه چند تا fixture پراکنده.",
+    endpointsTitle: "جواب رو خودت بچین",
     endpointsDescription:
-      "متد، مسیر، status code و بدنه JSON را دقیق تنظیم کن تا حالت‌های مختلف UI را راحت تست کنی.",
+      "متد، مسیر، status code و بدنه JSON رو تنظیم کن تا stateهای مختلف UI رو راحت تست کنی.",
     speedTitle: "تست را عقب نینداز",
     speedDescription:
-      "حتی وقتی قراردادهای بک‌اند هنوز قطعی نیستند، UI را تست کن، دمو بده و سریع‌تر تکرار کن.",
+      "حتی وقتی قراردادهای بک‌اند هنوز قطعی نیستن، UI رو تست کن، دمو بده و سریع‌تر تغییرش بده.",
   },
   howItWorks: {
     eyebrow: "روند کار",
-    title: "از یک پروژه خالی تا endpoint آماده استفاده",
+    title: "از پروژه خالی تا endpoint آماده",
     description:
-      "چند قدم کوتاه کافی است تا به جای صبر کردن برای بک‌اند، یک Mock API داشته باشی که فرانت‌اندت بتواند صدا بزند.",
+      "چند قدم کوتاه کافیه تا به جای صبر کردن برای بک‌اند، یه Mock API داشته باشی که فرانت‌اندت صداش بزنه.",
     projectTitle: "پروژه",
-    projectDescription: "برای محصول، فیچر یا سناریوی تستت یک فضای جدا بساز.",
+    projectDescription: "برای محصول، فیچر یا سناریوی تستت یه فضای جدا بساز.",
     controllerTitle: "کنترلر",
     controllerDescription: "یک مسیر پایه مثل /users یا /products تعریف کن.",
     endpointTitle: "اندپوینت",
     endpointDescription: "متد، route، status و پاسخ JSON را مشخص کن.",
     useTitle: "استفاده",
-    useDescription: "آدرس mock را به فرانت‌اند بده و کار را ادامه بده.",
+    useDescription: "آدرس mock رو به فرانت‌اند بده و کارت رو ادامه بده.",
   },
   donate: {
     title: "از پروژه حمایت کن",
     description:
-      "Endpoint Forge یک پروژه مستقل است. اگر به کارت آمده، حمایت تو کمک می‌کند توسعه‌اش ادامه‌دار بماند.",
+      "Endpoint Forge یه پروژه مستقله. اگه به کارت اومده، حمایتت کمک می‌کنه توسعه‌اش ادامه‌دار بمونه.",
     cta: "حمایت مالی",
   },
   footer: {
     madeBy: "ساخته شده توسط تیم Bytepute",
     description:
-      "Endpoint Forge برای ساخت سریع Mock API ساخته شده؛ برای وقتی که می‌خواهی UI را تست کنی، دمو بدهی یا بدون بک‌اند واقعی جلو بروی.",
+      "Endpoint Forge برای وقتیه که می‌خوای سریع Mock API بسازی، UI رو تست کنی، دمو بدی یا بدون بک‌اند واقعی جلو بری.",
     developers: "توسعه‌دهندگان",
   },
   auth: {
