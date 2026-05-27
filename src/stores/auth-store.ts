@@ -2,6 +2,7 @@ import { create } from "zustand"
 
 type AuthState = {
   accessToken: string | null
+  username: string | null
   isAuthReady: boolean
   isLoginModalOpen: boolean
   isRegisterModalOpen: boolean
@@ -16,10 +17,12 @@ type AuthState = {
   setRegisterModal: (open: boolean) => void
   markSessionExpired: () => void
   resetSessionExpired: () => void
+  setUsername: (username: string) => void
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
+  username: null,
   isAuthReady: false,
   isLoginModalOpen: false,
   isRegisterModalOpen: false,
@@ -61,4 +64,5 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     })
   },
   resetSessionExpired: () => set({ sessionExpired: false }),
+  setUsername: (username) => set({ username: username }),
 }))

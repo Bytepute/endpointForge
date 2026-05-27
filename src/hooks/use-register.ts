@@ -12,14 +12,13 @@ type RegisterMessages = {
 }
 
 export function useRegister(messages?: RegisterMessages) {
-  const navigate = useNavigate()
-
   return useMutation({
     mutationFn: async (data: Register) => authService.register(data),
 
     onSuccess: (user) => {
       useAuthStore.getState().setAccessToken(user.session.accessToken)
-      void navigate({ to: "/projects" })
+      useAuthStore.getState().setUsername(user.username)
+      window.location.href = `https://${user.username}.endpointforge.ir/projects`
       notificationService.success(
         messages?.success ?? "ثبت نام با موفقیت انجام شد",
         {

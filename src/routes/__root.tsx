@@ -1,4 +1,9 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import {
+  HeadContent,
+  Scripts,
+  createRootRoute,
+  redirect,
+} from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 
@@ -7,10 +12,36 @@ import TanstackQueryProvider from "#/providers/tanstack-query-provider"
 import { Toaster } from "sonner"
 import NotFound from "#/components/pages/not-found/not-found"
 import AuthSessionBoundary from "#/components/auth/auth-session-boundary"
+import { getSubdomain } from "#/utils/get-subdomain"
+import { useAuthStore } from "#/stores/auth-store"
 
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
 
 export const Route = createRootRoute({
+  beforeLoad: async ({ location }) => {
+    const subdomain = getSubdomain()
+    const isLanding = location.pathname === "/"
+    const { accessToken, username, isAuthReady } = useAuthStore.getState()
+
+    if (!isAuthReady) return
+    if (subdomain) {
+      if (!accessToken) {
+        throw redirect({
+          to: "/",
+        })
+      }
+
+      if (isLanding) {
+        throw redirect({
+          to: "/projects",
+        })
+      }
+    }
+
+    if (!subdomain && accessToken && username && isLanding) {
+      window.location.href = `https://${username}.endpointforge.ir/projects`
+    }
+  },
   head: () => ({
     meta: [
       {
@@ -21,7 +52,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "endpointForge",
       },
     ],
     links: [
