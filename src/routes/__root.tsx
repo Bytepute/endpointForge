@@ -18,12 +18,15 @@ import { useAuthStore } from "#/stores/auth-store"
 const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
 
 export const Route = createRootRoute({
-  beforeLoad: async ({ location }) => {
+  beforeLoad: ({ location }) => {
     const subdomain = getSubdomain()
-    const isLanding = location.pathname === "/"
+
     const { accessToken, username, isAuthReady } = useAuthStore.getState()
 
+    const isLanding = location.pathname === "/"
+
     if (!isAuthReady) return
+
     if (subdomain) {
       if (!accessToken) {
         throw redirect({
@@ -39,9 +42,10 @@ export const Route = createRootRoute({
     }
 
     if (!subdomain && accessToken && username && isLanding) {
-      window.location.href = `https://${username}.endpointforge.ir/projects`
+      window.location.href = `http://${username}.localhost:3000/projects`
     }
   },
+
   head: () => ({
     meta: [
       {

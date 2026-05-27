@@ -5,7 +5,7 @@ import ServerCard from "#/components/pages/project-id/server-card"
 import Controllers from "#/components/pages/project-id/controllers"
 import { useProject } from "#/hooks/use-projects"
 
-export const Route = createFileRoute("/projects/$projectId/")({
+export const Route = createFileRoute("/_dashboard/projects/$projectId/")({
   component: ProjectDetailPage,
 })
 

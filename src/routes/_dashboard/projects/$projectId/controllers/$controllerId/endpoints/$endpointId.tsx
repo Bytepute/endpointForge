@@ -10,7 +10,7 @@ import { EndpointHeader } from "#/components/pages/endpoint-id/endpoint-header"
 import { EndpointDetails } from "#/components/pages/endpoint-id/endpoint-details"
 
 export const Route = createFileRoute(
-  "/projects/$projectId/controllers/$controllerId/endpoints/$endpointId",
+  "/_dashboard/projects/$projectId/controllers/$controllerId/endpoints/$endpointId",
 )({
   component: EndpointPage,
 })

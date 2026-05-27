@@ -9,80 +9,82 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProjectsRouteRouteImport } from './routes/projects/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
-import { Route as ProjectsProfileRouteImport } from './routes/projects/profile'
-import { Route as ProjectsProjectIdIndexRouteImport } from './routes/projects/$projectId/index'
-import { Route as ProjectsProjectIdControllersControllerIdIndexRouteImport } from './routes/projects/$projectId/controllers/$controllerId/index'
-import { Route as ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport } from './routes/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
+import { Route as DashboardProjectsRouteRouteImport } from './routes/_dashboard/projects/route'
+import { Route as DashboardProjectsIndexRouteImport } from './routes/_dashboard/projects/index'
+import { Route as DashboardProjectsProfileRouteImport } from './routes/_dashboard/projects/profile'
+import { Route as DashboardProjectsProjectIdIndexRouteImport } from './routes/_dashboard/projects/$projectId/index'
+import { Route as DashboardProjectsProjectIdControllersControllerIdIndexRouteImport } from './routes/_dashboard/projects/$projectId/controllers/$controllerId/index'
+import { Route as DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport } from './routes/_dashboard/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
 
-const ProjectsRouteRoute = ProjectsRouteRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+const DashboardProjectsRouteRoute = DashboardProjectsRouteRouteImport.update({
+  id: '/_dashboard/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardProjectsIndexRoute = DashboardProjectsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ProjectsRouteRoute,
+  getParentRoute: () => DashboardProjectsRouteRoute,
 } as any)
-const ProjectsProfileRoute = ProjectsProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => ProjectsRouteRoute,
-} as any)
-const ProjectsProjectIdIndexRoute = ProjectsProjectIdIndexRouteImport.update({
-  id: '/$projectId/',
-  path: '/$projectId/',
-  getParentRoute: () => ProjectsRouteRoute,
-} as any)
-const ProjectsProjectIdControllersControllerIdIndexRoute =
-  ProjectsProjectIdControllersControllerIdIndexRouteImport.update({
+const DashboardProjectsProfileRoute =
+  DashboardProjectsProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => DashboardProjectsRouteRoute,
+  } as any)
+const DashboardProjectsProjectIdIndexRoute =
+  DashboardProjectsProjectIdIndexRouteImport.update({
+    id: '/$projectId/',
+    path: '/$projectId/',
+    getParentRoute: () => DashboardProjectsRouteRoute,
+  } as any)
+const DashboardProjectsProjectIdControllersControllerIdIndexRoute =
+  DashboardProjectsProjectIdControllersControllerIdIndexRouteImport.update({
     id: '/$projectId/controllers/$controllerId/',
     path: '/$projectId/controllers/$controllerId/',
-    getParentRoute: () => ProjectsRouteRoute,
+    getParentRoute: () => DashboardProjectsRouteRoute,
   } as any)
-const ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute =
-  ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport.update(
+const DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute =
+  DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport.update(
     {
       id: '/$projectId/controllers/$controllerId/endpoints/$endpointId',
       path: '/$projectId/controllers/$controllerId/endpoints/$endpointId',
-      getParentRoute: () => ProjectsRouteRoute,
+      getParentRoute: () => DashboardProjectsRouteRoute,
     } as any,
   )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/projects': typeof ProjectsRouteRouteWithChildren
-  '/projects/profile': typeof ProjectsProfileRoute
-  '/projects/': typeof ProjectsIndexRoute
-  '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
-  '/projects/$projectId/controllers/$controllerId/': typeof ProjectsProjectIdControllersControllerIdIndexRoute
-  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
+  '/projects': typeof DashboardProjectsRouteRouteWithChildren
+  '/projects/profile': typeof DashboardProjectsProfileRoute
+  '/projects/': typeof DashboardProjectsIndexRoute
+  '/projects/$projectId/': typeof DashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId/': typeof DashboardProjectsProjectIdControllersControllerIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/projects/profile': typeof ProjectsProfileRoute
-  '/projects': typeof ProjectsIndexRoute
-  '/projects/$projectId': typeof ProjectsProjectIdIndexRoute
-  '/projects/$projectId/controllers/$controllerId': typeof ProjectsProjectIdControllersControllerIdIndexRoute
-  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
+  '/projects/profile': typeof DashboardProjectsProfileRoute
+  '/projects': typeof DashboardProjectsIndexRoute
+  '/projects/$projectId': typeof DashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId': typeof DashboardProjectsProjectIdControllersControllerIdIndexRoute
+  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/projects': typeof ProjectsRouteRouteWithChildren
-  '/projects/profile': typeof ProjectsProfileRoute
-  '/projects/': typeof ProjectsIndexRoute
-  '/projects/$projectId/': typeof ProjectsProjectIdIndexRoute
-  '/projects/$projectId/controllers/$controllerId/': typeof ProjectsProjectIdControllersControllerIdIndexRoute
-  '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
+  '/_dashboard/projects': typeof DashboardProjectsRouteRouteWithChildren
+  '/_dashboard/projects/profile': typeof DashboardProjectsProfileRoute
+  '/_dashboard/projects/': typeof DashboardProjectsIndexRoute
+  '/_dashboard/projects/$projectId/': typeof DashboardProjectsProjectIdIndexRoute
+  '/_dashboard/projects/$projectId/controllers/$controllerId/': typeof DashboardProjectsProjectIdControllersControllerIdIndexRoute
+  '/_dashboard/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': typeof DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,28 +107,21 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/projects'
-    | '/projects/profile'
-    | '/projects/'
-    | '/projects/$projectId/'
-    | '/projects/$projectId/controllers/$controllerId/'
-    | '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
+    | '/_dashboard/projects'
+    | '/_dashboard/projects/profile'
+    | '/_dashboard/projects/'
+    | '/_dashboard/projects/$projectId/'
+    | '/_dashboard/projects/$projectId/controllers/$controllerId/'
+    | '/_dashboard/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProjectsRouteRoute: typeof ProjectsRouteRouteWithChildren
+  DashboardProjectsRouteRoute: typeof DashboardProjectsRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -134,69 +129,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects/': {
-      id: '/projects/'
+    '/_dashboard/projects': {
+      id: '/_dashboard/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof DashboardProjectsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_dashboard/projects/': {
+      id: '/_dashboard/projects/'
       path: '/'
       fullPath: '/projects/'
-      preLoaderRoute: typeof ProjectsIndexRouteImport
-      parentRoute: typeof ProjectsRouteRoute
+      preLoaderRoute: typeof DashboardProjectsIndexRouteImport
+      parentRoute: typeof DashboardProjectsRouteRoute
     }
-    '/projects/profile': {
-      id: '/projects/profile'
+    '/_dashboard/projects/profile': {
+      id: '/_dashboard/projects/profile'
       path: '/profile'
       fullPath: '/projects/profile'
-      preLoaderRoute: typeof ProjectsProfileRouteImport
-      parentRoute: typeof ProjectsRouteRoute
+      preLoaderRoute: typeof DashboardProjectsProfileRouteImport
+      parentRoute: typeof DashboardProjectsRouteRoute
     }
-    '/projects/$projectId/': {
-      id: '/projects/$projectId/'
+    '/_dashboard/projects/$projectId/': {
+      id: '/_dashboard/projects/$projectId/'
       path: '/$projectId'
       fullPath: '/projects/$projectId/'
-      preLoaderRoute: typeof ProjectsProjectIdIndexRouteImport
-      parentRoute: typeof ProjectsRouteRoute
+      preLoaderRoute: typeof DashboardProjectsProjectIdIndexRouteImport
+      parentRoute: typeof DashboardProjectsRouteRoute
     }
-    '/projects/$projectId/controllers/$controllerId/': {
-      id: '/projects/$projectId/controllers/$controllerId/'
+    '/_dashboard/projects/$projectId/controllers/$controllerId/': {
+      id: '/_dashboard/projects/$projectId/controllers/$controllerId/'
       path: '/$projectId/controllers/$controllerId'
       fullPath: '/projects/$projectId/controllers/$controllerId/'
-      preLoaderRoute: typeof ProjectsProjectIdControllersControllerIdIndexRouteImport
-      parentRoute: typeof ProjectsRouteRoute
+      preLoaderRoute: typeof DashboardProjectsProjectIdControllersControllerIdIndexRouteImport
+      parentRoute: typeof DashboardProjectsRouteRoute
     }
-    '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': {
-      id: '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
+    '/_dashboard/projects/$projectId/controllers/$controllerId/endpoints/$endpointId': {
+      id: '/_dashboard/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
       path: '/$projectId/controllers/$controllerId/endpoints/$endpointId'
       fullPath: '/projects/$projectId/controllers/$controllerId/endpoints/$endpointId'
-      preLoaderRoute: typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport
-      parentRoute: typeof ProjectsRouteRoute
+      preLoaderRoute: typeof DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRouteImport
+      parentRoute: typeof DashboardProjectsRouteRoute
     }
   }
 }
 
-interface ProjectsRouteRouteChildren {
-  ProjectsProfileRoute: typeof ProjectsProfileRoute
-  ProjectsIndexRoute: typeof ProjectsIndexRoute
-  ProjectsProjectIdIndexRoute: typeof ProjectsProjectIdIndexRoute
-  ProjectsProjectIdControllersControllerIdIndexRoute: typeof ProjectsProjectIdControllersControllerIdIndexRoute
-  ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute: typeof ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
+interface DashboardProjectsRouteRouteChildren {
+  DashboardProjectsProfileRoute: typeof DashboardProjectsProfileRoute
+  DashboardProjectsIndexRoute: typeof DashboardProjectsIndexRoute
+  DashboardProjectsProjectIdIndexRoute: typeof DashboardProjectsProjectIdIndexRoute
+  DashboardProjectsProjectIdControllersControllerIdIndexRoute: typeof DashboardProjectsProjectIdControllersControllerIdIndexRoute
+  DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute: typeof DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute
 }
 
-const ProjectsRouteRouteChildren: ProjectsRouteRouteChildren = {
-  ProjectsProfileRoute: ProjectsProfileRoute,
-  ProjectsIndexRoute: ProjectsIndexRoute,
-  ProjectsProjectIdIndexRoute: ProjectsProjectIdIndexRoute,
-  ProjectsProjectIdControllersControllerIdIndexRoute:
-    ProjectsProjectIdControllersControllerIdIndexRoute,
-  ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute:
-    ProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute,
-}
+const DashboardProjectsRouteRouteChildren: DashboardProjectsRouteRouteChildren =
+  {
+    DashboardProjectsProfileRoute: DashboardProjectsProfileRoute,
+    DashboardProjectsIndexRoute: DashboardProjectsIndexRoute,
+    DashboardProjectsProjectIdIndexRoute: DashboardProjectsProjectIdIndexRoute,
+    DashboardProjectsProjectIdControllersControllerIdIndexRoute:
+      DashboardProjectsProjectIdControllersControllerIdIndexRoute,
+    DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute:
+      DashboardProjectsProjectIdControllersControllerIdEndpointsEndpointIdRoute,
+  }
 
-const ProjectsRouteRouteWithChildren = ProjectsRouteRoute._addFileChildren(
-  ProjectsRouteRouteChildren,
-)
+const DashboardProjectsRouteRouteWithChildren =
+  DashboardProjectsRouteRoute._addFileChildren(
+    DashboardProjectsRouteRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProjectsRouteRoute: ProjectsRouteRouteWithChildren,
+  DashboardProjectsRouteRoute: DashboardProjectsRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

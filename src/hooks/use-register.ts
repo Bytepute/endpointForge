@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import type { Register } from "#/schemas/register.schema"
 import { authService } from "#/backend/services/auth.services"
-import { useNavigate } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
 
