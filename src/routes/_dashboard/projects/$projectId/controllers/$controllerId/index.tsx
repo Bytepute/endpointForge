@@ -5,7 +5,7 @@ import { useController } from "#/hooks/use-controller"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute(
-  "/projects/$projectId/controllers/$controllerId/",
+  "/_dashboard/projects/$projectId/controllers/$controllerId/",
 )({
   component: ControllerDetailPage,
 })

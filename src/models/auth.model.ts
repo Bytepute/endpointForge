@@ -1,4 +1,5 @@
 export type AuthSessionModel = {
+  username: string
   accessToken: string
   expiresIn: number
   tokenType: "Bearer"

@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query"
 import type { Register } from "#/schemas/register.schema"
 import { authService } from "#/backend/services/auth.services"
-import { useNavigate } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
+import { redirectToTenant } from "#/utils/tenant"
 
 type RegisterMessages = {
   success: string
@@ -12,14 +12,13 @@ type RegisterMessages = {
 }
 
 export function useRegister(messages?: RegisterMessages) {
-  const navigate = useNavigate()
-
   return useMutation({
     mutationFn: async (data: Register) => authService.register(data),
 
     onSuccess: (user) => {
       useAuthStore.getState().setAccessToken(user.session.accessToken)
-      void navigate({ to: "/projects" })
+      useAuthStore.getState().setUsername(user.username)
+      redirectToTenant(user.username)
       notificationService.success(
         messages?.success ?? "ثبت نام با موفقیت انجام شد",
         {
