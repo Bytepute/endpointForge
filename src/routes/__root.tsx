@@ -12,7 +12,7 @@ import AuthSessionBoundary from "#/components/auth/auth-session-boundary"
 
 import { useAuthStore } from "#/stores/auth-store"
 
-import { getSubdomain, redirectToTenant } from "#/utils/tenant"
+import { getSubdomain, redirectToRoot, redirectToTenant } from "#/utils/tenant"
 import { bootstrapAuthFn } from "#/utils/auth-helpers"
 
 export const Route = createRootRoute({
@@ -23,7 +23,11 @@ export const Route = createRootRoute({
     const subdomain = getSubdomain()
     const isLanding = location.pathname === "/"
 
-    // logged-in user on root domain
+    if (subdomain && !accessToken) {
+      redirectToRoot()
+      return
+    }
+
     if (!subdomain && accessToken && username && isLanding) {
       redirectToTenant(username)
     }

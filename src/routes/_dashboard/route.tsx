@@ -1,7 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
 import { getSubdomain, redirectToRoot } from "#/utils/tenant"
-import { redirect } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_dashboard/projects")({
   beforeLoad: () => {
@@ -14,7 +13,8 @@ export const Route = createFileRoute("/_dashboard/projects")({
     }
 
     if (!accessToken) {
-      throw redirect({ to: "/" })
+      redirectToRoot()
+      return
     }
   },
   component: DashboardRoot,
