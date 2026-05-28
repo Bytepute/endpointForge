@@ -3,6 +3,7 @@ import type { Login } from "#/schemas/login.schema"
 import { authService } from "#/backend/services/auth.services"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
+import { redirectToTenant } from "#/utils/tenant"
 
 type LoginMessages = {
   success: string
@@ -11,14 +12,12 @@ type LoginMessages = {
 }
 
 export function useLogin(messages?: LoginMessages) {
-  const username = useAuthStore.getState()
-
   return useMutation({
     mutationFn: async (data: Login) => authService.login(data),
     onSuccess: (session) => {
       useAuthStore.getState().setAccessToken(session.accessToken)
       useAuthStore.getState().setLoginModal(false)
-      window.location.href = `https://${username}.endpointforge.ir/projects`
+      redirectToTenant(session.username)
 
       notificationService.success(messages?.success ?? "با موفقیت وارد شدید", {
         direction: messages?.direction ?? "rtl",

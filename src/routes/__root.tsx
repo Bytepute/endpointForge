@@ -8,8 +8,8 @@ import { Toaster } from "sonner"
 import NotFound from "#/components/pages/not-found/not-found"
 import AuthSessionBoundary from "#/components/auth/auth-session-boundary"
 
-import { getSubdomain } from "#/utils/get-subdomain"
 import { useAuthStore } from "#/stores/auth-store"
+import { getSubdomain, redirectToTenant } from "#/utils/tenant"
 
 export const Route = createRootRoute({
   beforeLoad: ({ location }) => {
@@ -19,33 +19,21 @@ export const Route = createRootRoute({
 
     const isLanding = location.pathname === "/"
 
-    if (!isAuthReady) return
-
-    // user visits:
-    // mamad.localhost:3000
-    if (subdomain) {
-      if (!accessToken) {
-        throw redirect({
-          to: "/",
-        })
-      }
-
-      // prevent loading landing page
-      if (isLanding) {
-        throw redirect({
-          to: "/projects",
-        })
-      }
+    // auth still bootstrapping
+    if (!isAuthReady) {
+      return
     }
 
-    // logged in user enters root site
-    // localhost:3000
-    if (!subdomain && accessToken && username && isLanding) {
-      const domain = import.meta.env.DEV
-        ? `${username}.localhost:3000`
-        : `${username}.endpointforge.ir`
+    if (subdomain && isAuthReady && !accessToken) {
+      window.location.href = import.meta.env.DEV
+        ? "http://localhost:3000"
+        : "https://endpointforge.ir"
 
-      window.location.href = `http://${domain}/projects`
+      return
+    }
+
+    if (!subdomain && accessToken && username && isLanding) {
+      redirectToTenant(username)
     }
   },
 

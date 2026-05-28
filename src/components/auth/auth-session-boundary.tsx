@@ -13,6 +13,7 @@ export default function AuthSessionBoundary() {
   const setAuthReady = useAuthStore((state) => state.setAuthReady)
   const setLoginModal = useAuthStore((state) => state.setLoginModal)
   const resetSessionExpired = useAuthStore((state) => state.resetSessionExpired)
+  const setUsername = useAuthStore((state) => state.setUsername)
 
   useEffect(() => {
     let isMounted = true
@@ -23,6 +24,8 @@ export default function AuthSessionBoundary() {
 
         if (isMounted) {
           setAccessToken(session.accessToken)
+          setUsername(session.username)
+          setAuthReady(true)
         }
       } catch {
         if (isMounted) {

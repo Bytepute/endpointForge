@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 
-import { getSubdomain } from "#/utils/get-subdomain"
 import { useAuthStore } from "#/stores/auth-store"
+import { getSubdomain } from "#/utils/tenant"
 
 export const Route = createFileRoute("/_dashboard/projects")({
   beforeLoad: () => {
@@ -18,8 +18,9 @@ export const Route = createFileRoute("/_dashboard/projects")({
     }
 
     if (!accessToken) {
-      window.location.href = "http://localhost:3000"
-
+      window.location.href = import.meta.env.DEV
+        ? "http://localhost:3000"
+        : "https://endpointforge.ir"
       return
     }
   },

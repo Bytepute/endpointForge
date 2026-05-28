@@ -5,6 +5,7 @@ import type {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from "axios"
+
 import type { TokenPairResponseDTO } from "#/backend/dtos/login.dto"
 import { useAuthStore } from "#/stores/auth-store"
 
@@ -15,15 +16,20 @@ type RetryableRequestConfig = InternalAxiosRequestConfig & {
 class ApiClient {
   private instance: AxiosInstance
 
+  // prevents parallel refresh requests
+  private refreshPromise: Promise<string> | null = null
+
   constructor() {
     this.instance = axios.create({
       baseURL: import.meta.env.VITE_API_URL,
       timeout: 8000,
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     })
 
+    // attach access token to every request
     this.instance.interceptors.request.use((config) => {
       const token = useAuthStore.getState().accessToken
 
@@ -34,18 +40,10 @@ class ApiClient {
       return config
     })
 
-    this.instance.interceptors.request.use((config) => {
-      const token = useAuthStore.getState().accessToken
-
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-      }
-
-      return config
-    })
-
+    // refresh token flow
     this.instance.interceptors.response.use(
-      (res) => res,
+      (response) => response,
+
       async (error: AxiosError) => {
         const originalRequest = error.config as
           | RetryableRequestConfig
@@ -58,22 +56,41 @@ class ApiClient {
         originalRequest._retry = true
 
         try {
-          const res = await this.instance.post<TokenPairResponseDTO>(
-            "/auth/refresh-token",
-            undefined,
-            { withCredentials: true },
-          )
+          // only ONE refresh request at a time
+          if (!this.refreshPromise) {
+            this.refreshPromise = this.refreshAccessToken()
+          }
 
-          useAuthStore.getState().setAccessToken(res.data.accessToken)
-          originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`
+          const newAccessToken = await this.refreshPromise
+
+          // reset lock
+          this.refreshPromise = null
+
+          // retry failed request with new token
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
 
           return this.instance(originalRequest)
         } catch (refreshError) {
+          this.refreshPromise = null
+
           useAuthStore.getState().markSessionExpired()
+
           return Promise.reject(refreshError)
         }
       },
     )
+  }
+
+  private async refreshAccessToken(): Promise<string> {
+    const res = await this.instance.post<TokenPairResponseDTO>(
+      "/auth/refresh-token",
+    )
+
+    useAuthStore.getState().setAccessToken(res.data.accessToken)
+
+    useAuthStore.getState().setUsername(res.data.username)
+
+    return res.data.accessToken
   }
 
   private canRefreshToken(
@@ -85,6 +102,7 @@ class ApiClient {
     }
 
     const url = request.url ?? ""
+
     return ![
       "/auth/login",
       "/auth/logout",
@@ -98,6 +116,7 @@ class ApiClient {
     params?: TParams,
   ): Promise<TResponse> {
     const res = await this.instance.get<TResponse>(url, { params })
+
     return res.data
   }
 
@@ -107,6 +126,7 @@ class ApiClient {
     config?: AxiosRequestConfig,
   ): Promise<TResponse> {
     const res = await this.instance.post<TResponse>(url, body, config)
+
     return res.data
   }
 
@@ -115,11 +135,13 @@ class ApiClient {
     body?: TBody,
   ): Promise<TResponse> {
     const res = await this.instance.patch<TResponse>(url, body)
+
     return res.data
   }
 
   async delete<TResponse>(url: string): Promise<TResponse> {
     const res = await this.instance.delete<TResponse>(url)
+
     return res.data
   }
 }

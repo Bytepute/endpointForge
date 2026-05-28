@@ -3,6 +3,7 @@ import type { Register } from "#/schemas/register.schema"
 import { authService } from "#/backend/services/auth.services"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
+import { redirectToTenant } from "#/utils/tenant"
 
 type RegisterMessages = {
   success: string
@@ -17,7 +18,7 @@ export function useRegister(messages?: RegisterMessages) {
     onSuccess: (user) => {
       useAuthStore.getState().setAccessToken(user.session.accessToken)
       useAuthStore.getState().setUsername(user.username)
-      window.location.href = `https://${user.username}.endpointforge.ir/projects`
+      redirectToTenant(user.username)
       notificationService.success(
         messages?.success ?? "ثبت نام با موفقیت انجام شد",
         {
