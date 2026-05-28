@@ -8,49 +8,79 @@ type AuthState = {
   isRegisterModalOpen: boolean
   sessionExpired: boolean
   sessionEndedIntentionally: boolean
+
   isLoggedIn: () => boolean
+
   setAccessToken: (token: string) => void
   clearAccessToken: () => void
   endSessionIntentionally: () => void
+
   setAuthReady: (ready: boolean) => void
+
   setLoginModal: (open: boolean) => void
   setRegisterModal: (open: boolean) => void
+
   markSessionExpired: () => void
   resetSessionExpired: () => void
-  setUsername: (username: string) => void
+
+  setUsername: (username: string | null) => void
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
   username: null,
+
   isAuthReady: false,
+
   isLoginModalOpen: false,
   isRegisterModalOpen: false,
+
   sessionExpired: false,
   sessionEndedIntentionally: false,
+
   isLoggedIn: () => Boolean(get().accessToken),
+
   setAccessToken: (token) =>
     set({
       accessToken: token,
-      isAuthReady: true,
       sessionExpired: false,
       sessionEndedIntentionally: false,
     }),
+
   clearAccessToken: () =>
     set({
       accessToken: null,
+      username: null,
     }),
+
   endSessionIntentionally: () =>
     set({
       accessToken: null,
+      username: null,
+
       isAuthReady: true,
+
       isLoginModalOpen: false,
+
       sessionExpired: false,
       sessionEndedIntentionally: true,
     }),
-  setAuthReady: (ready) => set({ isAuthReady: ready }),
-  setLoginModal: (open) => set({ isLoginModalOpen: open }),
-  setRegisterModal: (open) => set({ isRegisterModalOpen: open }),
+
+  setAuthReady: (ready) =>
+    set({
+      isAuthReady: ready,
+    }),
+
+  setLoginModal: (open) =>
+    set({
+      isLoginModalOpen: open,
+    }),
+
+  setRegisterModal: (open) =>
+    set({
+      isRegisterModalOpen: open,
+    }),
+
   markSessionExpired: () => {
     if (get().sessionEndedIntentionally) {
       return
@@ -58,11 +88,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set({
       accessToken: null,
+      username: null,
+
       isAuthReady: true,
+
       isLoginModalOpen: true,
       sessionExpired: true,
     })
   },
-  resetSessionExpired: () => set({ sessionExpired: false }),
-  setUsername: (username) => set({ username: username }),
+
+  resetSessionExpired: () =>
+    set({
+      sessionExpired: false,
+    }),
+
+  setUsername: (username) =>
+    set({
+      username,
+    }),
 }))

@@ -1,30 +1,22 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
-
+import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { useAuthStore } from "#/stores/auth-store"
-import { getSubdomain } from "#/utils/tenant"
+import { getSubdomain, redirectToRoot } from "#/utils/tenant"
+import { redirect } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_dashboard/projects")({
   beforeLoad: () => {
+    const { accessToken } = useAuthStore.getState()
     const subdomain = getSubdomain()
 
-    const { accessToken, isAuthReady } = useAuthStore.getState()
-
-    if (!isAuthReady) return
-
     if (!subdomain) {
-      throw redirect({
-        to: "/",
-      })
+      redirectToRoot()
+      return
     }
 
     if (!accessToken) {
-      window.location.href = import.meta.env.DEV
-        ? "http://localhost:3000"
-        : "https://endpointforge.ir"
-      return
+      throw redirect({ to: "/" })
     }
   },
-
   component: DashboardRoot,
 })
 

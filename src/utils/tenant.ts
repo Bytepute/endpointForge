@@ -1,12 +1,18 @@
 const isDev = import.meta.env.DEV
 
 const APP_DOMAIN = isDev
-  ? import.meta.env.VITE_DEV_DOMAIN
+  ? import.meta.env.VITE_DEV_DOMAIN //
   : import.meta.env.VITE_APP_DOMAIN
 
 const PROTOCOL = isDev ? "http" : "https"
 
+const DEV_PORT = "3000"
+
 export function getTenantBaseUrl(username: string) {
+  if (isDev) {
+    return `${PROTOCOL}://${username}.${APP_DOMAIN}:${DEV_PORT}`
+  }
+
   return `${PROTOCOL}://${username}.${APP_DOMAIN}`
 }
 
@@ -19,7 +25,9 @@ export function redirectToTenant(username: string) {
 }
 
 export function redirectToRoot() {
-  const rootUrl = isDev ? "http://localhost:3000" : `https://${APP_DOMAIN}`
+  const rootUrl = isDev
+    ? `${PROTOCOL}://${APP_DOMAIN}:${DEV_PORT}`
+    : `https://${APP_DOMAIN}`
 
   window.location.replace(rootUrl)
 }
@@ -31,13 +39,11 @@ export function getCurrentHostname() {
 export function getSubdomain() {
   const host = getCurrentHostname()
 
-  if (host.includes("localhost")) {
-    const parts = host.split(".")
-
-    return parts.length > 1 ? parts[0] : null
-  }
-
   const parts = host.split(".")
+
+  if (host.includes("localhost") || host.includes("lvh.me")) {
+    return parts.length > 2 ? parts[0] : null
+  }
 
   return parts.length > 2 ? parts[0] : null
 }

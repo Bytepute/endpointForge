@@ -15,32 +15,32 @@ export default function AuthSessionBoundary() {
   const resetSessionExpired = useAuthStore((state) => state.resetSessionExpired)
   const setUsername = useAuthStore((state) => state.setUsername)
 
-  useEffect(() => {
-    let isMounted = true
+  // useEffect(() => {
+  //   let isMounted = true
 
-    async function bootstrapAuth() {
-      try {
-        const session = await authApi.refreshToken()
+  //   async function bootstrapAuth() {
+  //     try {
+  //       const session = await authApi.refreshToken()
 
-        if (isMounted) {
-          setAccessToken(session.accessToken)
-          setUsername(session.username)
-          setAuthReady(true)
-        }
-      } catch {
-        if (isMounted) {
-          clearAccessToken()
-          setAuthReady(true)
-        }
-      }
-    }
+  //       if (isMounted) {
+  //         setAccessToken(session.accessToken)
+  //         setUsername(session.username)
+  //         setAuthReady(true)
+  //       }
+  //     } catch {
+  //       if (isMounted) {
+  //         clearAccessToken()
+  //         setAuthReady(true)
+  //       }
+  //     }
+  //   }
 
-    void bootstrapAuth()
+  //   void bootstrapAuth()
 
-    return () => {
-      isMounted = false
-    }
-  }, [clearAccessToken, setAccessToken, setAuthReady])
+  //   return () => {
+  //     isMounted = false
+  //   }
+  // }, [clearAccessToken, setAccessToken, setAuthReady])
 
   useEffect(() => {
     if (!sessionExpired) return
