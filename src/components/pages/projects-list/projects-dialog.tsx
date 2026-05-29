@@ -6,9 +6,10 @@ import { Button } from "#/components/ui/button"
 import { Input } from "#/components/ui/input"
 
 import {
-  CreateProjectInputSchema,
-  type CreateProjectInput,
+  CreateProjectInputSchema
+  
 } from "#/schemas/projects.schema"
+import type {CreateProjectInput} from "#/schemas/projects.schema";
 import {
   Dialog,
   DialogContent,

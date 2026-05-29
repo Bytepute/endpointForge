@@ -1,7 +1,4 @@
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "#/components/ui/toggle-group"
+import { ToggleGroup, ToggleGroupItem } from "#/components/ui/toggle-group"
 import { useLandingI18n } from "./landing-i18n"
 
 export default function LandingLanguageToggle() {
@@ -22,7 +19,10 @@ export default function LandingLanguageToggle() {
       <ToggleGroupItem value="fa" aria-label="Persian">
         FA
       </ToggleGroupItem>
-      <span className="px-1 text-xs text-muted-foreground/60" aria-hidden="true">
+      <span
+        className="px-1 text-xs text-muted-foreground/60"
+        aria-hidden="true"
+      >
         |
       </span>
       <ToggleGroupItem value="en" aria-label="English">

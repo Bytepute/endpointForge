@@ -14,7 +14,7 @@ import type {
 } from "../dtos/project.dto"
 
 class ProjectService {
-  //region Request Methods
+  // region Request Methods
 
   public createProject = async (
     body: CreateProjectInput,
@@ -74,9 +74,9 @@ class ProjectService {
       status: response.status,
     }
   }
-  //endregion
+  // endregion
 
-  //region Adapter Methods
+  // region Adapter Methods
 
   private _convertCreateProjectInputToPatchProjectRequestDTO = (
     request: CreateProjectInput,
@@ -109,7 +109,7 @@ class ProjectService {
     }
   }
 
-  //endregion
+  // endregion
 }
 
 export const projectService = new ProjectService()
