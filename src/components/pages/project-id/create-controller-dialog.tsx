@@ -24,11 +24,8 @@ import {
 
 import { Loader2 } from "lucide-react"
 import { useCreateController } from "#/hooks/use-create-controller"
-import {
-  CreateControllerSchema
-  
-} from "#/schemas/create-controller-schema"
-import type {CreateController} from "#/schemas/create-controller-schema";
+import { CreateControllerSchema } from "#/schemas/create-controller-schema"
+import type { CreateController } from "#/schemas/create-controller-schema"
 
 type Props = {
   projectId: string
