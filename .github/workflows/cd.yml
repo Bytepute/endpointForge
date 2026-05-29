@@ -19,6 +19,12 @@ jobs:
     name: Build deployable artifact
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
+    env:
+      VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+      VITE_APP_DOMAIN: ${{ vars.VITE_APP_DOMAIN || secrets.VITE_APP_DOMAIN }}
+      VITE_APP_PORT: ${{ vars.VITE_APP_PORT || secrets.VITE_APP_PORT }}
+      VITE_APP_PROTOCOL: ${{ vars.VITE_APP_PROTOCOL || secrets.VITE_APP_PROTOCOL }}
+      VITE_DEV_DOMAIN: ${{ vars.VITE_DEV_DOMAIN || secrets.VITE_DEV_DOMAIN }}
 
     steps:
       - name: Checkout repository
@@ -54,6 +60,12 @@ jobs:
     name: Build Docker artifact
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
+    env:
+      VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+      VITE_APP_DOMAIN: ${{ vars.VITE_APP_DOMAIN || secrets.VITE_APP_DOMAIN }}
+      VITE_APP_PORT: ${{ vars.VITE_APP_PORT || secrets.VITE_APP_PORT }}
+      VITE_APP_PROTOCOL: ${{ vars.VITE_APP_PROTOCOL || secrets.VITE_APP_PROTOCOL }}
+      VITE_DEV_DOMAIN: ${{ vars.VITE_DEV_DOMAIN || secrets.VITE_DEV_DOMAIN }}
 
     steps:
       - name: Checkout repository
@@ -67,6 +79,12 @@ jobs:
         with:
           context: .
           tags: endpoint-forge:${{ github.ref_name }}
+          build-args: |
+            VITE_API_URL=${{ env.VITE_API_URL }}
+            VITE_APP_DOMAIN=${{ env.VITE_APP_DOMAIN }}
+            VITE_APP_PORT=${{ env.VITE_APP_PORT }}
+            VITE_APP_PROTOCOL=${{ env.VITE_APP_PROTOCOL }}
+            VITE_DEV_DOMAIN=${{ env.VITE_DEV_DOMAIN }}
           outputs: type=docker,dest=/tmp/endpoint-forge-${{ github.ref_name }}.tar
 
       - name: Upload Docker artifact

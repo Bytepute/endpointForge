@@ -1,7 +1,8 @@
 const isDev = import.meta.env.DEV
 
-const APP_DOMAIN =
-  import.meta.env.VITE_APP_DOMAIN || import.meta.env.VITE_DEV_DOMAIN
+const APP_DOMAIN = isDev
+  ? import.meta.env.VITE_DEV_DOMAIN || import.meta.env.VITE_APP_DOMAIN
+  : import.meta.env.VITE_APP_DOMAIN || import.meta.env.VITE_DEV_DOMAIN
 
 const APP_PROTOCOL = import.meta.env.VITE_APP_PROTOCOL || undefined
 const APP_PORT = import.meta.env.VITE_APP_PORT || undefined
