@@ -17,6 +17,22 @@ To build this application for production:
 pnpm build
 ```
 
+## Docker
+
+To build and run the production container locally:
+
+```bash
+docker compose up --build
+```
+
+The app will be available at `http://localhost:3000`.
+
+To build the image directly:
+
+```bash
+docker build -t endpoint-forge .
+```
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
