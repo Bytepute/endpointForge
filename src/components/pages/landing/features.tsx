@@ -2,7 +2,8 @@ import { Badge } from "@/components/ui/badge"
 import { Braces, GitBranch, Route, TestTube2 } from "lucide-react"
 import { useLandingI18n } from "./landing-i18n"
 import { motion, useReducedMotion } from "framer-motion"
-import FeatureCard, { type Feature } from "./feature-card"
+import FeatureCard from "./feature-card"
+import type {Feature} from "./feature-card";
 
 export default function Features() {
   const { text } = useLandingI18n()

@@ -8,7 +8,8 @@ import {
 } from "lucide-react"
 import { useLandingI18n } from "./landing-i18n"
 import { motion, useReducedMotion } from "framer-motion"
-import WorkflowStepCard, { type WorkflowStep } from "./workflow-step-card"
+import WorkflowStepCard from "./workflow-step-card"
+import type {WorkflowStep} from "./workflow-step-card";
 
 export default function HowItWorks() {
   const { text, isRtl } = useLandingI18n()

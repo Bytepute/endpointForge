@@ -1,7 +1,7 @@
 import { defineConfig } from "vite"
 import { devtools } from "@tanstack/devtools-vite"
 import tsconfigPaths from "vite-tsconfig-paths"
-import path from "path"
+import path from "node:path"
 import viteReact from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 
