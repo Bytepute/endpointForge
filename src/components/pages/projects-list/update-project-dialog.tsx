@@ -18,12 +18,11 @@ import {
   FormLabel,
   FormMessage,
 } from "#/components/ui/form"
-import {
-  UpdateProjectInputSchema
-  
-  
+import { UpdateProjectInputSchema } from "#/schemas/projects.schema"
+import type {
+  ProjectModel,
+  UpdateProjectInput,
 } from "#/schemas/projects.schema"
-import type {ProjectModel, UpdateProjectInput} from "#/schemas/projects.schema";
 import { useUpdateProject } from "#/hooks/use-update-project"
 
 type UpdateProjectDialogProps = {
