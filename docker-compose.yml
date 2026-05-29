@@ -1,0 +1,15 @@
+services:
+  endpoint-forge:
+    build:
+      context: .
+      target: runtime
+      args:
+        VITE_API_URL: http://api.lvh.me:4000
+        VITE_APP_DOMAIN: lvh.me
+        VITE_APP_PORT: 3000
+        VITE_APP_PROTOCOL: http
+        VITE_DEV_DOMAIN: lvh.me
+    image: endpoint-forge:local
+    ports:
+      - "3000:80"
+    restart: unless-stopped
