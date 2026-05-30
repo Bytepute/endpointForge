@@ -1,225 +1,305 @@
-Welcome to your new TanStack Start app!
+# Endpoint Forge
 
-# Getting Started
+Endpoint Forge is a web workbench for creating realistic mock APIs before a production backend is available or stable.
 
-To run this application:
+It helps frontend developers, full-stack developers, QA engineers, and product/demo teams model API surfaces through a UI, organize routes by project and controller, define endpoint responses, and start a mock server that frontend code can call immediately.
+
+> Ship frontend flows before the backend exists.
+
+## Table of Contents
+
+- [Why Endpoint Forge](#why-endpoint-forge)
+- [Features](#features)
+- [Product Model](#product-model)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Available Scripts](#available-scripts)
+- [Docker](#docker)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Why Endpoint Forge
+
+Frontend work often blocks when backend contracts are incomplete, changing, or unavailable. Teams usually reach for static fixtures, scattered JSON files, hardcoded responses, or ad hoc local mock servers. Those approaches are hard to share, organize, demo, and evolve with the product.
+
+Endpoint Forge provides a UI-managed mock API layer where teams can:
+
+- Create mock API projects for products, features, demos, or test scenarios.
+- Group routes in a structure that resembles backend controllers.
+- Define HTTP methods, paths, response status codes, delays, and JSON response bodies.
+- Start or stop a project-level mock server.
+- Copy mock endpoint URLs into frontend code, API clients, or test tools.
+- Iterate on API behavior without touching backend code.
+
+For more product detail, see [PRD.md](./PRD.md).
+
+## Features
+
+- Public bilingual landing page with English/Persian content.
+- Login and registration flows.
+- Username-based tenant dashboard routing.
+- Project creation, editing, deletion, and detail views.
+- Controller/route-group creation and navigation.
+- Endpoint creation, editing, deletion, JSON response editing, and response preview.
+- Project-level mock server start/stop controls.
+- Mock URL copy flow for endpoint testing.
+- Profile update, logout, and account deletion.
+- Token refresh flow for authenticated API requests.
+
+## Product Model
+
+Endpoint Forge uses a simple hierarchy:
+
+```text
+Project
+└── Controller / Route Group
+    └── Endpoint
+```
+
+- **Project**: The top-level mock API workspace. A project can be started or stopped as a mock server and may have an assigned port.
+- **Controller / Route Group**: A grouped base path inside a project, such as `/users`, `/products`, or `/orders`.
+- **Endpoint**: A mock route definition with an HTTP method, relative path, status code, artificial delay, and JSON response body.
+
+## Tech Stack
+
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/)
+- [TanStack Router](https://tanstack.com/router)
+- [TanStack Query](https://tanstack.com/query)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [Axios](https://axios-http.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Zod](https://zod.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [CodeMirror](https://codemirror.net/)
+- [Vitest](https://vitest.dev/)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22 or newer is recommended.
+- pnpm.
+- A running Endpoint Forge API service.
+
+### Installation
 
 ```bash
 pnpm install
+```
+
+### Configure Environment
+
+Copy the example environment file and update values for your local setup:
+
+```bash
+cp .env.example .env
+```
+
+At minimum, set `VITE_API_URL` to the backend API base URL.
+
+### Run the App
+
+```bash
 pnpm dev
 ```
 
-# Building For Production
+The app runs on:
 
-To build this application for production:
+```text
+http://lvh.me:3000
+```
+
+Endpoint Forge uses tenant-based routing, so contributors should open the dev server through `lvh.me` instead of `localhost`. The `lvh.me` domain resolves back to your local machine while still allowing tenant subdomains to work correctly.
+
+After login or registration, the app can redirect to a tenant URL like:
+
+```text
+http://{username}.lvh.me:3000/projects
+```
+
+## Environment Variables
+
+| Variable            | Purpose                                    | Example                 |
+| ------------------- | ------------------------------------------ | ----------------------- |
+| `VITE_API_URL`      | Backend API base URL used by the frontend. | `http://localhost:4000` |
+| `VITE_DEV_DOMAIN`   | Local development domain.                  | `lvh.me`                |
+| `VITE_APP_DOMAIN`   | Root app domain used for tenant URLs.      | `lvh.me`                |
+| `VITE_APP_PORT`     | Frontend app port.                         | `3000`                  |
+| `VITE_APP_PROTOCOL` | Protocol used when building app URLs.      | `http`                  |
+
+## Available Scripts
+
+```bash
+pnpm dev
+```
+
+Starts the Vite development server on port `3000`. Open it at `http://lvh.me:3000` so tenant routing works in development.
 
 ```bash
 pnpm build
 ```
 
-## Docker
-
-To build and run the production container locally:
+Builds the production app.
 
 ```bash
-docker compose up --build
+pnpm preview
 ```
 
-The app will be available at `http://localhost:3000`.
-
-To build the image directly:
-
-```bash
-docker build -t endpoint-forge .
-```
-
-## Testing
-
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+Serves the production build locally.
 
 ```bash
 pnpm test
 ```
 
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `pnpm add @tailwindcss/vite tailwindcss --dev`
-
-## Linting & Formatting
-
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
+Runs the Vitest test suite.
 
 ```bash
 pnpm lint
+```
+
+Runs ESLint.
+
+```bash
 pnpm format
+```
+
+Checks Prettier formatting.
+
+```bash
 pnpm check
 ```
 
-## Shadcn
+Runs Prettier write mode and ESLint fix mode.
 
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
+## Docker
+
+Build and run the production container locally:
 
 ```bash
-pnpm dlx shadcn@latest add button
+docker compose up --build
 ```
 
-## Routing
+The app will be available at:
 
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router"
+```text
+http://lvh.me:3000
 ```
 
-Then anywhere in your JSX you can use it like so:
+Build the image directly:
 
-```tsx
-<Link to="/about">About</Link>
+```bash
+docker build -t endpoint-forge .
 ```
 
-This will create a link that will navigate to the `/about` route.
+## Project Structure
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "My App" },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
+```text
+.
+├── PRD.md
+├── src
+│   ├── components
+│   ├── contexts
+│   ├── hooks
+│   ├── lib
+│   ├── models
+│   ├── providers
+│   ├── routes
+│   ├── schemas
+│   ├── services
+│   ├── stores
+│   └── utils
+├── public
+├── Dockerfile
+├── docker-compose.yml
+└── package.json
 ```
 
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
+Important areas:
 
-## Server Functions
+- `src/routes`: File-based application routes.
+- `src/hooks`: Data and UI hooks for auth, projects, controllers, endpoints, mock server state, and profile actions.
+- `src/schemas`: Zod schemas for form and request validation.
+- `src/services`: API and notification services.
+- `src/stores`: Client-side state, including auth state.
+- `src/utils`: Tenant and auth helper utilities.
 
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
+## Contributing
 
-```tsx
-import { createServerFn } from "@tanstack/react-start"
+Endpoint Forge is an open source project. Contributions are welcome in the form of bug reports, feature ideas, documentation improvements, tests, UI polish, and code changes.
 
-const getServerTime = createServerFn({
-  method: "GET",
-}).handler(async () => {
-  return new Date().toISOString()
-})
+### Before You Start
 
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState("")
+- Read [PRD.md](./PRD.md) to understand the product direction and current workflows.
+- Search existing issues and pull requests before opening a new one.
+- For larger changes, open an issue first so the approach can be discussed.
+- Keep changes focused. Small pull requests are easier to review and merge.
 
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
+### Development Workflow
 
-  return <div>Server time: {time}</div>
-}
+1. Fork the repository.
+2. Create a branch from the default branch.
+3. Install dependencies with `pnpm install`.
+4. Copy `.env.example` to `.env` and configure your API URL.
+5. Run the app with `pnpm dev`.
+6. Make your changes.
+7. Run the relevant checks before opening a pull request.
+
+Recommended checks:
+
+```bash
+pnpm test
+pnpm lint
+pnpm format
+pnpm build
 ```
 
-## API Routes
+### Pull Request Guidelines
 
-You can create API routes by using the `server` property in your route definitions:
+Please include:
 
-```tsx
-import { createFileRoute } from "@tanstack/react-router"
-import { json } from "@tanstack/react-start"
+- A clear description of what changed and why.
+- Screenshots or screen recordings for UI changes.
+- Notes about any environment, API, routing, or tenant-domain behavior affected by the change.
+- Tests for new behavior when practical.
+- Any follow-up work that should happen after the pull request.
 
-export const Route = createFileRoute("/api/hello")({
-  server: {
-    handlers: {
-      GET: () => json({ message: "Hello, World!" }),
-    },
-  },
-})
-```
+### Code Style
 
-## Data Fetching
+- Use TypeScript for application code.
+- Follow the existing React, TanStack Router, and TanStack Query patterns.
+- Keep UI behavior accessible and responsive.
+- Use Zod schemas for form/request validation where they fit the existing pattern.
+- Prefer small, focused components and hooks over broad rewrites.
+- Keep generated files, build output, and local environment files out of pull requests.
 
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
+### Reporting Bugs
 
-For example:
+When reporting a bug, include:
 
-```tsx
-import { createFileRoute } from "@tanstack/react-router"
+- What you expected to happen.
+- What actually happened.
+- Steps to reproduce the issue.
+- Browser and operating system details when relevant.
+- Console errors, network errors, or screenshots if available.
 
-export const Route = createFileRoute("/people")({
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people")
-    return response.json()
-  },
-  component: PeopleComponent,
-})
+### Suggesting Features
 
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
+When suggesting a feature, include:
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+- The user problem it solves.
+- The workflow it affects.
+- Any API or UI behavior you expect.
+- Alternatives you considered, if any.
 
-# Demo files
+### Security
 
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
+Please do not publicly disclose security vulnerabilities in an issue. If you find a security problem, contact the maintainers privately first.
 
-# Learn More
+## License
 
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+This project is licensed under the terms in [LICENSE](./LICENSE).
