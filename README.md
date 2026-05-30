@@ -124,13 +124,13 @@ http://{username}.lvh.me:3000/projects
 
 ## Environment Variables
 
-| Variable            | Purpose                                    | Example                 |
-| ------------------- | ------------------------------------------ | ----------------------- |
+| Variable            | Purpose                                    | Example                  |
+| ------------------- | ------------------------------------------ | ------------------------ |
 | `VITE_API_URL`      | Backend API base URL used by the frontend. | `http://api.lvh.me:4000` |
-| `VITE_DEV_DOMAIN`   | Local development domain.                  | `lvh.me`                |
-| `VITE_APP_DOMAIN`   | Root app domain used for tenant URLs.      | `lvh.me`                |
-| `VITE_APP_PORT`     | Frontend app port.                         | `3000`                  |
-| `VITE_APP_PROTOCOL` | Protocol used when building app URLs.      | `http`                  |
+| `VITE_DEV_DOMAIN`   | Local development domain.                  | `lvh.me`                 |
+| `VITE_APP_DOMAIN`   | Root app domain used for tenant URLs.      | `lvh.me`                 |
+| `VITE_APP_PORT`     | Frontend app port.                         | `3000`                   |
+| `VITE_APP_PROTOCOL` | Protocol used when building app URLs.      | `http`                   |
 
 ## Available Scripts
 
