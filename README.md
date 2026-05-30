@@ -238,6 +238,7 @@ Endpoint Forge is an open source project. Contributions are welcome in the form 
 - Search existing issues and pull requests before opening a new one.
 - For larger changes, open an issue first so the approach can be discussed.
 - Keep changes focused. Small pull requests are easier to review and merge.
+- Endpoint Forge also has a backend repository. Clone [Bytepute/endpointForge-backend](https://github.com/Bytepute/endpointForge-backend) if you need to run the API service locally.
 
 ### Development Workflow
 
