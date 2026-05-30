@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function ensureLeadingSlash(value: string) {
+  if (!value) return ""
   if (!value.startsWith("/")) {
     return `/${value}`
   }
