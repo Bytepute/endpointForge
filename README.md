@@ -126,7 +126,7 @@ http://{username}.lvh.me:3000/projects
 
 | Variable            | Purpose                                    | Example                 |
 | ------------------- | ------------------------------------------ | ----------------------- |
-| `VITE_API_URL`      | Backend API base URL used by the frontend. | `http://localhost:4000` |
+| `VITE_API_URL`      | Backend API base URL used by the frontend. | `http://api.lvh.me:4000` |
 | `VITE_DEV_DOMAIN`   | Local development domain.                  | `lvh.me`                |
 | `VITE_APP_DOMAIN`   | Root app domain used for tenant URLs.      | `lvh.me`                |
 | `VITE_APP_PORT`     | Frontend app port.                         | `3000`                  |
