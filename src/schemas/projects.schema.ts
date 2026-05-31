@@ -7,6 +7,7 @@ export const ProjectMockServerStatusSchema = z.object({
 export const ProjectSchema = z.object({
   id: z.number(),
   name: z.string(),
+  slug: z.string(),
   description: z.string().optional(),
   createdAt: z.date(),
   port: z.number(),
@@ -15,11 +16,23 @@ export const ProjectSchema = z.object({
 
 export const CreateProjectInputSchema = z.object({
   name: z.string().min(1, "Project name is required!"),
+  slug: z
+    .string()
+    .regex(
+      /^\/[a-zA-Z0-9\-]+$/,
+      "Slug must start with '/' and contain only letters, numbers, and hyphens (e.g., /slug1234-name).",
+    ),
   description: z.string().optional(),
 })
 
 export const UpdateProjectInputSchema = z.object({
   name: z.string().min(1, "Project name is required!"),
+  slug: z
+    .string()
+    .regex(
+      /^\/[a-zA-Z0-9\-]+$/,
+      "Slug must start with '/' and contain only letters, numbers, and hyphens (e.g., /slug1234-name).",
+    ),
   description: z.string().optional(),
 })
 

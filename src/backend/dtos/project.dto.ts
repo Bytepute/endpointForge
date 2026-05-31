@@ -9,6 +9,7 @@ export type Status = (typeof Status)[keyof typeof Status]
 
 type ProjectBaseRequestDTO = {
   name: string
+  slug: string
   description?: string
 }
 
@@ -20,6 +21,7 @@ export type PatchProjectRequestDTO = ProjectBaseRequestDTO
 export type ProjectResponseDTO = {
   id: number
   name: string
+  slug: string
   description: string
   createdAt: string
   port: number

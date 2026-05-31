@@ -83,6 +83,7 @@ class ProjectService {
   ): PatchProjectRequestDTO => {
     return {
       name: request.name,
+      slug: request.slug.replace(/^\/+/, ""),
       description: request.description,
     }
   }
@@ -92,6 +93,7 @@ class ProjectService {
   ): CreateProjectRequestDTO => {
     return {
       name: body.name,
+      slug: body.slug.replace(/^\/+/, ""),
       description: body.description,
     }
   }
@@ -102,6 +104,7 @@ class ProjectService {
     return {
       id: response.id,
       name: response.name,
+      slug: response.slug,
       description: response.description,
       port: response.port,
       isProjectRunning: response.isProjectRunning,
