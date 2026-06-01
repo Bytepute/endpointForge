@@ -11,7 +11,7 @@ export const ProjectSchema = z.object({
   description: z.string().optional(),
   createdAt: z.date(),
   port: z.number(),
-  isProjectRunning: z.boolean(),
+  isRuntimeEnabled: z.boolean(),
 })
 
 export const CreateProjectInputSchema = z.object({

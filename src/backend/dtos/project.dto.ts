@@ -25,7 +25,7 @@ export type ProjectResponseDTO = {
   description: string
   createdAt: string
   port: number
-  isProjectRunning: boolean
+  isRuntimeEnabled: boolean
 }
 
 export type CreateProjectResponseDTO = ProjectResponseDTO

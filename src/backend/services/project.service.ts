@@ -10,7 +10,6 @@ import type {
   PatchProjectRequestDTO,
   ProjectMockServerResponseDTO,
   ProjectResponseDTO,
-  Status,
 } from "../dtos/project.dto"
 
 class ProjectService {
@@ -107,7 +106,7 @@ class ProjectService {
       slug: response.slug,
       description: response.description,
       port: response.port,
-      isProjectRunning: response.isProjectRunning,
+      isRuntimeEnabled: response.isRuntimeEnabled,
       createdAt: new Date(response.createdAt),
     }
   }
