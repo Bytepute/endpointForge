@@ -1,0 +1,16 @@
+.DS_Store
+.env
+.env.*
+.git
+.github
+.idea
+.pnpm-store
+.tanstack
+.vite
+.vscode
+builds
+cache
+dist
+dist-ssr
+node_modules
+*.local

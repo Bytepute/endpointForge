@@ -1,43 +1,25 @@
 import { useEffect } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { authApi } from "#/backend/api/auth-api"
 import { useAuthStore } from "#/stores/auth-store"
 import { notificationService } from "#/services/notification.service"
+import { getSubdomain, redirectToRoot } from "#/utils/tenant"
 
 export default function AuthSessionBoundary() {
   const navigate = useNavigate()
   const sessionExpired = useAuthStore((state) => state.sessionExpired)
   const accessToken = useAuthStore((state) => state.accessToken)
-  const setAccessToken = useAuthStore((state) => state.setAccessToken)
-  const clearAccessToken = useAuthStore((state) => state.clearAccessToken)
-  const setAuthReady = useAuthStore((state) => state.setAuthReady)
+  const isAuthReady = useAuthStore((state) => state.isAuthReady)
   const setLoginModal = useAuthStore((state) => state.setLoginModal)
   const resetSessionExpired = useAuthStore((state) => state.resetSessionExpired)
 
+  // --- The Auto-Kick Effect ---
   useEffect(() => {
-    let isMounted = true
-
-    async function bootstrapAuth() {
-      try {
-        const session = await authApi.refreshToken()
-
-        if (isMounted) {
-          setAccessToken(session.accessToken)
-        }
-      } catch {
-        if (isMounted) {
-          clearAccessToken()
-          setAuthReady(true)
-        }
-      }
+    // If auth has loaded, there is no token, and we are on a subdomain: KICK TO ROOT
+    if (isAuthReady && !accessToken && getSubdomain()) {
+      redirectToRoot()
     }
-
-    void bootstrapAuth()
-
-    return () => {
-      isMounted = false
-    }
-  }, [clearAccessToken, setAccessToken, setAuthReady])
+  }, [isAuthReady, accessToken])
+  // ---------------------------------
 
   useEffect(() => {
     if (!sessionExpired) return

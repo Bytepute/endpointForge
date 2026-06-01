@@ -54,9 +54,7 @@ export default function RegisterDialog({
     resolver: zodResolver(
       createRegisterSchema({
         usernameMin: text.validation.registerUsernameMin,
-        invalidEmail: text.validation.invalidEmail,
         passwordMin: text.validation.passwordMin,
-        passwordMismatch: text.validation.passwordMismatch,
       }),
     ),
     defaultValues: {
@@ -107,25 +105,6 @@ export default function RegisterDialog({
                   <FormControl>
                     <Input
                       {...field}
-                      dir={direction}
-                      className={cn(isRtl && "text-right")}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{text.auth.email}</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
                       dir={direction}
                       className={cn(isRtl && "text-right")}
                     />

@@ -2,7 +2,7 @@ import ProjectsDialog from "#/components/pages/projects-list/projects-dialog"
 import ProjectsList from "#/components/pages/projects-list/projects-list"
 import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/projects/")({
+export const Route = createFileRoute("/_dashboard/projects/")({
   component: RouteComponent,
 })
 

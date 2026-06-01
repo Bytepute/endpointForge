@@ -4,6 +4,7 @@ export type LoginRequestDTO = {
 }
 
 export type LoginResponseDTO = {
+  username: string
   accessToken: string
   expiresIn: number
   tokenType: "Bearer"

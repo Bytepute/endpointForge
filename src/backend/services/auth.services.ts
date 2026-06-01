@@ -44,6 +44,7 @@ class AuthService {
     dto: LoginResponseDTO,
   ): AuthSessionModel {
     return {
+      username: dto.username,
       accessToken: dto.accessToken,
       expiresIn: dto.expiresIn,
       tokenType: dto.tokenType,
@@ -58,6 +59,7 @@ class AuthService {
       username: dto.userName,
       createdAt: new Date(dto.createdAt),
       session: {
+        username: dto.userName,
         accessToken: dto.accessToken,
         expiresIn: dto.expiresIn,
         tokenType: "Bearer",

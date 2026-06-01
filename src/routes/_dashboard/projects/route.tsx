@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "#/components/pages/projects-list/app-sidebar"
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/_dashboard/projects")({
   component: RouteComponent,
 })
 

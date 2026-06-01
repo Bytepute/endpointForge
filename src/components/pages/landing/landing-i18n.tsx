@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 import type { ReactNode } from "react"
-import { landingCopy, type LandingCopy, type LandingLanguage } from "./i18n"
+import { landingCopy } from "./i18n"
+import type { LandingCopy, LandingLanguage } from "./i18n"
 
 type Direction = "ltr" | "rtl"
 

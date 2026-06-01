@@ -4,7 +4,7 @@ export default function LandingFooter() {
   const { text, isRtl } = useLandingI18n()
 
   return (
-    <footer className="w-full border-t py-20 mt-20">
+    <footer className="w-full border-t bg-muted/20 py-12">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-10">
           {/* Right Section */}
@@ -35,7 +35,7 @@ export default function LandingFooter() {
                 href="https://github.com/AliZoghi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-full border text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition"
+                className="rounded-md border bg-background px-3 py-1.5 text-sm text-foreground transition hover:bg-accent hover:text-accent-foreground"
               >
                 Ali Zoghi
               </a>
@@ -44,7 +44,7 @@ export default function LandingFooter() {
                 href="https://github.com/MrAghaei"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-full border text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition"
+                className="rounded-md border bg-background px-3 py-1.5 text-sm text-foreground transition hover:bg-accent hover:text-accent-foreground"
               >
                 Mohammad Aghaei
               </a>
@@ -53,7 +53,7 @@ export default function LandingFooter() {
                 href="https://github.com/AmirAbaris"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-full border text-sm text-foreground hover:bg-accent hover:text-accent-foreground transition"
+                className="rounded-md border bg-background px-3 py-1.5 text-sm text-foreground transition hover:bg-accent hover:text-accent-foreground"
               >
                 Amir Abaris
               </a>

@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import { Skeleton } from '#/components/ui/skeleton'
+import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card"
+import { Skeleton } from "#/components/ui/skeleton"
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table'
+} from "#/components/ui/table"
 
 export function EndpointCardSkeleton() {
   return (

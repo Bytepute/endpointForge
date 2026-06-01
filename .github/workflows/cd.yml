@@ -1,0 +1,96 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-artifact:
+    name: Build deployable artifact
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    env:
+      VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+      VITE_APP_DOMAIN: ${{ vars.VITE_APP_DOMAIN || secrets.VITE_APP_DOMAIN }}
+      VITE_APP_PORT: ${{ vars.VITE_APP_PORT || secrets.VITE_APP_PORT }}
+      VITE_APP_PROTOCOL: ${{ vars.VITE_APP_PROTOCOL || secrets.VITE_APP_PROTOCOL }}
+      VITE_DEV_DOMAIN: ${{ vars.VITE_DEV_DOMAIN || secrets.VITE_DEV_DOMAIN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build production bundle
+        run: pnpm build
+
+      - name: Upload production artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: endpoint-forge-${{ github.ref_name }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
+
+  docker-artifact:
+    name: Build Docker artifact
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    env:
+      VITE_API_URL: ${{ vars.VITE_API_URL || secrets.VITE_API_URL }}
+      VITE_APP_DOMAIN: ${{ vars.VITE_APP_DOMAIN || secrets.VITE_APP_DOMAIN }}
+      VITE_APP_PORT: ${{ vars.VITE_APP_PORT || secrets.VITE_APP_PORT }}
+      VITE_APP_PROTOCOL: ${{ vars.VITE_APP_PROTOCOL || secrets.VITE_APP_PROTOCOL }}
+      VITE_DEV_DOMAIN: ${{ vars.VITE_DEV_DOMAIN || secrets.VITE_DEV_DOMAIN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image archive
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          tags: endpoint-forge:${{ github.ref_name }}
+          build-args: |
+            VITE_API_URL=${{ env.VITE_API_URL }}
+            VITE_APP_DOMAIN=${{ env.VITE_APP_DOMAIN }}
+            VITE_APP_PORT=${{ env.VITE_APP_PORT }}
+            VITE_APP_PROTOCOL=${{ env.VITE_APP_PROTOCOL }}
+            VITE_DEV_DOMAIN=${{ env.VITE_DEV_DOMAIN }}
+          outputs: type=docker,dest=/tmp/endpoint-forge-${{ github.ref_name }}.tar
+
+      - name: Upload Docker artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: endpoint-forge-docker-${{ github.ref_name }}
+          path: /tmp/endpoint-forge-${{ github.ref_name }}.tar
+          if-no-files-found: error
+          retention-days: 14
