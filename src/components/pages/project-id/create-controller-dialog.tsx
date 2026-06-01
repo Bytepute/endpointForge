@@ -69,13 +69,7 @@ export default function CreateControllerDialog({ projectId }: Props) {
                 <FormItem>
                   <FormLabel>Path</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="/example"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(ensureLeadingSlash(e.target.value))
-                      }}
-                    />
+                    <Input placeholder="/example" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
