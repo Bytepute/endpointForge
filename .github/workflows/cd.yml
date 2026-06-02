@@ -18,7 +18,7 @@ jobs:
   build-and-push:
     name: Build and Push to GHCR
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
     name: Deploy to VPS
     needs: build-and-push
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -59,12 +59,12 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-          
+
             cd /home/app/endpointforge/frontend
-            
+
             # Pull the fresh image and recreate the container seamlessly
             docker compose pull
             docker compose up -d
-            
+
             # Clean up old images to keep the SSD clear
             docker image prune -af
