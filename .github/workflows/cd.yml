@@ -60,7 +60,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
 
-            cd /home/app/endpointforge/frontend
+            cd /home/deployer/app/endpointforge/frontend/
 
             # Pull the fresh image and recreate the container seamlessly
             docker compose pull
