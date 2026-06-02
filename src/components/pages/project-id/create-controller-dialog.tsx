@@ -26,7 +26,6 @@ import { Loader2 } from "lucide-react"
 import { useCreateController } from "#/hooks/use-create-controller"
 import { CreateControllerSchema } from "#/schemas/create-controller-schema"
 import type { CreateController } from "#/schemas/create-controller-schema"
-import { ensureLeadingSlash } from "#/lib/utils"
 
 type Props = {
   projectId: string

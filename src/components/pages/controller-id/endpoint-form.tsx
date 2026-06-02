@@ -23,7 +23,6 @@ import type {
 } from "#/schemas/endpoint-schema"
 import type { UseFormReturn } from "react-hook-form"
 import { useTheme } from "#/hooks/use-theme"
-import { ensureLeadingSlash } from "#/lib/utils"
 
 type EndpointFormValues = CreateEndpointType | UpdateEndpointType
 
@@ -83,13 +82,7 @@ export function EndpointForm({
                 Path {basePath && `(relative to ${basePath})`}
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="/items"
-                  {...field}
-                  onChange={(e) =>
-                    field.onChange(ensureLeadingSlash(e.target.value))
-                  }
-                />
+                <Input placeholder="/items" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
