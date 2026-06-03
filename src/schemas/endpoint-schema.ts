@@ -5,7 +5,7 @@ export const createEndpointSchema = z.object({
   path: z
     .string()
     .regex(
-      /^\/[a-zA-Z0-9\-]+$/,
+      /^\/[a-zA-Z0-9-]+$/,
       "Path must start with '/' and contain only letters, numbers, and hyphens (e.g., /slug1234-name).",
     ),
 
