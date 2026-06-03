@@ -37,9 +37,15 @@ class EndpointService {
     endpointId: string,
     updates: UpdateEndpointDTO,
   ): Promise<EndpointModel> {
+    const sanitizedUpdates = {
+      ...updates,
+      path: updates.path?.startsWith("/")
+        ? updates.path.slice(1)
+        : updates.path,
+    }
     const response = await endpointApi.updateEndpoint(
       Number(endpointId),
-      updates,
+      sanitizedUpdates,
     )
     return this.convertEndpointDTOResponseToEndpointModel(response)
   }
