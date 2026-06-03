@@ -10,7 +10,6 @@ import type {
   PatchProjectRequestDTO,
   ProjectMockServerResponseDTO,
   ProjectResponseDTO,
-  Status,
 } from "../dtos/project.dto"
 
 class ProjectService {
@@ -83,6 +82,7 @@ class ProjectService {
   ): PatchProjectRequestDTO => {
     return {
       name: request.name,
+      slug: request.slug.replace(/^\/+/, ""),
       description: request.description,
     }
   }
@@ -92,6 +92,7 @@ class ProjectService {
   ): CreateProjectRequestDTO => {
     return {
       name: body.name,
+      slug: body.slug.replace(/^\/+/, ""),
       description: body.description,
     }
   }
@@ -102,9 +103,10 @@ class ProjectService {
     return {
       id: response.id,
       name: response.name,
+      slug: response.slug,
       description: response.description,
       port: response.port,
-      isProjectRunning: response.isProjectRunning,
+      isRuntimeEnabled: response.isRuntimeEnabled,
       createdAt: new Date(response.createdAt),
     }
   }

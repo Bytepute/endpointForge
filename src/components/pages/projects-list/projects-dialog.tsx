@@ -33,6 +33,7 @@ export default function ProjectsDialog() {
     resolver: zodResolver(CreateProjectInputSchema),
     defaultValues: {
       name: "",
+      slug: "",
       description: "",
     },
   })
@@ -64,6 +65,19 @@ export default function ProjectsDialog() {
                   <FormLabel>Project Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Project name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="slug"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Slug</FormLabel>
+                  <FormControl>
+                    <Input placeholder="/slug-name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
