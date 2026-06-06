@@ -40,6 +40,7 @@ export function UpdateProjectDialog({
     resolver: zodResolver(UpdateProjectInputSchema),
     values: {
       name: project.name,
+      slug: project.slug,
       description: project.description ?? "",
     },
   })
@@ -69,6 +70,19 @@ export function UpdateProjectDialog({
                   <FormLabel>Project Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Project name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="slug"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="/slug1234-name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

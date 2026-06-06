@@ -26,7 +26,6 @@ import { Loader2 } from "lucide-react"
 import { useCreateController } from "#/hooks/use-create-controller"
 import { CreateControllerSchema } from "#/schemas/create-controller-schema"
 import type { CreateController } from "#/schemas/create-controller-schema"
-import { ensureLeadingSlash } from "#/lib/utils"
 
 type Props = {
   projectId: string
@@ -69,13 +68,7 @@ export default function CreateControllerDialog({ projectId }: Props) {
                 <FormItem>
                   <FormLabel>Path</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="/example"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(ensureLeadingSlash(e.target.value))
-                      }}
-                    />
+                    <Input placeholder="/example" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

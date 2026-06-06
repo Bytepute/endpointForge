@@ -1,5 +1,3 @@
-// TODO: review after api
-
 export type ControllerDTO = {
   id: string
   projectId: string
@@ -13,7 +11,7 @@ export type CreateRouteGroupRequestDto = {
   projectId: number
   name?: string
   description?: string
-  prefix: string
+  slug: string
 }
 
 export type RouteGroupResponseDto = {
@@ -23,12 +21,12 @@ export type RouteGroupResponseDto = {
   description?: string
   createdAt: Date
   updatedAt: Date
-  prefix: string
+  slug: string
 }
 
 export type UpdateRouteGroupRequestDto = {
   projectId: number
   name?: string
   description?: string
-  prefix: string
+  slug: string
 }
