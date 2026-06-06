@@ -76,7 +76,7 @@ class ControllerService {
       projectId: projectId,
       name: undefined,
       description: undefined,
-      prefix: input.path,
+      slug: input.path.replace(/^\/+/, ""),
     }
   }
 
@@ -88,7 +88,7 @@ class ControllerService {
       projectId: projectId,
       name: undefined,
       description: undefined,
-      prefix: input.path,
+      slug: input.path.replace(/^\/+/, ""),
     }
   }
 
@@ -99,7 +99,7 @@ class ControllerService {
       id: dto.id.toString(),
       projectId: dto.projectId.toString(),
       name: dto.name,
-      basePath: dto.prefix,
+      basePath: dto.slug,
       createdAt: dto.createdAt.toString(),
       // TODO should add in backend
       endpoints: [],

@@ -7,7 +7,7 @@ interface MockServerStatus {
 
 export function useMockServerStatus(project: ProjectModel): MockServerStatus {
   return {
-    status: project.isProjectRunning ? "running" : "stopped",
+    status: project.isRuntimeEnabled ? "running" : "stopped",
     port: project.port,
   }
 }

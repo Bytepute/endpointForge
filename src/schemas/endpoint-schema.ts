@@ -4,8 +4,10 @@ export const createEndpointSchema = z.object({
   method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]),
   path: z
     .string()
-    .min(1, "Path is required")
-    .startsWith("/", "Path must start with /"),
+    .regex(
+      /^\/[a-zA-Z0-9-]+$/,
+      "Path must start with '/' and contain only letters, numbers, and hyphens (e.g., /slug1234-name).",
+    ),
 
   statusCode: z.string().refine((v) => !isNaN(Number(v)), "Must be a number"),
   responseBody: z.string().refine((v) => {

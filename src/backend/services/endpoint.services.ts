@@ -14,35 +14,49 @@ class EndpointService {
       Number(controllerId),
     )
 
-    return responses.map((item) => this.convertToModel(item))
+    return responses.map((item) =>
+      this.convertEndpointDTOResponseToEndpointModel(item),
+    )
   }
 
   public async getEndpointById(id: string): Promise<EndpointModel> {
     const response = await endpointApi.getEndpointById(Number(id))
-    return this.convertToModel(response)
+    return this.convertEndpointDTOResponseToEndpointModel(response)
   }
 
   public async createEndpoint(data: CreateEndpointDTO): Promise<EndpointModel> {
-    const response = await endpointApi.createEndpoint(data)
-    return this.convertToModel(response)
+    const sanitizedData = {
+      ...data,
+      path: data.path.startsWith("/") ? data.path.slice(1) : data.path,
+    }
+    const response = await endpointApi.createEndpoint(sanitizedData)
+    return this.convertEndpointDTOResponseToEndpointModel(response)
   }
 
   public async updateEndpoint(
     endpointId: string,
     updates: UpdateEndpointDTO,
   ): Promise<EndpointModel> {
+    const sanitizedUpdates = {
+      ...updates,
+      path: updates.path?.startsWith("/")
+        ? updates.path.slice(1)
+        : updates.path,
+    }
     const response = await endpointApi.updateEndpoint(
       Number(endpointId),
-      updates,
+      sanitizedUpdates,
     )
-    return this.convertToModel(response)
+    return this.convertEndpointDTOResponseToEndpointModel(response)
   }
 
   public async deleteEndpoint(endpointId: string): Promise<EndpointModel> {
     return await endpointApi.deleteEndpoint(Number(endpointId))
   }
 
-  private convertToModel(dto: EndpointDTOResponse): EndpointModel {
+  private convertEndpointDTOResponseToEndpointModel(
+    dto: EndpointDTOResponse,
+  ): EndpointModel {
     return {
       id: dto.id,
       routeGroupId: dto.routeGroupId,
