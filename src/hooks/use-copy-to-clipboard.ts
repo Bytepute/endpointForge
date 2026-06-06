@@ -7,12 +7,39 @@ export function useCopyToClipboard(resetDelay = 2000) {
   const copy = useCallback(
     async (text: string, successMessage = "Copied to clipboard") => {
       try {
-        await navigator.clipboard.writeText(text)
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text)
+        } else {
+          const textarea = document.createElement("textarea")
+          textarea.value = text
+
+          textarea.style.position = "fixed"
+          textarea.style.left = "-9999px"
+          textarea.style.top = "0"
+
+          document.body.appendChild(textarea)
+
+          textarea.focus()
+          textarea.select()
+
+          const successful = document.execCommand("copy")
+
+          document.body.removeChild(textarea)
+
+          if (!successful) {
+            throw new Error("Copy command failed")
+          }
+        }
+
         setCopied(true)
         notificationService.success(successMessage)
-        setTimeout(() => setCopied(false), resetDelay)
-      } catch {
+
+        window.setTimeout(() => {
+          setCopied(false)
+        }, resetDelay)
+      } catch (error) {
         notificationService.error("Failed to copy")
+        console.error(error)
       }
     },
     [resetDelay],

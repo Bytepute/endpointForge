@@ -1,8 +1,9 @@
 import { Button } from "#/components/ui/button"
-import { ArrowLeft, Check, Copy, Pencil, Trash2 } from "lucide-react"
+import { ArrowLeft, Pencil, Trash2 } from "lucide-react"
 import { ConfirmDialog } from "#/components/pages/shared/confirm-dialog"
 import { useCopyToClipboard } from "#/hooks/use-copy-to-clipboard"
 import type { EndpointModel } from "#/models/endpoint-model"
+import CopyUrlButton from "../shared/copy-url-button"
 
 type EndpointHeaderProps = {
   endpoint: EndpointModel
@@ -20,7 +21,7 @@ export function EndpointHeader({
   const { copied, copy } = useCopyToClipboard()
 
   const handleCopyUrl = () => {
-    const url = `${window.location.origin}/api${endpoint.path}`
+    const url = endpoint.endpointFullUrl
     copy(url, "URL copied to clipboard")
   }
 
@@ -39,19 +40,7 @@ export function EndpointHeader({
       </div>
 
       <div className="flex flex-wrap gap-2 w-full md:w-auto">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleCopyUrl}
-          className="flex-1 md:flex-none"
-        >
-          {copied ? (
-            <Check className="mr-2 h-4 w-4" />
-          ) : (
-            <Copy className="mr-2 h-4 w-4" />
-          )}
-          {copied ? "Copied!" : "Copy URL"}
-        </Button>
+        <CopyUrlButton handleCopyUrl={handleCopyUrl} copied={copied} />
         <Button
           variant="outline"
           size="sm"
