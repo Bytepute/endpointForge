@@ -7,6 +7,7 @@ export function useCopyToClipboard(resetDelay = 2000) {
   const copy = useCallback(
     async (text: string, successMessage = "Copied to clipboard") => {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(text)
         } else {
