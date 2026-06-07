@@ -8,3 +8,10 @@ export function useEndpoints(controllerId: string) {
     enabled: !!controllerId,
   })
 }
+export function useEndpoint(endpointId: string) {
+  return useQuery({
+    queryKey: ["endpoint", endpointId],
+    queryFn: () => endpointService.getEndpointById(endpointId),
+    enabled: !!endpointId,
+  })
+}

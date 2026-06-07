@@ -16,6 +16,7 @@ import { Container } from "lucide-react"
 import Empty from "../shared/empty"
 import { useState } from "react"
 import EditEndpointDialog from "./edit-endpoint-dialog"
+import { useNavigate } from "@tanstack/react-router"
 
 type Props = {
   endpoints: EndpointModel[] | undefined
@@ -23,6 +24,7 @@ type Props = {
   handleDeleteEndpoint: (endpointId: string) => void
   deleteId: string | null
   controllerId: string
+  projectId: string
 }
 
 export function EndpointCard({
@@ -31,7 +33,9 @@ export function EndpointCard({
   handleDeleteEndpoint,
   deleteId,
   controllerId,
+  projectId,
 }: Props) {
+  const navigate = useNavigate()
   const isEmpty = !endpoints || endpoints.length === 0
   const [editingEndpoint, setEditingEndpoint] = useState<EndpointModel | null>(
     null,
@@ -90,6 +94,21 @@ export function EndpointCard({
                     <TableCell>{endpoint.statusCode}</TableCell>
 
                     <TableCell className="text-right space-x-2">
+                      <Button
+                        onClick={() =>
+                          navigate({
+                            to: "/projects/$projectId/controllers/$controllerId/endpoints/$endpointId",
+                            params: {
+                              projectId,
+                              controllerId,
+                              endpointId: endpoint.id.toString(),
+                            },
+                          })
+                        }
+                        variant="outline"
+                      >
+                        Open
+                      </Button>
                       <Button
                         variant="outline"
                         onClick={() => setEditingEndpoint(endpoint)}

@@ -67,6 +67,7 @@ class EndpointService {
       responseBody: dto.responseBody,
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
+      endpointFullUrl: dto.endpointFullUrl,
     }
   }
 }

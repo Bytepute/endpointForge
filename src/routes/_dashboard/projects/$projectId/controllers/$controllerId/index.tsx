@@ -24,6 +24,7 @@ function ControllerDetailPage() {
       <Endpoints
         basePath={controller.data?.basePath ?? "N/A"}
         controllerId={controllerId}
+        projectId={projectId}
       />
     </div>
   )

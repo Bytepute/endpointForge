@@ -10,4 +10,5 @@ export type EndpointModel = {
   responseBody: unknown
   createdAt: string
   updatedAt: string
+  endpointFullUrl: string
 }
