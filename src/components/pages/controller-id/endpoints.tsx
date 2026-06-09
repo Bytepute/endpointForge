@@ -8,9 +8,14 @@ import { EndpointErrorState } from "./endpoint-error-state"
 type Props = {
   basePath: string
   controllerId: string
+  projectId: string
 }
 
-export default function Endpoints({ basePath, controllerId }: Props) {
+export default function Endpoints({
+  basePath,
+  controllerId,
+  projectId,
+}: Props) {
   const endpoints = useEndpoints(controllerId)
   const deleteMutation = useDeleteEndpoint(controllerId)
   const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -37,6 +42,7 @@ export default function Endpoints({ basePath, controllerId }: Props) {
       handleDeleteEndpoint={deleteEndpoint}
       deleteId={deletingId}
       controllerId={controllerId}
+      projectId={projectId}
     />
   )
 }

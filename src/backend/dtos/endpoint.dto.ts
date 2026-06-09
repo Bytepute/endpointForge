@@ -10,6 +10,7 @@ export type EndpointDTOResponse = {
   responseBody: unknown
   createdAt: string
   updatedAt: string
+  endpointFullUrl: string
 }
 
 export type CreateEndpointDTO = {
