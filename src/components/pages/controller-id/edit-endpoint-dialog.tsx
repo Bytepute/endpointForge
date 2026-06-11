@@ -11,6 +11,7 @@ import { useUpdateEndpoint } from "#/hooks/use-update-endpoint"
 import type { EndpointModel } from "#/models/endpoint-model"
 import { createEndpointSchema } from "#/schemas/endpoint-schema"
 import type { UpdateEndpointType } from "#/schemas/endpoint-schema"
+import { withLeadingSlash } from "#/lib/utils"
 import { EndpointForm } from "./endpoint-form"
 
 type Props = {
@@ -23,7 +24,7 @@ export default function EditEndpointDialog({ endpoint, onClose }: Props) {
     resolver: zodResolver(createEndpointSchema),
     values: {
       method: endpoint.method,
-      path: endpoint.path,
+      path: withLeadingSlash(endpoint.path),
       statusCode: endpoint.statusCode.toString(),
       responseBody: JSON.stringify(endpoint.responseBody, null, 2),
       delay: endpoint.delay,

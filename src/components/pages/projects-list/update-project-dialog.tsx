@@ -24,6 +24,7 @@ import type {
   UpdateProjectInput,
 } from "#/schemas/projects.schema"
 import { useUpdateProject } from "#/hooks/use-update-project"
+import { withLeadingSlash } from "#/lib/utils"
 
 type UpdateProjectDialogProps = {
   project: ProjectModel
@@ -40,7 +41,7 @@ export function UpdateProjectDialog({
     resolver: zodResolver(UpdateProjectInputSchema),
     values: {
       name: project.name,
-      slug: project.slug,
+      slug: withLeadingSlash(project.slug),
       description: project.description ?? "",
     },
   })
