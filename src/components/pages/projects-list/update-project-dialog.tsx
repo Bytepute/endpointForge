@@ -83,7 +83,13 @@ export function UpdateProjectDialog({
                 <FormItem>
                   <FormLabel>Project Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="/slug1234-name" {...field} />
+                    <Input
+                      placeholder="/slug1234-name"
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(withLeadingSlash(e.target.value))
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

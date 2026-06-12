@@ -23,6 +23,7 @@ import {
 } from "#/components/ui/form"
 import { useCreateProject } from "#/hooks/use-create-project"
 import { Loader2 } from "lucide-react"
+import { withLeadingSlash } from "#/lib/utils"
 
 export default function ProjectsDialog() {
   const [open, setOpen] = useState(false)
@@ -76,7 +77,13 @@ export default function ProjectsDialog() {
                 <FormItem>
                   <FormLabel>Project Slug</FormLabel>
                   <FormControl>
-                    <Input placeholder="/slug-name" {...field} />
+                    <Input
+                      placeholder="/slug-name"
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(withLeadingSlash(e.target.value))
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
